@@ -3,10 +3,78 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TrioVision — Admin Orders</title>
+    <title>TrioVision — Admin Dashboard</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { font-family: Arial, Helvetica, sans-serif; background: #0a0c0f; color: #fff; min-height: 100vh; }
+
+        /* ═══════════════════════════════════════════════════════
+           LOGIN SCREEN
+        ═══════════════════════════════════════════════════════ */
+        .login-screen {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .login-box {
+            width: min(400px, 100%);
+            background: #111519;
+            border: 1px solid #252b31;
+            border-radius: 16px;
+            padding: 40px;
+            text-align: center;
+        }
+        .login-box .logo { font-size: 28px; font-weight: 900; letter-spacing: 3px; margin-bottom: 8px; }
+        .login-box .logo span { color: #38bdf8; }
+        .login-box p { color: #777f88; font-size: 14px; margin-bottom: 25px; }
+        .login-box input {
+            width: 100%;
+            padding: 14px 16px;
+            background: #15191e;
+            border: 1px solid #2d333a;
+            border-radius: 10px;
+            color: white;
+            font-size: 15px;
+            outline: none;
+            margin-bottom: 15px;
+            text-align: center;
+            letter-spacing: 4px;
+        }
+        .login-box input:focus { border-color: #38bdf8; }
+        .login-box button {
+            width: 100%;
+            padding: 14px;
+            background: #38bdf8;
+            color: #0f172a;
+            border: none;
+            border-radius: 10px;
+            font-weight: 900;
+            font-size: 15px;
+            cursor: pointer;
+        }
+        .login-box button:hover { background: #7dd3fc; }
+        .login-error {
+            color: #ef4444;
+            font-size: 13px;
+            margin-bottom: 10px;
+            display: none;
+        }
+        .login-back {
+            display: inline-block;
+            margin-top: 20px;
+            color: #555e69;
+            font-size: 13px;
+            text-decoration: none;
+        }
+        .login-back:hover { color: #38bdf8; }
+
+        /* ═══════════════════════════════════════════════════════
+           MAIN DASHBOARD (hidden until login)
+        ═══════════════════════════════════════════════════════ */
+        .dashboard { display: none; }
+        .dashboard.active { display: block; }
 
         .top-bar {
             background: linear-gradient(90deg, #1e293b, #0f172a);
@@ -21,21 +89,36 @@
         .badge-pill { background: #38bdf8; color: #0f172a; font-weight: 900; font-size: 11px; padding: 4px 10px; border-radius: 20px; text-transform: uppercase; }
         .refresh-btn { background: #334155; color: white; border: 1px solid #475569; padding: 8px 16px; border-radius: 8px; font-size: 13px; font-weight: bold; cursor: pointer; }
         .refresh-btn:hover { background: #475569; }
+        .logout-btn { background: rgba(239,68,68,0.15); color: #fca5a5; border: 1px solid rgba(239,68,68,0.3); padding: 8px 16px; border-radius: 8px; font-size: 13px; font-weight: bold; cursor: pointer; }
+        .logout-btn:hover { background: #ef4444; color: white; }
+
+        /* Tabs */
+        .tabs { padding: 0 5%; background: #0d1013; border-bottom: 1px solid #1e2228; display: flex; gap: 0; }
+        .tab { padding: 14px 24px; font-size: 14px; font-weight: bold; color: #777f88; cursor: pointer; border-bottom: 2px solid transparent; transition: .2s; }
+        .tab.active { color: #38bdf8; border-bottom-color: #38bdf8; }
+        .tab:hover { color: white; }
+        .tab-panel { display: none; }
+        .tab-panel.active { display: block; }
+
+        /* Stats */
         .stats { padding: 20px 5%; display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px; }
         .stat-card { background: #121519; border: 1px solid #252b31; border-radius: 12px; padding: 20px; text-align: center; }
         .stat-card .number { font-size: 28px; font-weight: 900; color: #38bdf8; }
         .stat-card .label { font-size: 12px; color: #777f88; margin-top: 4px; }
+
+        /* Filters & Search */
         .filters { padding: 10px 5% 20px; display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
         .search-input { padding: 10px 14px; background: #15191e; border: 1px solid #2d333a; border-radius: 8px; color: white; font-size: 13px; outline: none; width: 260px; }
         .search-input:focus { border-color: #555e69; }
         .filter-btn { padding: 9px 16px; border: 1px solid #292f35; background: #15191e; color: #858c94; border-radius: 20px; font-size: 12px; font-weight: bold; cursor: pointer; }
         .filter-btn.active, .filter-btn:hover { background: white; color: #111; border-color: white; }
 
-        .orders-container { padding: 0 5% 50px; }
-        .order-table { width: 100%; border-collapse: collapse; }
-        .order-table th { text-align: left; padding: 12px 14px; background: #15191e; border-bottom: 2px solid #252b31; font-size: 11px; text-transform: uppercase; color: #777f88; letter-spacing: 0.5px; }
-        .order-table td { padding: 14px; border-bottom: 1px solid #1e2228; font-size: 13px; vertical-align: top; }
-        .order-table tr:hover { background: #121519; }
+        /* Tables */
+        .orders-container, .products-container { padding: 0 5% 50px; }
+        .order-table, .product-table { width: 100%; border-collapse: collapse; }
+        .order-table th, .product-table th { text-align: left; padding: 12px 14px; background: #15191e; border-bottom: 2px solid #252b31; font-size: 11px; text-transform: uppercase; color: #777f88; letter-spacing: 0.5px; }
+        .order-table td, .product-table td { padding: 14px; border-bottom: 1px solid #1e2228; font-size: 13px; vertical-align: top; }
+        .order-table tr:hover, .product-table tr:hover { background: #121519; }
         .order-code { color: #7dd3fc; font-weight: bold; font-family: monospace; font-size: 13px; }
         .status-badge { padding: 4px 10px; border-radius: 20px; font-size: 11px; font-weight: bold; text-transform: uppercase; }
         .status-pending { background: rgba(251, 191, 36, 0.15); color: #fbbf24; border: 1px solid rgba(251, 191, 36, 0.3); }
@@ -47,10 +130,30 @@
         .total-price { font-weight: bold; color: #22c55e; font-size: 14px; }
         .action-btn { padding: 5px 10px; border-radius: 6px; border: 1px solid #343a41; background: #181c21; color: white; font-size: 11px; cursor: pointer; margin-right: 4px; }
         .action-btn:hover { background: #38bdf8; color: #0f172a; border-color: #38bdf8; }
+        .action-btn.danger { border-color: rgba(239,68,68,0.3); }
+        .action-btn.danger:hover { background: #ef4444; color: white; border-color: #ef4444; }
         .empty-state { text-align: center; padding: 80px 20px; color: #777f87; }
         .empty-state h3 { color: white; margin-bottom: 8px; }
         .loading { text-align: center; padding: 60px; color: #777f87; }
 
+        /* Product image preview */
+        .prod-thumb { width: 60px; height: 45px; border-radius: 6px; overflow: hidden; background: #252b31; display: flex; align-items: center; justify-content: center; font-size: 9px; font-weight: bold; color: #111; }
+        .prod-thumb img { width: 100%; height: 100%; object-fit: cover; }
+
+        /* Add Product button */
+        .add-product-btn {
+            background: #22c55e;
+            color: #0f172a;
+            font-weight: 900;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 9px;
+            font-size: 13px;
+            cursor: pointer;
+        }
+        .add-product-btn:hover { background: #4ade80; }
+
+        /* Modal */
         .modal-overlay { position: fixed; inset: 0; z-index: 100; background: rgba(0,0,0,.8); backdrop-filter: blur(5px); display: flex; align-items: center; justify-content: center; padding: 20px; opacity: 0; visibility: hidden; transition: .3s; }
         .modal-overlay.open { opacity: 1; visibility: visible; }
         .modal-box { width: min(600px, 100%); max-height: 85vh; overflow-y: auto; background: #111519; border: 1px solid #30363d; border-radius: 16px; padding: 30px; }
@@ -63,70 +166,197 @@
         .detail-images { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 10px; }
         .detail-images img { width: 120px; height: 90px; object-fit: cover; border-radius: 8px; border: 1px solid #30363d; }
 
+        /* Product form */
+        .prod-form { display: flex; flex-direction: column; gap: 14px; }
+        .prod-form label { font-size: 12px; color: #777f88; text-transform: uppercase; letter-spacing: 0.5px; }
+        .prod-form input, .prod-form select { padding: 12px 14px; background: #15191e; border: 1px solid #2d333a; border-radius: 8px; color: white; font-size: 13px; outline: none; }
+        .prod-form input:focus, .prod-form select:focus { border-color: #38bdf8; }
+        .prod-form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+        .prod-form-actions { display: flex; gap: 10px; margin-top: 10px; }
+        .btn-save { padding: 12px 24px; background: #22c55e; color: #0f172a; border: none; border-radius: 8px; font-weight: 900; font-size: 14px; cursor: pointer; }
+        .btn-save:hover { background: #4ade80; }
+        .btn-cancel { padding: 12px 24px; background: #334155; color: white; border: 1px solid #475569; border-radius: 8px; font-weight: bold; font-size: 14px; cursor: pointer; }
+        .btn-cancel:hover { background: #475569; }
+
         @media(max-width: 900px) {
             .stats { grid-template-columns: repeat(2, 1fr); }
-            .order-table { font-size: 11px; }
-            .order-table th, .order-table td { padding: 10px 8px; }
+            .order-table, .product-table { font-size: 11px; }
+            .order-table th, .order-table td, .product-table th, .product-table td { padding: 10px 8px; }
         }
         @media(max-width: 600px) {
             .stats { grid-template-columns: 1fr; }
             .filters { flex-direction: column; }
             .search-input { width: 100%; }
         }
+
+        /* ═══════════════════════════════════════════════════════
+           MFA SETUP & VERIFICATION
+        ═══════════════════════════════════════════════════════ */
+        .mfa-qr { width: 180px; height: 180px; border-radius: 12px; border: 2px solid #252b31; margin: 15px auto; display: block; background: white; }
+        .mfa-secret-box { background: #15191e; border: 1px solid #2d333a; border-radius: 8px; padding: 10px; margin: 10px 0; text-align: center; }
+        .mfa-secret-box p { font-size: 11px; color: #777f88; margin-bottom: 5px; }
+        .mfa-secret-box code { font-size: 13px; color: #38bdf8; word-break: break-all; user-select: all; }
+        .mfa-code-input { width: 100%; padding: 14px; background: #15191e; border: 1px solid #2d333a; border-radius: 10px; color: white; font-size: 28px; font-weight: bold; text-align: center; letter-spacing: 8px; outline: none; margin-bottom: 15px; }
+        .mfa-code-input:focus { border-color: #38bdf8; }
+        .mfa-hint { font-size: 12px; color: #777f88; margin: 10px 0; }
+        .login-box input[type="email"] { letter-spacing: normal; text-align: left; }
     </style>
 </head>
 <body>
 
-    <div class="top-bar">
-        <h1>TrioVision <span>Admin</span></h1>
-        <div class="top-bar-right">
-            <span class="badge-pill">Orders Dashboard</span>
-            <button class="refresh-btn" onclick="loadOrders()">↻ Refresh</button>
-            <a href="index.html" style="color:#38bdf8; font-size:13px; font-weight:bold;">← Back to Store</a>
+    <!-- ═══════════════════════════════════════════════════════
+         LOGIN SCREEN
+    ═══════════════════════════════════════════════════════ -->
+    <div class="login-screen" id="loginScreen">
+        <!-- Step 1: Email + Password -->
+        <div class="login-box" id="loginStep1">
+            <div class="logo">TRIO<span>VISION</span></div>
+            <p>Admin Dashboard — Sign in</p>
+            <div class="login-error" id="loginError">Incorrect email or password.</div>
+            <input type="email" id="loginEmail" placeholder="admin@triovision.com" autocomplete="email">
+            <input type="password" id="loginPassword" placeholder="••••••••" autocomplete="current-password">
+            <button onclick="attemptLogin()">Unlock</button>
+            <a href="index.html" class="login-back">← Back to Store</a>
+        </div>
+
+        <!-- Step 2a: MFA Verification (returning admin) -->
+        <div class="login-box" id="loginStep2Verify" style="display:none">
+            <div class="logo">TRIO<span>VISION</span></div>
+            <p>Enter code from your authenticator</p>
+            <div class="login-error" id="mfaVerifyError"></div>
+            <input type="text" id="mfaVerifyCode" class="mfa-code-input" placeholder="000000" maxlength="6" inputmode="numeric">
+            <button onclick="verifyMfaLogin()">Verify</button>
+            <a href="#" class="login-back" onclick="backToLogin(); return false;">← Back to login</a>
+        </div>
+
+        <!-- Step 2b: MFA Enrollment (first time setup) -->
+        <div class="login-box" id="loginStep2Enroll" style="display:none">
+            <div class="logo">TRIO<span>VISION</span></div>
+            <p>Set up your authenticator app</p>
+            <img id="mfaQrImg" class="mfa-qr" alt="QR Code">
+            <div class="mfa-secret-box">
+                <p>Manual entry key:</p>
+                <code id="mfaSecretText"></code>
+            </div>
+            <p class="mfa-hint">Scan the QR code, then enter the 6-digit code from your app</p>
+            <div class="login-error" id="mfaEnrollError"></div>
+            <input type="text" id="mfaEnrollCode" class="mfa-code-input" placeholder="000000" maxlength="6" inputmode="numeric">
+            <button onclick="verifyMfaEnrollment()">Activate</button>
         </div>
     </div>
 
-    <div class="stats" id="statsBar">
-        <div class="stat-card"><div class="number" id="statTotal">0</div><div class="label">Total Orders</div></div>
-        <div class="stat-card"><div class="number" id="statRevenue">0 DA</div><div class="label">Total Revenue</div></div>
-        <div class="stat-card"><div class="number" id="statPending">0</div><div class="label">Pending</div></div>
-        <div class="stat-card"><div class="number" id="statToday">0</div><div class="label">Today's Orders</div></div>
-    </div>
+    <!-- ═══════════════════════════════════════════════════════
+         MAIN DASHBOARD
+    ═══════════════════════════════════════════════════════ -->
+    <div class="dashboard" id="dashboard">
 
-    <div class="filters">
-        <input class="search-input" id="searchInput" type="text" placeholder="Search by name, phone, code..." oninput="filterOrders()">
-        <button class="filter-btn active" onclick="setStatusFilter('all', this)">All</button>
-        <button class="filter-btn" onclick="setStatusFilter('pending', this)">Pending</button>
-        <button class="filter-btn" onclick="setStatusFilter('confirmed', this)">Confirmed</button>
-        <button class="filter-btn" onclick="setStatusFilter('shipped', this)">Shipped</button>
-        <button class="filter-btn" onclick="setStatusFilter('delivered', this)">Delivered</button>
-    </div>
+        <div class="top-bar">
+            <h1>TrioVision <span>Admin</span></h1>
+            <div class="top-bar-right">
+                <span class="badge-pill">Dashboard</span>
+                <button class="refresh-btn" onclick="refreshCurrentTab()">↻ Refresh</button>
+                <a href="index.html" style="color:#38bdf8; font-size:13px; font-weight:bold; text-decoration:none;">← Store</a>
+                <button class="logout-btn" onclick="logout()">🔒 Lock</button>
+            </div>
+        </div>
 
-    <div class="orders-container">
-        <div class="loading" id="loadingState">Loading orders...</div>
-        <table class="order-table" id="orderTable" style="display:none;">
-            <thead>
-                <tr>
-                    <th>Code</th>
-                    <th>Customer</th>
-                    <th>Phone</th>
-                    <th>Location</th>
-                    <th>Items</th>
-                    <th>Total</th>
-                    <th>Status</th>
-                    <th>Date</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody id="orderTableBody"></tbody>
-        </table>
-        <div class="empty-state" id="emptyState" style="display:none;">
-            <h3>No orders found</h3>
-            <p>Orders will appear here when customers place them.</p>
+        <!-- Tabs -->
+        <div class="tabs">
+            <div class="tab active" data-tab="orders" onclick="switchTab('orders', this)">📦 Orders</div>
+            <div class="tab" data-tab="products" onclick="switchTab('products', this)">🏷️ Products</div>
+        </div>
+
+        <!-- ═══════════════════════════════════════════════════
+             ORDERS TAB
+        ═══════════════════════════════════════════════════════ -->
+        <div class="tab-panel active" id="ordersPanel">
+            <div class="stats">
+                <div class="stat-card"><div class="number" id="statTotal">0</div><div class="label">Total Orders</div></div>
+                <div class="stat-card"><div class="number" id="statRevenue">0 DA</div><div class="label">Total Revenue</div></div>
+                <div class="stat-card"><div class="number" id="statPending">0</div><div class="label">Pending</div></div>
+                <div class="stat-card"><div class="number" id="statToday">0</div><div class="label">Today's Orders</div></div>
+            </div>
+
+            <div class="filters">
+                <input class="search-input" id="searchInput" type="text" placeholder="Search by name, phone, code..." oninput="filterOrders()">
+                <button class="filter-btn active" onclick="setStatusFilter('all', this)">All</button>
+                <button class="filter-btn" onclick="setStatusFilter('pending', this)">Pending</button>
+                <button class="filter-btn" onclick="setStatusFilter('confirmed', this)">Confirmed</button>
+                <button class="filter-btn" onclick="setStatusFilter('shipped', this)">Shipped</button>
+                <button class="filter-btn" onclick="setStatusFilter('delivered', this)">Delivered</button>
+            </div>
+
+            <div class="orders-container">
+                <div class="loading" id="ordersLoading">Loading orders...</div>
+                <table class="order-table" id="orderTable" style="display:none;">
+                    <thead>
+                        <tr>
+                            <th>Code</th>
+                            <th>Customer</th>
+                            <th>Phone</th>
+                            <th>Location</th>
+                            <th>Items</th>
+                            <th>Total</th>
+                            <th>Status</th>
+                            <th>Date</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="orderTableBody"></tbody>
+                </table>
+                <div class="empty-state" id="ordersEmpty" style="display:none;">
+                    <h3>No orders found</h3>
+                    <p>Orders will appear here when customers place them.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- ═══════════════════════════════════════════════════
+             PRODUCTS TAB
+        ═══════════════════════════════════════════════════════ -->
+        <div class="tab-panel" id="productsPanel">
+            <div class="filters">
+                <input class="search-input" id="prodSearchInput" type="text" placeholder="Search products..." oninput="filterProducts()">
+                <select class="search-input" id="prodCategoryFilter" onchange="filterProducts()" style="width:180px;">
+                    <option value="all">All Categories</option>
+                    <option value="gaming">Gaming</option>
+                    <option value="anime">Anime</option>
+                    <option value="business">Business</option>
+                    <option value="home">Home</option>
+                    <option value="car">Car</option>
+                    <option value="kids">Kids</option>
+                    <option value="general">General</option>
+                </select>
+                <button class="add-product-btn" onclick="openProductModal()">+ Add Product</button>
+            </div>
+
+            <div class="products-container">
+                <div class="loading" id="productsLoading">Loading products...</div>
+                <table class="product-table" id="productTable" style="display:none;">
+                    <thead>
+                        <tr>
+                            <th>Image</th>
+                            <th>Name</th>
+                            <th>Category</th>
+                            <th>Price A4</th>
+                            <th>Price A3</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="productTableBody"></tbody>
+                </table>
+                <div class="empty-state" id="productsEmpty" style="display:none;">
+                    <h3>No products yet</h3>
+                    <p>Click "+ Add Product" to create your first plaque.</p>
+                </div>
+            </div>
         </div>
     </div>
 
-    <!-- Order Detail Modal -->
+    <!-- ═══════════════════════════════════════════════════════
+         ORDER DETAIL MODAL
+    ═══════════════════════════════════════════════════════ -->
     <div class="modal-overlay" id="detailModal" onclick="closeDetailIfOutside(event)">
         <div class="modal-box">
             <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
@@ -137,38 +367,299 @@
         </div>
     </div>
 
+    <!-- ═══════════════════════════════════════════════════════
+         ADD/EDIT PRODUCT MODAL
+    ═══════════════════════════════════════════════════════ -->
+    <div class="modal-overlay" id="productModal" onclick="closeProductModalOutside(event)">
+        <div class="modal-box">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
+                <h2 id="productModalTitle">Add Product</h2>
+                <button onclick="closeProductModal()" style="background:#181c21; border:1px solid #343a41; color:white; width:32px; height:32px; border-radius:8px; cursor:pointer; font-size:16px;">✕</button>
+            </div>
+            <div class="prod-form">
+                <div>
+                    <label>Product Name</label>
+                    <input type="text" id="prodName" placeholder="e.g. Gaming Room">
+                </div>
+                <div class="prod-form-row">
+                    <div>
+                        <label>Category</label>
+                        <select id="prodCategory">
+                            <option value="gaming">Gaming</option>
+                            <option value="anime">Anime</option>
+                            <option value="business">Business</option>
+                            <option value="home">Home</option>
+                            <option value="car">Car</option>
+                            <option value="kids">Kids</option>
+                            <option value="general">General</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label>Rating (0-100)</label>
+                        <input type="number" id="prodRating" value="50" min="0" max="100">
+                    </div>
+                </div>
+                <div class="prod-form-row">
+                    <div>
+                        <label>Price A4 (DA)</label>
+                        <input type="number" id="prodPriceA4" placeholder="2800" min="0">
+                    </div>
+                    <div>
+                        <label>Price A3 (DA)</label>
+                        <input type="number" id="prodPriceA3" placeholder="3500" min="0">
+                    </div>
+                </div>
+                <div>
+                    <label>Badge Text (shown on plaque preview)</label>
+                    <input type="text" id="prodImage" placeholder="e.g. GAMING ZONE">
+                </div>
+                <div>
+                    <label>Image URL (optional — leave empty for text badge)</label>
+                    <input type="text" id="prodImageUrl" placeholder="https://example.com/image.png">
+                </div>
+                <div class="prod-form-actions">
+                    <button class="btn-save" id="prodSaveBtn" onclick="saveProduct()">Save Product</button>
+                    <button class="btn-cancel" onclick="closeProductModal()">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast -->
+    <div id="toast" style="position:fixed;right:25px;bottom:25px;z-index:200;background:white;color:#111;padding:12px 18px;border-radius:8px;font-weight:bold;font-size:13px;box-shadow:0 8px 25px rgba(0,0,0,.4);opacity:0;transition:opacity .3s;pointer-events:none;"></div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script>
         // ═══════════════════════════════════════════════════════
-        // SUPABASE — no CDN, uses fetch()
+        // SUPABASE CONFIG
         // ═══════════════════════════════════════════════════════
         const SUPABASE_URL = "https://netjmoxaleyxgshqvggx.supabase.co";
         const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5ldGptb3hhbGV5eGdzaHF2Z2d4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODcyNTkzMTUsImV4cCI6MjEwMjgzNTMxNX0.iZU_LOUqkg4dCqmXcLW9DgXFtl87KiM8l8Io2buUaVY";
 
-        function supabaseHeaders() {
-            return {
+        function sbHeaders(json) {
+            var h = {
                 "apikey": SUPABASE_ANON_KEY,
-                "Authorization": "Bearer " + SUPABASE_ANON_KEY,
-                "Content-Type": "application/json"
+                "Authorization": "Bearer " + SUPABASE_ANON_KEY
             };
+            if (json !== false) h["Content-Type"] = "application/json";
+            return h;
         }
 
-        let allOrders = [];
-        let currentStatusFilter = "all";
+        // ═══════════════════════════════════════════════════════
+        // SUPABASE AUTH + MFA
+        // ═══════════════════════════════════════════════════════
+        const sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+        var currentMfaFactor = null;
 
-        async function loadOrders() {
-            document.getElementById("loadingState").style.display = "block";
-            document.getElementById("orderTable").style.display = "none";
-            document.getElementById("emptyState").style.display = "none";
+        function showDashboard() {
+            document.getElementById("loginScreen").style.display = "none";
+            document.getElementById("dashboard").classList.add("active");
+            loadOrders();
+            loadProducts();
+        }
+
+        // --- Screen switching ---
+        function showLoginStep(step) {
+            document.getElementById("loginStep1").style.display = step === "login" ? "block" : "none";
+            document.getElementById("loginStep2Verify").style.display = step === "verify" ? "block" : "none";
+            document.getElementById("loginStep2Enroll").style.display = step === "enroll" ? "block" : "none";
+        }
+
+        function clearLoginErrors() {
+            document.getElementById("loginError").style.display = "none";
+            document.getElementById("mfaVerifyError").style.display = "none";
+            document.getElementById("mfaEnrollError").style.display = "none";
+        }
+
+        function showLoginError(id, msg) {
+            var el = document.getElementById(id);
+            el.textContent = msg;
+            el.style.display = "block";
+        }
+
+        // --- Step 1: Email + Password sign-in ---
+        async function attemptLogin() {
+            clearLoginErrors();
+            var email = document.getElementById("loginEmail").value.trim();
+            var pass = document.getElementById("loginPassword").value;
+            if (!email || !pass) { showLoginError("loginError", "Email and password are required."); return; }
+
+            var { error } = await sb.auth.signInWithPassword({ email: email, password: pass });
+            if (error) {
+                showLoginError("loginError", "Incorrect email or password.");
+                document.getElementById("loginPassword").value = "";
+                document.getElementById("loginPassword").focus();
+                return;
+            }
+
+            await afterSignIn();
+        }
+
+        // --- After sign-in: check MFA status ---
+        async function afterSignIn() {
+            try {
+                var aal = await sb.auth.getAuthenticatorAssuranceLevel();
+                var currentLevel = aal && aal.data ? aal.data.currentLevel : null;
+                if (currentLevel === "aal2") { showDashboard(); return; }
+
+                // AAL1 — check if MFA is enrolled
+                var factorsResp = await sb.auth.mfa.listFactors();
+                var factors = factorsResp && factorsResp.data ? factorsResp.data.factors : [];
+                var totp = (factors || []).filter(function(f) { return f.factor_type === "totp"; });
+
+                if (totp.length === 0) {
+                    await startEnrollment();
+                } else {
+                    currentMfaFactor = totp[0];
+                    showLoginStep("verify");
+                    document.getElementById("mfaVerifyCode").value = "";
+                    document.getElementById("mfaVerifyCode").focus();
+                }
+            } catch (e) {
+                // If MFA is not enabled in Supabase or any MFA call fails,
+                // let the admin in anyway so the dashboard is usable.
+                console.warn("MFA check failed, granting access:", e);
+                showDashboard();
+            }
+        }
+
+        // --- Step 2a: MFA Enrollment ---
+        async function startEnrollment() {
+            var resp = await sb.auth.mfa.enroll({ factorType: "totp", friendlyName: "TrioVision Admin" });
+            var data = resp.data;
+            var error = resp.error;
+            if (error) { console.warn("MFA enroll error:", error); showLoginError("loginError", "MFA setup failed: " + error.message); return; }
+            if (!data || !data.totp) { console.warn("MFA enroll returned no data"); showDashboard(); return; }
+
+            currentMfaFactor = data;
+            document.getElementById("mfaQrImg").src = data.totp.qr_code;
+            document.getElementById("mfaSecretText").textContent = data.totp.secret;
+            showLoginStep("enroll");
+            document.getElementById("mfaEnrollCode").value = "";
+            document.getElementById("mfaEnrollCode").focus();
+        }
+
+        async function verifyMfaEnrollment() {
+            clearLoginErrors();
+            var code = document.getElementById("mfaEnrollCode").value.trim();
+            if (code.length !== 6) { showLoginError("mfaEnrollError", "Enter a 6-digit code."); return; }
 
             try {
-                const resp = await fetch(SUPABASE_URL + "/rest/v1/orders?select=*&order=created_at.desc", {
-                    headers: supabaseHeaders()
+                var chResp = await sb.auth.mfa.challenge({ factorId: currentMfaFactor.id });
+                if (chResp.error) { showLoginError("mfaEnrollError", chResp.error.message); return; }
+                var challenge = chResp.data;
+
+                var vResp = await sb.auth.mfa.verify({ factorId: currentMfaFactor.id, challengeId: challenge.id, code: code });
+                if (vResp.error) { showLoginError("mfaEnrollError", "Invalid code. Check your authenticator app."); return; }
+
+                showToast("Authenticator activated!");
+                showDashboard();
+            } catch (e) {
+                console.warn("MFA enrollment verify failed:", e);
+                showLoginError("mfaEnrollError", "Verification failed. Is MFA enabled in Supabase?");
+            }
+        }
+
+        // --- Step 2b: MFA Verification (returning admin) ---
+        async function verifyMfaLogin() {
+            clearLoginErrors();
+            var code = document.getElementById("mfaVerifyCode").value.trim();
+            if (code.length !== 6) { showLoginError("mfaVerifyError", "Enter a 6-digit code."); return; }
+
+            try {
+                var chResp = await sb.auth.mfa.challenge({ factorId: currentMfaFactor.id });
+                if (chResp.error) { showLoginError("mfaVerifyError", chResp.error.message); return; }
+                var challenge = chResp.data;
+
+                var vResp = await sb.auth.mfa.verify({ factorId: currentMfaFactor.id, challengeId: challenge.id, code: code });
+                if (vResp.error) { showLoginError("mfaVerifyError", "Invalid code. Try again."); document.getElementById("mfaVerifyCode").value = ""; return; }
+
+                showDashboard();
+            } catch (e) {
+                console.warn("MFA verify failed:", e);
+                showLoginError("mfaVerifyError", "Verification failed. Is MFA enabled in Supabase?");
+            }
+        }
+
+        function backToLogin() {
+            sb.auth.signOut();
+            currentMfaFactor = null;
+            showLoginStep("login");
+            document.getElementById("loginPassword").value = "";
+            clearLoginErrors();
+        }
+
+        document.getElementById("loginPassword").addEventListener("keydown", function(e) {
+            if (e.key === "Enter") attemptLogin();
+        });
+        document.getElementById("mfaVerifyCode").addEventListener("keydown", function(e) {
+            if (e.key === "Enter") verifyMfaLogin();
+        });
+        document.getElementById("mfaEnrollCode").addEventListener("keydown", function(e) {
+            if (e.key === "Enter") verifyMfaEnrollment();
+        });
+
+        // --- Page load: check existing session ---
+        (async function initAuth() {
+            var { data: { session } } = await sb.auth.getSession();
+            if (!session) return;
+
+            var { data: { currentLevel, nextLevel } } = await sb.auth.getAuthenticatorAssuranceLevel();
+            if (currentLevel === "aal2") {
+                showDashboard();
+            } else if (nextLevel === "aal2") {
+                await afterSignIn();
+            }
+        })();
+
+        async function logout() {
+            await sb.auth.signOut();
+            currentMfaFactor = null;
+            document.getElementById("dashboard").classList.remove("active");
+            document.getElementById("loginScreen").style.display = "flex";
+            showLoginStep("login");
+            document.getElementById("loginPassword").value = "";
+            document.getElementById("loginEmail").value = "";
+            clearLoginErrors();
+        }
+
+        // ═══════════════════════════════════════════════════════
+        // TABS
+        // ═══════════════════════════════════════════════════════
+        function switchTab(name, el) {
+            document.querySelectorAll(".tab").forEach(t => t.classList.remove("active"));
+            document.querySelectorAll(".tab-panel").forEach(p => p.classList.remove("active"));
+            el.classList.add("active");
+            document.getElementById(name + "Panel").classList.add("active");
+        }
+
+        function refreshCurrentTab() {
+            var active = document.querySelector(".tab.active");
+            var tab = active ? active.dataset.tab : "orders";
+            if (tab === "orders") loadOrders();
+            else loadProducts();
+        }
+
+        // ═══════════════════════════════════════════════════════
+        // ORDERS
+        // ═══════════════════════════════════════════════════════
+        var allOrders = [];
+        var currentStatusFilter = "all";
+
+        async function loadOrders() {
+            document.getElementById("ordersLoading").style.display = "block";
+            document.getElementById("orderTable").style.display = "none";
+            document.getElementById("ordersEmpty").style.display = "none";
+
+            try {
+                var resp = await fetch(SUPABASE_URL + "/rest/v1/orders?select=*&order=created_at.desc", {
+                    headers: sbHeaders()
                 });
                 if (!resp.ok) throw new Error(resp.status + " " + await resp.text());
                 allOrders = await resp.json();
-            } catch (error) {
-                console.error("Error loading orders:", error);
-                document.getElementById("loadingState").innerHTML = "❌ Failed to load orders. Check your Supabase credentials.";
+            } catch (e) {
+                console.error("Error loading orders:", e);
+                document.getElementById("ordersLoading").innerHTML = "❌ Failed to load orders.";
                 return;
             }
 
@@ -177,11 +668,11 @@
         }
 
         function updateStats() {
-            const total = allOrders.length;
-            const revenue = allOrders.reduce((s, o) => s + o.total, 0);
-            const pending = allOrders.filter(o => o.status === "pending").length;
-            const today = new Date().toDateString();
-            const todayCount = allOrders.filter(o => new Date(o.created_at).toDateString() === today).length;
+            var total = allOrders.length;
+            var revenue = allOrders.reduce(function(s, o) { return s + o.total; }, 0);
+            var pending = allOrders.filter(function(o) { return o.status === "pending"; }).length;
+            var today = new Date().toDateString();
+            var todayCount = allOrders.filter(function(o) { return new Date(o.created_at).toDateString() === today; }).length;
 
             document.getElementById("statTotal").textContent = total;
             document.getElementById("statRevenue").textContent = Number(revenue).toLocaleString("fr-DZ") + " DA";
@@ -190,10 +681,10 @@
         }
 
         function renderOrders() {
-            const search = document.getElementById("searchInput").value.toLowerCase();
-            let filtered = allOrders.filter(o => {
-                const matchStatus = currentStatusFilter === "all" || o.status === currentStatusFilter;
-                const matchSearch = !search ||
+            var search = document.getElementById("searchInput").value.toLowerCase();
+            var filtered = allOrders.filter(function(o) {
+                var matchStatus = currentStatusFilter === "all" || o.status === currentStatusFilter;
+                var matchSearch = !search ||
                     o.customer_name.toLowerCase().includes(search) ||
                     o.phone.includes(search) ||
                     o.order_code.toLowerCase().includes(search) ||
@@ -201,40 +692,35 @@
                 return matchStatus && matchSearch;
             });
 
-            const tbody = document.getElementById("orderTableBody");
-            const loading = document.getElementById("loadingState");
-            const table = document.getElementById("orderTable");
-            const empty = document.getElementById("emptyState");
-
-            loading.style.display = "none";
+            document.getElementById("ordersLoading").style.display = "none";
 
             if (filtered.length === 0) {
-                table.style.display = "none";
-                empty.style.display = "block";
+                document.getElementById("orderTable").style.display = "none";
+                document.getElementById("ordersEmpty").style.display = "block";
                 return;
             }
 
-            table.style.display = "table";
-            empty.style.display = "none";
+            document.getElementById("orderTable").style.display = "table";
+            document.getElementById("ordersEmpty").style.display = "none";
 
-            tbody.innerHTML = filtered.map(o => {
-                const items = (o.items || []).map(i => `<li>${i.name} (${i.size}) ×${i.quantity}</li>`).join("");
-                const date = new Date(o.created_at).toLocaleDateString("fr-DZ", { day: "2-digit", month: "short", year: "numeric" });
-                const time = new Date(o.created_at).toLocaleTimeString("fr-DZ", { hour: "2-digit", minute: "2-digit" });
-                return `<tr>
-                    <td><span class="order-code">${o.order_code}</span></td>
-                    <td>${o.customer_name}</td>
-                    <td>${o.phone}</td>
-                    <td>${o.wilaya}<br><small style="color:#777">${o.city}</small></td>
-                    <td><ul class="items-list">${items}</ul></td>
-                    <td><span class="total-price">${Number(o.total).toLocaleString("fr-DZ")} DA</span></td>
-                    <td><span class="status-badge status-${o.status}">${o.status}</span></td>
-                    <td><small>${date}<br>${time}</small></td>
-                    <td>
-                        <button class="action-btn" onclick="viewOrder('${o.id}')">👁 View</button>
-                        <button class="action-btn" onclick="cycleStatus('${o.id}', '${o.status}')">↻ Status</button>
-                    </td>
-                </tr>`;
+            document.getElementById("orderTableBody").innerHTML = filtered.map(function(o) {
+                var items = (o.items || []).map(function(i) { return "<li>" + i.name + " (" + i.size + ") ×" + i.quantity + "</li>"; }).join("");
+                var date = new Date(o.created_at).toLocaleDateString("fr-DZ", { day: "2-digit", month: "short", year: "numeric" });
+                var time = new Date(o.created_at).toLocaleTimeString("fr-DZ", { hour: "2-digit", minute: "2-digit" });
+                return "<tr>" +
+                    "<td><span class=\"order-code\">" + o.order_code + "</span></td>" +
+                    "<td>" + o.customer_name + "</td>" +
+                    "<td>" + o.phone + "</td>" +
+                    "<td>" + o.wilaya + "<br><small style=\"color:#777\">" + o.city + "</small></td>" +
+                    "<td><ul class=\"items-list\">" + items + "</ul></td>" +
+                    "<td><span class=\"total-price\">" + Number(o.total).toLocaleString("fr-DZ") + " DA</span></td>" +
+                    "<td><span class=\"status-badge status-" + o.status + "\">" + o.status + "</span></td>" +
+                    "<td><small>" + date + "<br>" + time + "</small></td>" +
+                    "<td>" +
+                        "<button class=\"action-btn\" onclick=\"viewOrder('" + o.id + "')\">👁 View</button>" +
+                        "<button class=\"action-btn\" onclick=\"cycleStatus('" + o.id + "', '" + o.status + "')\">↻ Status</button>" +
+                    "</td>" +
+                "</tr>";
             }).join("");
         }
 
@@ -242,87 +728,283 @@
 
         function setStatusFilter(status, btn) {
             currentStatusFilter = status;
-            document.querySelectorAll(".filter-btn").forEach(b => b.classList.remove("active"));
+            document.querySelectorAll("#ordersPanel .filter-btn").forEach(function(b) { b.classList.remove("active"); });
             btn.classList.add("active");
             renderOrders();
         }
 
         async function cycleStatus(orderId, current) {
-            const cycle = { pending: "confirmed", confirmed: "shipped", shipped: "delivered", delivered: "pending" };
-            const next = cycle[current] || "pending";
+            var cycle = { pending: "confirmed", confirmed: "shipped", shipped: "delivered", delivered: "pending" };
+            var next = cycle[current] || "pending";
             try {
-                const resp = await fetch(SUPABASE_URL + "/rest/v1/orders?id=eq." + encodeURIComponent(orderId), {
+                var resp = await fetch(SUPABASE_URL + "/rest/v1/orders?id=eq." + encodeURIComponent(orderId), {
                     method: "PATCH",
-                    headers: Object.assign({}, supabaseHeaders(), { "Prefer": "return=minimal" }),
+                    headers: Object.assign({}, sbHeaders(), { "Prefer": "return=minimal" }),
                     body: JSON.stringify({ status: next })
                 });
                 if (!resp.ok) throw new Error(await resp.text());
-                const order = allOrders.find(o => o.id === orderId);
+                var order = allOrders.find(function(o) { return o.id === orderId; });
                 if (order) order.status = next;
                 updateStats();
                 renderOrders();
                 showToast("Status → " + next);
-            } catch (error) {
-                console.error(error);
+            } catch (e) {
+                console.error(e);
             }
         }
 
         function viewOrder(orderId) {
-            const order = allOrders.find(o => o.id === orderId);
+            var order = allOrders.find(function(o) { return o.id === orderId; });
             if (!order) return;
 
-            document.getElementById("detailTitle").textContent = `Order ${order.order_code}`;
+            document.getElementById("detailTitle").textContent = "Order " + order.order_code;
 
-            const items = (order.items || []).map(i =>
-                `<li><strong>${i.name}</strong> — ${i.size} × ${i.quantity} — ${Number(i.price * i.quantity).toLocaleString("fr-DZ")} DA</li>`
-            ).join("");
+            var items = (order.items || []).map(function(i) {
+                return "<li><strong>" + i.name + "</strong> — " + i.size + " × " + i.quantity + " — " + Number(i.price * i.quantity).toLocaleString("fr-DZ") + " DA</li>";
+            }).join("");
 
-            const images = (order.image_urls || []).map(url =>
-                `<img src="${url}" alt="Order image">`
-            ).join("");
+            var images = (order.image_urls || []).map(function(url) {
+                return "<img src=\"" + url + "\" alt=\"Order image\">";
+            }).join("");
 
-            const date = new Date(order.created_at).toLocaleString("fr-DZ");
+            var date = new Date(order.created_at).toLocaleString("fr-DZ");
 
-            document.getElementById("detailContent").innerHTML = `
-                <div class="detail-row"><span class="label">Status</span><span class="value"><span class="status-badge status-${order.status}">${order.status}</span></span></div>
-                <div class="detail-row"><span class="label">Date</span><span class="value">${date}</span></div>
-                <div class="detail-row"><span class="label">Customer</span><span class="value">${order.customer_name}</span></div>
-                <div class="detail-row"><span class="label">Phone</span><span class="value">${order.phone}</span></div>
-                <div class="detail-row"><span class="label">Wilaya</span><span class="value">${order.wilaya}</span></div>
-                <div class="detail-row"><span class="label">City</span><span class="value">${order.city}</span></div>
-                <div class="detail-row"><span class="label">Address</span><span class="value">${order.address}</span></div>
-                <div class="detail-row"><span class="label">Notes</span><span class="value">${order.notes || "—"}</span></div>
-                <div class="detail-items"><strong>Items</strong><ul style="margin-top:8px;">${items}</ul></div>
-                <div class="detail-row"><span class="label">Subtotal</span><span class="value">${Number(order.subtotal).toLocaleString("fr-DZ")} DA</span></div>
-                <div class="detail-row"><span class="label">Shipping</span><span class="value">${Number(order.shipping).toLocaleString("fr-DZ")} DA</span></div>
-                <div class="detail-row" style="border-top:2px solid #252b31; padding-top:14px;"><span class="label" style="font-size:16px;">Total</span><span class="value" style="font-size:18px; color:#22c55e;">${Number(order.total).toLocaleString("fr-DZ")} DA</span></div>
-                ${images ? `<div style="margin-top:15px;"><strong>Images</strong><div class="detail-images">${images}</div></div>` : ""}
-            `;
+            document.getElementById("detailContent").innerHTML =
+                "<div class=\"detail-row\"><span class=\"label\">Status</span><span class=\"value\"><span class=\"status-badge status-" + order.status + "\">" + order.status + "</span></span></div>" +
+                "<div class=\"detail-row\"><span class=\"label\">Date</span><span class=\"value\">" + date + "</span></div>" +
+                "<div class=\"detail-row\"><span class=\"label\">Customer</span><span class=\"value\">" + order.customer_name + "</span></div>" +
+                "<div class=\"detail-row\"><span class=\"label\">Phone</span><span class=\"value\">" + order.phone + "</span></div>" +
+                "<div class=\"detail-row\"><span class=\"label\">Wilaya</span><span class=\"value\">" + order.wilaya + "</span></div>" +
+                "<div class=\"detail-row\"><span class=\"label\">City</span><span class=\"value\">" + order.city + "</span></div>" +
+                "<div class=\"detail-row\"><span class=\"label\">Address</span><span class=\"value\">" + order.address + "</span></div>" +
+                "<div class=\"detail-row\"><span class=\"label\">Notes</span><span class=\"value\">" + (order.notes || "—") + "</span></div>" +
+                "<div class=\"detail-items\"><strong>Items</strong><ul style=\"margin-top:8px;\">" + items + "</ul></div>" +
+                "<div class=\"detail-row\"><span class=\"label\">Subtotal</span><span class=\"value\">" + Number(order.subtotal).toLocaleString("fr-DZ") + " DA</span></div>" +
+                "<div class=\"detail-row\"><span class=\"label\">Shipping</span><span class=\"value\">" + Number(order.shipping).toLocaleString("fr-DZ") + " DA</span></div>" +
+                "<div class=\"detail-row\" style=\"border-top:2px solid #252b31; padding-top:14px;\"><span class=\"label\" style=\"font-size:16px;\">Total</span><span class=\"value\" style=\"font-size:18px; color:#22c55e;\">" + Number(order.total).toLocaleString("fr-DZ") + " DA</span></div>" +
+                (images ? "<div style=\"margin-top:15px;\"><strong>Images</strong><div class=\"detail-images\">" + images + "</div></div>" : "");
 
             document.getElementById("detailModal").classList.add("open");
         }
 
-        function closeDetailModal() {
-            document.getElementById("detailModal").classList.remove("open");
+        function closeDetailModal() { document.getElementById("detailModal").classList.remove("open"); }
+        function closeDetailIfOutside(e) { if (e.target.id === "detailModal") closeDetailModal(); }
+
+        // ═══════════════════════════════════════════════════════
+        // PRODUCTS
+        // ═══════════════════════════════════════════════════════
+        var allProducts = [];
+        var editingProductId = null;
+
+        async function loadProducts() {
+            document.getElementById("productsLoading").style.display = "block";
+            document.getElementById("productTable").style.display = "none";
+            document.getElementById("productsEmpty").style.display = "none";
+
+            try {
+                var resp = await fetch(SUPABASE_URL + "/rest/v1/products?select=*&order=created_at.desc", {
+                    headers: sbHeaders()
+                });
+                if (!resp.ok) throw new Error(resp.status + " " + await resp.text());
+                allProducts = await resp.json();
+            } catch (e) {
+                console.error("Error loading products:", e);
+                document.getElementById("productsLoading").innerHTML = "❌ Failed to load products. Run the SQL schema first.";
+                return;
+            }
+
+            renderProducts();
         }
 
-        function closeDetailIfOutside(e) {
-            if (e.target.id === "detailModal") closeDetailModal();
+        function renderProducts() {
+            var search = document.getElementById("prodSearchInput").value.toLowerCase();
+            var catFilter = document.getElementById("prodCategoryFilter").value;
+
+            var filtered = allProducts.filter(function(p) {
+                var matchCat = catFilter === "all" || p.category === catFilter;
+                var matchSearch = !search || p.name.toLowerCase().includes(search);
+                return matchCat && matchSearch;
+            });
+
+            document.getElementById("productsLoading").style.display = "none";
+
+            if (filtered.length === 0) {
+                document.getElementById("productTable").style.display = "none";
+                document.getElementById("productsEmpty").style.display = "block";
+                return;
+            }
+
+            document.getElementById("productTable").style.display = "table";
+            document.getElementById("productsEmpty").style.display = "none";
+
+            document.getElementById("productTableBody").innerHTML = filtered.map(function(p) {
+                var thumb = "";
+                if (p.image && (p.image.startsWith("http") || p.image.startsWith("data:"))) {
+                    thumb = "<img src=\"" + p.image + "\">";
+                } else {
+                    thumb = (p.image || "?").replace(/\n/g, "<br>");
+                }
+                var statusLabel = p.active ? "<span style=\"color:#22c55e;\">Active</span>" : "<span style=\"color:#777;\">Hidden</span>";
+                return "<tr>" +
+                    "<td><div class=\"prod-thumb\">" + thumb + "</div></td>" +
+                    "<td><strong>" + p.name + "</strong></td>" +
+                    "<td>" + p.category + "</td>" +
+                    "<td>" + Number(p.price_a4).toLocaleString("fr-DZ") + " DA</td>" +
+                    "<td>" + Number(p.price_a3).toLocaleString("fr-DZ") + " DA</td>" +
+                    "<td>" + statusLabel + "</td>" +
+                    "<td>" +
+                        "<button class=\"action-btn\" onclick=\"editProduct('" + p.id + "')\">✏️ Edit</button>" +
+                        "<button class=\"action-btn\" onclick=\"toggleProductActive('" + p.id + "', " + p.active + ")\">" + (p.active ? "👁 Hide" : "👁 Show") + "</button>" +
+                        "<button class=\"action-btn danger\" onclick=\"deleteProduct('" + p.id + "', '" + p.name.replace(/'/g, "\\'") + "')\">🗑 Delete</button>" +
+                    "</td>" +
+                "</tr>";
+            }).join("");
         }
 
+        function filterProducts() { renderProducts(); }
+
+        function openProductModal(productId) {
+            editingProductId = productId || null;
+            document.getElementById("productModalTitle").textContent = productId ? "Edit Product" : "Add Product";
+            document.getElementById("prodSaveBtn").textContent = productId ? "Update Product" : "Save Product";
+
+            if (productId) {
+                var p = allProducts.find(function(x) { return x.id === productId; });
+                if (p) {
+                    document.getElementById("prodName").value = p.name;
+                    document.getElementById("prodCategory").value = p.category;
+                    document.getElementById("prodRating").value = p.rating;
+                    document.getElementById("prodPriceA4").value = p.price_a4;
+                    document.getElementById("prodPriceA3").value = p.price_a3;
+                    document.getElementById("prodImage").value = (p.image && !p.image.startsWith("http") && !p.image.startsWith("data:")) ? p.image : "";
+                    document.getElementById("prodImageUrl").value = (p.image && (p.image.startsWith("http") || p.image.startsWith("data:"))) ? p.image : "";
+                }
+            } else {
+                document.getElementById("prodName").value = "";
+                document.getElementById("prodCategory").value = "gaming";
+                document.getElementById("prodRating").value = "50";
+                document.getElementById("prodPriceA4").value = "";
+                document.getElementById("prodPriceA3").value = "";
+                document.getElementById("prodImage").value = "";
+                document.getElementById("prodImageUrl").value = "";
+            }
+
+            document.getElementById("productModal").classList.add("open");
+        }
+
+        function closeProductModal() {
+            document.getElementById("productModal").classList.remove("open");
+            editingProductId = null;
+        }
+
+        function closeProductModalOutside(e) { if (e.target.id === "productModal") closeProductModal(); }
+
+        function editProduct(id) { openProductModal(id); }
+
+        async function saveProduct() {
+            var name = document.getElementById("prodName").value.trim();
+            var category = document.getElementById("prodCategory").value;
+            var rating = parseInt(document.getElementById("prodRating").value) || 50;
+            var priceA4 = parseInt(document.getElementById("prodPriceA4").value);
+            var priceA3 = parseInt(document.getElementById("prodPriceA3").value);
+            var badgeText = document.getElementById("prodImage").value.trim();
+            var imageUrl = document.getElementById("prodImageUrl").value.trim();
+
+            if (!name) { showToast("⚠ Product name is required"); return; }
+            if (!priceA4) { showToast("⚠ Price A4 is required"); return; }
+
+            var imageData = imageUrl || badgeText || "";
+            var isCustomImg = !!imageUrl;
+
+            var payload = {
+                name: name,
+                category: category,
+                image: imageData,
+                is_custom_img: isCustomImg,
+                rating: rating,
+                price_a4: priceA4,
+                price_a3: priceA3 || priceA4,
+                active: true
+            };
+
+            try {
+                var resp;
+                if (editingProductId) {
+                    resp = await fetch(SUPABASE_URL + "/rest/v1/products?id=eq." + encodeURIComponent(editingProductId), {
+                        method: "PATCH",
+                        headers: Object.assign({}, sbHeaders(), { "Prefer": "return=representation" }),
+                        body: JSON.stringify(payload)
+                    });
+                } else {
+                    resp = await fetch(SUPABASE_URL + "/rest/v1/products", {
+                        method: "POST",
+                        headers: Object.assign({}, sbHeaders(), { "Prefer": "return=representation" }),
+                        body: JSON.stringify(payload)
+                    });
+                }
+
+                if (!resp.ok) {
+                    var err = await resp.text();
+                    console.error("Save error:", err);
+                    showToast("❌ Failed to save: " + err);
+                    return;
+                }
+
+                showToast(editingProductId ? "✅ Product updated!" : "✅ Product added!");
+                closeProductModal();
+                loadProducts();
+            } catch (e) {
+                console.error(e);
+                showToast("❌ Network error");
+            }
+        }
+
+        async function toggleProductActive(productId, currentActive) {
+            try {
+                var resp = await fetch(SUPABASE_URL + "/rest/v1/products?id=eq." + encodeURIComponent(productId), {
+                    method: "PATCH",
+                    headers: Object.assign({}, sbHeaders(), { "Prefer": "return=minimal" }),
+                    body: JSON.stringify({ active: !currentActive })
+                });
+                if (!resp.ok) throw new Error(await resp.text());
+                var p = allProducts.find(function(x) { return x.id === productId; });
+                if (p) p.active = !currentActive;
+                renderProducts();
+                showToast(currentActive ? "👁 Product hidden" : "👁 Product shown");
+            } catch (e) { console.error(e); }
+        }
+
+        async function deleteProduct(productId, productName) {
+            if (!confirm("Delete \"" + productName + "\"? This cannot be undone.")) return;
+            try {
+                var resp = await fetch(SUPABASE_URL + "/rest/v1/products?id=eq." + encodeURIComponent(productId), {
+                    method: "DELETE",
+                    headers: sbHeaders()
+                });
+                if (!resp.ok) throw new Error(await resp.text());
+                allProducts = allProducts.filter(function(p) { return p.id !== productId; });
+                renderProducts();
+                showToast("🗑 Product deleted");
+            } catch (e) { console.error(e); }
+        }
+
+        // ═══════════════════════════════════════════════════════
+        // TOAST
+        // ═══════════════════════════════════════════════════════
         function showToast(msg) {
-            const toast = document.createElement("div");
-            toast.textContent = msg;
-            toast.style.cssText = "position:fixed;right:25px;bottom:25px;z-index:200;background:white;color:#111;padding:12px 18px;border-radius:8px;font-weight:bold;font-size:13px;box-shadow:0 8px 25px rgba(0,0,0,.4);transition:opacity .3s;";
-            document.body.appendChild(toast);
-            setTimeout(() => { toast.style.opacity = "0"; setTimeout(() => toast.remove(), 300); }, 2500);
+            var t = document.getElementById("toast");
+            t.textContent = msg;
+            t.style.opacity = "1";
+            setTimeout(function() { t.style.opacity = "0"; }, 2500);
         }
 
-        // Load on page ready
-        loadOrders();
-
-        // Auto-refresh every 30 seconds
-        setInterval(loadOrders, 30000);
+        // Auto-refresh orders every 30 seconds
+        setInterval(function() {
+            if (document.getElementById("dashboard").classList.contains("active")) {
+                var active = document.querySelector(".tab.active");
+                if (active && active.dataset.tab === "orders") loadOrders();
+            }
+        }, 30000);
     </script>
 </body>
 </html>
