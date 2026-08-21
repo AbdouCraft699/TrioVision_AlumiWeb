@@ -1,0 +1,3198 @@
+<style>/* =========================================================
+   RESET & BASE STYLES
+========================================================= */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        #tv-site {
+            font-family: Arial, Helvetica, sans-serif;
+            background: #0a0c0f;
+            color: #fff;
+            line-height: 1.5;
+        }
+
+        button,
+        input,
+        textarea,
+        select {
+            font: inherit;
+        }
+
+        button {
+            cursor: pointer;
+            transition: .2s ease;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        /* =========================================================
+   ADMIN TOP BANNER
+========================================================= */
+        .admin-bar {
+            display: none;
+            background: linear-gradient(90deg, #1e293b, #0f172a);
+            border-bottom: 1px solid #38bdf8;
+            padding: 8px 6%;
+            font-size: 13px;
+            align-items: center;
+            justify-content: space-between;
+            z-index: 60;
+            position: sticky;
+            top: 0;
+        }
+
+        .admin-bar.active {
+            display: flex;
+        }
+
+        .admin-bar-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .admin-badge-pill {
+            background: #38bdf8;
+            color: #0f172a;
+            font-weight: 900;
+            font-size: 11px;
+            padding: 3px 8px;
+            border-radius: 20px;
+            text-transform: uppercase;
+        }
+
+        .admin-bar-actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        .admin-mini-btn {
+            background: #334155;
+            color: white;
+            border: 1px solid #475569;
+            padding: 5px 12px;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .admin-mini-btn:hover {
+            background: #475569;
+        }
+
+        .admin-mini-btn.danger {
+            background: rgba(239, 68, 68, 0.2);
+            border-color: #ef4444;
+            color: #fca5a5;
+        }
+
+        .admin-mini-btn.danger:hover {
+            background: #ef4444;
+            color: white;
+        }
+
+        /* =========================================================
+   HEADER & MOBILE MENU
+========================================================= */
+        header {
+            height: 76px;
+            padding: 0 6%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: sticky;
+            top: 0;
+            z-index: 50;
+            background: rgba(10, 12, 15, 0.92);
+            backdrop-filter: blur(18px);
+            border-bottom: 1px solid #20242a;
+        }
+
+        .logo {
+            font-size: 25px;
+            font-weight: 900;
+            letter-spacing: 4px;
+        }
+
+        .logo span {
+            color: #8e949b;
+        }
+
+        nav {
+            display: flex;
+            gap: 30px;
+        }
+
+        nav a {
+            color: #858b92;
+            font-size: 14px;
+            transition: .2s;
+        }
+
+        nav a:hover {
+            color: white;
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .account-btn {
+            background: transparent;
+            border: 1px solid #292e34;
+            color: #999;
+            padding: 10px 14px;
+            border-radius: 99px;
+            font-size: 13px;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .account-btn:hover {
+            color: white;
+            border-color: #484f57;
+        }
+
+        .cart-btn {
+            background: white;
+            color: #111;
+            border: none;
+            padding: 11px 16px;
+            border-radius: 99px;
+            font-weight: bold;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .cart-btn:hover {
+            background: #e2e8f0;
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            background: transparent;
+            border: 1px solid #292e34;
+            color: white;
+            padding: 9px 12px;
+            border-radius: 8px;
+            font-size: 18px;
+        }
+
+        /* Mobile Nav Drawer */
+        .mobile-nav-drawer {
+            position: fixed;
+            top: 76px;
+            left: 0;
+            right: 0;
+            background: #0f141a;
+            border-bottom: 1px solid #292e34;
+            padding: 20px 6%;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            z-index: 45;
+            transform: translateY(-150%);
+            transition: transform .3s ease;
+        }
+
+        .mobile-nav-drawer.open {
+            transform: translateY(0);
+        }
+
+        .mobile-nav-drawer a {
+            color: #a0a6ad;
+            font-size: 16px;
+            font-weight: bold;
+            padding: 8px 0;
+            border-bottom: 1px solid #1a2027;
+        }
+
+        .mobile-nav-drawer a:hover {
+            color: white;
+        }
+
+        /* =========================================================
+   HERO
+========================================================= */
+        .hero {
+            min-height: 610px;
+            padding: 100px 8%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 70px;
+            background:
+                radial-gradient(circle at 78% 45%, #30363e, transparent 30%),
+                radial-gradient(circle at 15% 15%, #1a1e23, transparent 35%);
+        }
+
+        .hero-content {
+            max-width: 620px;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 8px 14px;
+            border: 1px solid #363c43;
+            border-radius: 30px;
+            color: #a0a6ad;
+            font-size: 11px;
+            font-weight: bold;
+            letter-spacing: 1px;
+            margin-bottom: 25px;
+            text-transform: uppercase;
+        }
+
+        .hero h1 {
+            font-size: clamp(50px, 6.5vw, 84px);
+            line-height: .95;
+            letter-spacing: -4px;
+            margin-bottom: 28px;
+            font-weight: 900;
+        }
+
+        .hero h1 span {
+            color: #8c939b;
+        }
+
+        .hero p {
+            max-width: 530px;
+            color: #858d96;
+            font-size: 17px;
+            line-height: 1.75;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 12px;
+            margin-top: 35px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 14px 24px;
+            border-radius: 10px;
+            border: 1px solid transparent;
+            font-weight: bold;
+            font-size: 15px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .btn-primary {
+            background: white;
+            color: #111;
+        }
+
+        .btn-primary:hover {
+            background: #e2e8f0;
+        }
+
+        .btn-secondary {
+            background: #171b20;
+            color: white;
+            border-color: #30363d;
+        }
+
+        .btn-secondary:hover {
+            background: #22272e;
+            border-color: #484f57;
+        }
+
+        .btn-whatsapp {
+            background: #25d366;
+            color: white;
+        }
+
+        .btn-whatsapp:hover {
+            background: #20ba59;
+        }
+
+        .hero-product {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 18px;
+        }
+
+        .hero-plaque {
+            width: 390px;
+            height: 255px;
+            border-radius: 0px;
+            background: linear-gradient(120deg, #555, #ddd, #777, #f3f3f3, #666);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transform: rotate(5deg);
+            box-shadow: 0 35px 90px rgba(0, 0, 0, .65), inset 0 1px 2px rgba(255, 255, 255, .9);
+            transition: transform .3s ease;
+            cursor: pointer;
+        }
+
+        .hero-plaque:hover {
+            transform: rotate(0deg) scale(1.02);
+        }
+
+        .hero-plaque-content {
+            text-align: center;
+            color: #151515;
+        }
+
+        .hero-plaque-content h2 {
+            font-size: 42px;
+            letter-spacing: 6px;
+            font-weight: 900;
+        }
+
+        .hero-plaque-content p {
+            font-size: 11px;
+            letter-spacing: 3px;
+            margin-top: 8px;
+            font-weight: bold;
+        }
+
+        .hero-caption {
+            color: #727982;
+            font-size: 12px;
+        }
+
+        /* =========================================================
+   TRUST BAR
+========================================================= */
+        .trust {
+            padding: 23px 7%;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            border-top: 1px solid #20242a;
+            border-bottom: 1px solid #20242a;
+            background: #0d1013;
+        }
+
+        .trust-item {
+            text-align: center;
+            color: #7e858d;
+            font-size: 13px;
+            border-right: 1px solid #292e34;
+            padding: 0 10px;
+        }
+
+        .trust-item:last-child {
+            border: none;
+        }
+
+        .trust-item strong {
+            display: block;
+            color: white;
+            font-size: 14px;
+            margin-bottom: 3px;
+        }
+
+        /* =========================================================
+   MARKETPLACE
+========================================================= */
+        .marketplace {
+            padding: 90px 7%;
+        }
+
+        .section-heading {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+
+        .section-heading h2 {
+            font-size: 35px;
+            font-weight: 900;
+        }
+
+        .section-heading p {
+            color: #747b83;
+            margin-top: 6px;
+        }
+
+        .section-heading-actions {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .add-plaque-admin-btn {
+            display: none;
+            background: #38bdf8;
+            color: #0f172a;
+            font-weight: bold;
+            border: none;
+            padding: 13px 18px;
+            border-radius: 9px;
+            font-size: 13px;
+        }
+
+        .add-plaque-admin-btn:hover {
+            background: #7dd3fc;
+        }
+
+        #tv-site.admin-mode-active .add-plaque-admin-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .search {
+            width: 280px;
+            padding: 13px 16px;
+            background: #15191e;
+            border: 1px solid #2d333a;
+            border-radius: 9px;
+            color: white;
+            outline: none;
+        }
+
+        .search:focus {
+            border-color: #555e69;
+        }
+
+        .categories {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 9px;
+            margin-bottom: 35px;
+        }
+
+        .category {
+            padding: 10px 18px;
+            border: 1px solid #292f35;
+            background: #15191e;
+            color: #858c94;
+            border-radius: 30px;
+            font-size: 13px;
+            font-weight: bold;
+        }
+
+        .category.active,
+        .category:hover {
+            background: white;
+            color: #111;
+            border-color: white;
+        }
+
+        /* Products Grid */
+        .products {
+            display: grid;
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            gap: 20px;
+        }
+
+        .product {
+            background: #121519;
+            border: 1px solid #252b31;
+            border-radius: 16px;
+            overflow: hidden;
+            transition: .25s ease;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+
+        .product:hover {
+            transform: translateY(-5px);
+            border-color: #484f57;
+            box-shadow: 0 25px 55px rgba(0, 0, 0, .35);
+        }
+
+        /* Product Card Admin Floating Actions */
+        .product-admin-actions {
+            display: none;
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            z-index: 10;
+            gap: 6px;
+        }
+
+        #tv-site.admin-mode-active .product-admin-actions {
+            display: flex;
+        }
+
+        .prod-admin-btn {
+            background: rgba(15, 23, 42, 0.85);
+            border: 1px solid #475569;
+            color: white;
+            padding: 6px 10px;
+            border-radius: 6px;
+            font-size: 11px;
+            font-weight: bold;
+            backdrop-filter: blur(4px);
+        }
+
+        .prod-admin-btn:hover {
+            background: #38bdf8;
+            color: #0f172a;
+        }
+
+        .prod-admin-btn.del:hover {
+            background: #ef4444;
+            color: white;
+            border-color: #ef4444;
+        }
+
+        .product-image {
+            height: 235px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: radial-gradient(circle, #252b31, #15191e);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .product-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .product-plaque {
+            width: 190px;
+            height: 125px;
+            border-radius: 0px;
+            background: linear-gradient(135deg, #666, #eee, #888);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: #171717;
+            font-size: 15px;
+            font-weight: 900;
+            box-shadow: 0 20px 35px rgba(0, 0, 0, .45);
+            padding: 10px;
+            line-height: 1.2;
+            white-space: pre-line;
+        }
+
+        .product-info {
+            padding: 19px;
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+        }
+
+        .product-category-tag {
+            font-size: 10px;
+            text-transform: uppercase;
+            color: #7dd3fc;
+            letter-spacing: 1px;
+            font-weight: bold;
+            margin-bottom: 4px;
+        }
+
+        .product-info h3 {
+            font-size: 17px;
+            margin-bottom: 5px;
+        }
+
+        .product-size-select {
+            width: 100%;
+            margin-top: 6px;
+            padding: 7px 8px;
+            background: #181d24;
+            border: 1px solid #2d333b;
+            border-radius: 6px;
+            color: #a0a8b2;
+            font-size: 12px;
+            outline: none;
+            cursor: pointer;
+        }
+
+        .rating {
+            color: #aeb4ba;
+            font-size: 12px;
+            margin-top: 10px;
+        }
+
+        .product-bottom {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-top: auto;
+            padding-top: 15px;
+        }
+
+        .price {
+            font-weight: bold;
+            font-size: 17px;
+        }
+
+        .add-btn {
+            border: none;
+            background: white;
+            color: #111;
+            padding: 9px 16px;
+            border-radius: 8px;
+            font-weight: bold;
+            font-size: 13px;
+        }
+
+        .add-btn:hover {
+            background: #e2e8f0;
+        }
+
+        /* =========================================================
+   CUSTOM STUDIO SECTION
+========================================================= */
+        .custom {
+            margin: 20px 7% 90px;
+            padding: 60px 50px;
+            border: 1px solid #292f35;
+            border-radius: 24px;
+            display: grid;
+            grid-template-columns: 1fr 1.1fr;
+            gap: 50px;
+            background:
+                radial-gradient(circle at 80% 30%, #252b32, transparent 35%),
+                #12161a;
+        }
+
+        .custom-content {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .custom h2 {
+            font-size: 44px;
+            line-height: 1.05;
+            letter-spacing: -2px;
+            margin-bottom: 18px;
+            font-weight: 900;
+        }
+
+        .custom p {
+            color: #7f8790;
+            line-height: 1.7;
+        }
+
+        .custom-list {
+            margin-top: 22px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            color: #a2a9b0;
+            font-size: 13px;
+        }
+
+        .custom-list span::before {
+            content: "✓ ";
+            color: white;
+            font-weight: bold;
+            margin-right: 4px;
+        }
+
+        /* Custom Live Plaque Preview Box */
+        .custom-preview-wrapper {
+            margin-top: 28px;
+            width: 100%;
+            height: 240px;
+            border-radius: 0px;
+            background: linear-gradient(135deg, #444, #ccc, #666, #eee, #555);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 20px 45px rgba(0, 0, 0, .5);
+            transition: background .3s ease;
+        }
+
+        /* Finish visual states */
+        .custom-preview-wrapper.finish-glossy {
+            background: linear-gradient(135deg, #555, #eee, #777, #f5f5f5, #666);
+        }
+
+        .custom-preview-wrapper.finish-brushed {
+            background: repeating-linear-gradient(90deg, #666 0px, #ccc 2px, #888 3px, #eee 5px);
+        }
+
+        .custom-preview-wrapper.finish-obsidian {
+            background: linear-gradient(135deg, #1c2430, #0d1218, #2a3442);
+        }
+
+        .custom-preview-wrapper.finish-matte {
+            background: linear-gradient(145deg, #2b313a, #1a1e24);
+        }
+
+        .custom-preview-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            position: absolute;
+            inset: 0;
+            display: none;
+            z-index: 1;
+        }
+
+        .custom-preview-placeholder {
+            color: #111;
+            font-weight: 900;
+            letter-spacing: 2px;
+            font-size: 18px;
+            text-align: center;
+            z-index: 2;
+        }
+
+        /* Customizer Form Controls Right */
+        .upload {
+            padding: 30px;
+            border: 1px solid #363c43;
+            border-radius: 17px;
+            background: #0f1216;
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+        }
+
+        .upload-dropzone {
+            border: 2px dashed #444b53;
+            border-radius: 17px;
+            padding: 60px 20px;
+            text-align: center;
+            cursor: pointer;
+            background: #15191e;
+            transition: .2s;
+        }
+
+        .upload-dropzone:hover {
+            border-color: #888;
+        }
+
+        .upload-dropzone input[type="file"] {
+            display: none;
+        }
+
+        .upload-icon {
+            font-size: 28px;
+            margin-bottom: 6px;
+        }
+
+        .custom-input {
+            width: 100%;
+            padding: 12px 14px;
+            border: 1px solid #363d45;
+            border-radius: 7px;
+            background: #15191e;
+            color: #fff;
+            outline: none;
+            font-size: 13px;
+        }
+
+        .custom-input:focus {
+            border-color: #66717e;
+        }
+
+        .custom-options-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+
+        .custom-select {
+            width: 100%;
+            padding: 11px 12px;
+            border: 1px solid #363d45;
+            border-radius: 9px;
+            background: #15191e;
+            color: #fff;
+            outline: none;
+            font-size: 13px;
+            cursor: pointer;
+        }
+
+        .clear-design-btn {
+            align-self: flex-start;
+            font-size: 12px;
+            color: #ff6b6b;
+            background: none;
+            border: none;
+            cursor: pointer;
+            display: none;
+            margin-top: -8px;
+        }
+
+        .clear-design-btn:hover {
+            text-decoration: underline;
+        }
+
+        .custom-bottom-action {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-top: 10px;
+            padding-top: 18px;
+            border-top: 1px solid #282e35;
+        }
+
+        .custom-price-display {
+            font-size: 22px;
+            font-weight: 900;
+        }
+
+        /* =========================================================
+   HOW IT WORKS
+========================================================= */
+        .how {
+            padding: 20px 7% 90px;
+        }
+
+        .how-title {
+            text-align: center;
+            margin-bottom: 45px;
+        }
+
+        .how-title h2 {
+            font-size: 35px;
+            font-weight: 900;
+        }
+
+        .how-title p {
+            color: #737b84;
+            margin-top: 6px;
+        }
+
+        .steps {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+
+        .step {
+            padding: 30px;
+            border: 1px solid #252b31;
+            border-radius: 16px;
+            background: #121519;
+        }
+
+        .step-number {
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: white;
+            color: #111;
+            border-radius: 9px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+        .step h3 {
+            margin-bottom: 8px;
+        }
+
+        .step p {
+            color: #777f88;
+            font-size: 14px;
+        }
+
+        /* =========================================================
+   BUSINESS
+========================================================= */
+        .business {
+            margin: 0 7% 90px;
+            padding: 50px;
+            border: 1px solid #292f35;
+            border-radius: 20px;
+            background: #111519;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 30px;
+        }
+
+        .business h2 {
+            font-size: 30px;
+            font-weight: 900;
+        }
+
+        .business p {
+            color: #777f88;
+            margin-top: 7px;
+        }
+
+        /* =========================================================
+   FOOTER
+========================================================= */
+        footer {
+            padding: 55px 7% 30px;
+            border-top: 1px solid #20242a;
+            color: #777f87;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 40px;
+            margin-bottom: 45px;
+        }
+
+        .footer-logo {
+            color: white;
+            font-size: 24px;
+            font-weight: 900;
+            letter-spacing: 3px;
+            margin-bottom: 13px;
+        }
+
+        .footer-about {
+            max-width: 320px;
+            font-size: 13px;
+            line-height: 1.7;
+        }
+
+        .footer-column h4 {
+            color: white;
+            margin-bottom: 15px;
+            font-size: 15px;
+        }
+
+        .footer-column a {
+            display: block;
+            color: #707780;
+            font-size: 13px;
+            margin-bottom: 9px;
+        }
+
+        .footer-column a:hover {
+            color: white;
+        }
+
+        .footer-bottom {
+            padding-top: 20px;
+            border-top: 1px solid #20242a;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 12px;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .admin-portal-link {
+            color: #555e69;
+            cursor: pointer;
+            font-size: 11px;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .admin-portal-link:hover {
+            color: #38bdf8;
+        }
+
+        /* =========================================================
+   CART DRAWER
+========================================================= */
+        .cart-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, .75);
+            backdrop-filter: blur(6px);
+            z-index: 200;
+            opacity: 0;
+            visibility: hidden;
+            transition: .3s;
+        }
+
+        .cart-overlay.open {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .cart-drawer {
+            position: absolute;
+            right: 0;
+            top: 0;
+            width: min(470px, 100%);
+            height: 100%;
+            background: #101418;
+            border-left: 1px solid #30363d;
+            display: flex;
+            flex-direction: column;
+            transform: translateX(100%);
+            transition: .35s ease;
+        }
+
+        .cart-overlay.open .cart-drawer {
+            transform: translateX(0);
+        }
+
+        .cart-header {
+            padding: 21px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid #292e34;
+        }
+
+        .cart-header h2 {
+            font-size: 22px;
+            font-weight: bold;
+        }
+
+        .close-btn {
+            width: 37px;
+            height: 37px;
+            border: 1px solid #353b42;
+            border-radius: 8px;
+            background: #181c21;
+            color: white;
+            font-size: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .cart-items {
+            flex: 1;
+            overflow-y: auto;
+            padding: 18px;
+        }
+
+        .cart-item {
+            display: grid;
+            grid-template-columns: 80px 1fr auto;
+            gap: 13px;
+            padding: 15px 0;
+            border-bottom: 1px solid #282e34;
+            align-items: center;
+        }
+
+        .cart-image {
+            width: 80px;
+            height: 62px;
+            border-radius: 7px;
+            background: linear-gradient(135deg, #666, #eee, #888);
+            color: #111;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            font-size: 10px;
+            font-weight: bold;
+            overflow: hidden;
+        }
+
+        .cart-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .cart-item-info h4 {
+            font-size: 14px;
+            margin-bottom: 3px;
+        }
+
+        .cart-item-info p {
+            color: #777f88;
+            font-size: 12px;
+        }
+
+        .quantity {
+            display: flex;
+            align-items: center;
+            gap: 7px;
+            margin-top: 9px;
+        }
+
+        .quantity button {
+            width: 25px;
+            height: 25px;
+            border-radius: 6px;
+            border: 1px solid #343a41;
+            background: #191d22;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .quantity span {
+            min-width: 20px;
+            text-align: center;
+            font-size: 13px;
+        }
+
+        .cart-item-right {
+            text-align: right;
+        }
+
+        .cart-item-price {
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        .remove-btn {
+            border: none;
+            background: none;
+            color: #777f87;
+            font-size: 12px;
+            margin-top: 8px;
+            cursor: pointer;
+        }
+
+        .remove-btn:hover {
+            color: #ff6b6b;
+        }
+
+        .empty-cart {
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: #777f87;
+            padding: 30px;
+        }
+
+        .empty-cart-icon {
+            font-size: 45px;
+            margin-bottom: 15px;
+        }
+
+        .empty-cart h3 {
+            color: white;
+            margin-bottom: 7px;
+        }
+
+        .cart-footer {
+            padding: 20px;
+            border-top: 1px solid #292e34;
+            background: #0d1013;
+        }
+
+        .summary {
+            display: flex;
+            justify-content: space-between;
+            color: #858d96;
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+
+        .summary.total {
+            color: white;
+            font-size: 20px;
+            font-weight: bold;
+            margin-top: 13px;
+            margin-bottom: 18px;
+            padding-top: 10px;
+            border-top: 1px solid #292e34;
+        }
+
+        .checkout-btn {
+            width: 100%;
+            padding: 15px;
+            border: none;
+            border-radius: 10px;
+            background: white;
+            color: #111;
+            font-weight: bold;
+            font-size: 15px;
+        }
+
+        .checkout-btn:hover {
+            background: #e2e8f0;
+        }
+
+        /* =========================================================
+   CHECKOUT MODAL (58 WILAYAS & WHATSAPP)
+========================================================= */
+        .checkout-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: 300;
+            background: rgba(0, 0, 0, .85);
+            backdrop-filter: blur(7px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            opacity: 0;
+            visibility: hidden;
+            transition: .3s;
+        }
+
+        .checkout-overlay.open {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .checkout-box {
+            width: min(650px, 100%);
+            max-height: 90vh;
+            overflow-y: auto;
+            background: #111519;
+            border: 1px solid #30363d;
+            border-radius: 18px;
+            padding: 32px;
+            position: relative;
+        }
+
+        .checkout-box h2 {
+            font-size: 26px;
+            margin-bottom: 6px;
+            font-weight: 900;
+        }
+
+        .checkout-subtitle {
+            color: #737b84;
+            font-size: 13px;
+            margin-bottom: 25px;
+        }
+
+        .checkout-close {
+            position: absolute;
+            right: 20px;
+            top: 20px;
+            width: 36px;
+            height: 36px;
+            border: 1px solid #343a41;
+            border-radius: 8px;
+            background: #181c21;
+            color: white;
+            font-size: 19px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .form-section {
+            margin-bottom: 24px;
+        }
+
+        .form-section h3 {
+            font-size: 15px;
+            margin-bottom: 13px;
+            color: #e2e8f0;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 13px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .form-group.full {
+            grid-column: 1 / -1;
+        }
+
+        .form-group label {
+            color: #858d96;
+            font-size: 12px;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px 13px;
+            background: #181c21;
+            color: white;
+            border: 1px solid #30363d;
+            border-radius: 8px;
+            outline: none;
+            font-size: 13px;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            border-color: #66717e;
+        }
+
+        .delivery-estimate-badge {
+            background: #161b22;
+            border: 1px solid #282f38;
+            padding: 12px 14px;
+            border-radius: 8px;
+            margin-bottom: 16px;
+            display: flex;
+            justify-content: space-between;
+            font-size: 13px;
+            color: #a0aab5;
+        }
+
+        .order-total {
+            padding: 18px 0;
+            border-top: 1px solid #292e34;
+            border-bottom: 1px solid #292e34;
+            display: flex;
+            justify-content: space-between;
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+        .checkout-action-stack {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .confirm-btn {
+            width: 100%;
+            padding: 15px;
+            background: #25d366;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-weight: bold;
+            font-size: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .confirm-btn:hover {
+            background: #20ba59;
+        }
+
+
+
+        /* SUCCESS PANE */
+        .success {
+            text-align: center;
+            padding: 40px 20px;
+        }
+
+        .success-icon {
+            width: 65px;
+            height: 65px;
+            margin: 0 auto 18px;
+            border-radius: 50%;
+            background: #25d366;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 30px;
+            font-weight: bold;
+        }
+
+        .order-code-badge {
+            display: inline-block;
+            padding: 6px 14px;
+            background: #181c21;
+            border: 1px solid #343a41;
+            border-radius: 20px;
+            font-weight: bold;
+            color: #7de3ff;
+            margin: 12px 0 16px;
+        }
+
+        .success p {
+            color: #777f87;
+            margin-top: 8px;
+            line-height: 1.6;
+        }
+
+        /* =========================================================
+   ADMIN MODAL (ADD / EDIT PLAQUE)
+========================================================= */
+        .admin-modal-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: 350;
+            background: rgba(0, 0, 0, .85);
+            backdrop-filter: blur(7px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            opacity: 0;
+            visibility: hidden;
+            transition: .3s;
+        }
+
+        .admin-modal-overlay.open {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .admin-modal-box {
+            width: min(600px, 100%);
+            max-height: 90vh;
+            overflow-y: auto;
+            background: #0f141a;
+            border: 1px solid #38bdf8;
+            border-radius: 18px;
+            padding: 32px;
+            position: relative;
+        }
+
+        .admin-modal-box h2 {
+            font-size: 24px;
+            margin-bottom: 4px;
+            font-weight: 900;
+        }
+
+        .admin-modal-subtitle {
+            color: #858d96;
+            font-size: 13px;
+            margin-bottom: 24px;
+        }
+
+        /* Admin Image Choice */
+        .admin-img-preview-box {
+            width: 100%;
+            height: 140px;
+            border-radius: 10px;
+            background: #181d24;
+            border: 1px dashed #3a4450;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            margin-bottom: 12px;
+        }
+
+        .admin-img-preview-box img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* Password Modal */
+        .admin-login-box {
+            width: min(400px, 100%);
+            background: #111519;
+            border: 1px solid #38bdf8;
+            border-radius: 18px;
+            padding: 30px;
+            position: relative;
+            text-align: center;
+        }
+
+        /* TOAST */
+        .toast {
+            position: fixed;
+            right: 25px;
+            bottom: 25px;
+            z-index: 500;
+            background: white;
+            color: #111;
+            padding: 14px 20px;
+            border-radius: 9px;
+            font-weight: bold;
+            transform: translateY(100px);
+            opacity: 0;
+            transition: .3s;
+            font-size: 14px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, .5);
+        }
+
+        .toast.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        /* =========================================================
+   RESPONSIVE
+========================================================= */
+        @media(max-width: 1100px) {
+            .products {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .custom {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media(max-width: 850px) {
+            nav {
+                display: none;
+            }
+
+            .mobile-menu-btn {
+                display: block;
+            }
+
+            .hero {
+                flex-direction: column;
+                align-items: flex-start;
+                padding: 70px 6%;
+            }
+
+            .hero-product {
+                width: 100%;
+            }
+
+            .hero-plaque {
+                align-self: center;
+            }
+
+            .trust {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 20px;
+            }
+
+            .steps {
+                grid-template-columns: 1fr;
+            }
+
+            .footer-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        @media(max-width: 600px) {
+            header {
+                padding: 0 5%;
+            }
+
+            .account-btn {
+                display: none;
+            }
+
+            .hero h1 {
+                font-size: 46px;
+            }
+
+            .hero-plaque {
+                width: 285px;
+                height: 185px;
+            }
+
+            .trust {
+                grid-template-columns: 1fr;
+            }
+
+            .trust-item {
+                border-right: none;
+                border-bottom: 1px solid #292e34;
+                padding-bottom: 15px;
+            }
+
+            .trust-item:last-child {
+                border-bottom: none;
+            }
+
+            .section-heading {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .section-heading-actions {
+                width: 100%;
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .search {
+                width: 100%;
+            }
+
+            .products {
+                grid-template-columns: 1fr;
+            }
+
+            .custom {
+                margin: 20px 5% 70px;
+                padding: 30px 20px;
+            }
+
+            .custom h2 {
+                font-size: 32px;
+            }
+
+            .custom-list {
+                grid-template-columns: 1fr;
+            }
+
+            .custom-options-row {
+                grid-template-columns: 1fr;
+            }
+
+            .business {
+                margin: 0 5% 70px;
+                padding: 30px 25px;
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .footer-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .footer-bottom {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+        }</style>
+<div id="tv-site">
+
+    <!-- =========================================================
+     ADMIN ACTIVE BAR
+========================================================= -->
+    <div class="admin-bar" id="adminBar">
+        <div class="admin-bar-left">
+            <span class="admin-badge-pill">Store Admin</span>
+            <span>Marketplace Management Mode Active</span>
+        </div>
+        <div class="admin-bar-actions">
+            <button class="admin-mini-btn" onclick="openAddPlaqueModal()">+ Add Plaque</button>
+            <button class="admin-mini-btn" onclick="resetDefaultProductsPrompt()">Reset Catalog</button>
+            <button class="admin-mini-btn danger" onclick="toggleAdminMode(false)">Exit Admin</button>
+        </div>
+    </div>
+
+
+    <!-- =========================================================
+     HEADER
+========================================================= -->
+    <header>
+        <a href="#" class="logo">
+            TrioVision<span>.</span>
+        </a>
+
+        <nav>
+            <a href="#marketplace">Marketplace</a>
+            <a href="#custom">Custom Design</a>
+            <a href="#how">How It Works</a>
+            <a href="#business">Business</a>
+        </nav>
+
+        <div class="header-right">
+            <a href="https://wa.me/213658320335" target="_blank" class="account-btn">
+                 WhatsApp
+            </a>
+
+            <button class="account-btn" onclick="toggleAdminPrompt()" title="Admin Management">
+                 Admin
+            </button>
+
+            <button class="cart-btn" onclick="openCart()">
+                 Cart (<span id="cartCount">0</span>)
+            </button>
+
+            <button class="mobile-menu-btn" onclick="toggleMobileMenu()" aria-label="Toggle Navigation">
+                ☰
+            </button>
+        </div>
+    </header>
+
+    <!-- Mobile Navigation Drawer -->
+    <div class="mobile-nav-drawer" id="mobileNavDrawer">
+        <a href="#marketplace" onclick="toggleMobileMenu()">Marketplace</a>
+        <a href="#custom" onclick="toggleMobileMenu()">Custom Design Studio</a>
+        <a href="#how" onclick="toggleMobileMenu()">How It Works</a>
+        <a href="#business" onclick="toggleMobileMenu()">Business & Bulk</a>
+        <a href="javascript:void(0)" onclick="toggleMobileMenu(); toggleAdminPrompt();">Admin Version</a>
+        <a href="https://wa.me/213658320335" target="_blank" style="color:#25d366;">Direct WhatsApp Contact</a>
+    </div>
+
+
+    <!-- =========================================================
+     HERO
+========================================================= -->
+    <section class="hero">
+        <div class="hero-content">
+            <div class="badge">
+                PREMIUM ALUMINUM SUBLIMATION
+            </div>
+
+            <h1>
+                Your design.<br>
+                <span>On metal.</span>
+            </h1>
+
+            <p>
+                Premium sublimation aluminum plaques for homes, gaming setups, businesses, gifts, and everything in
+                between. Available in A4 (30 cm × 21 cm) & A3 (42 cm × 30 cm) with express delivery across all 58 Wilayas of
+                Algeria.
+            </p>
+
+            <div class="hero-buttons">
+                <button class="btn btn-primary" onclick="goTo('marketplace')">
+                    Explore Marketplace
+                </button>
+
+                <button class="btn btn-secondary" onclick="goTo('custom')">
+                    Create Custom
+                </button>
+            </div>
+        </div>
+
+        <div class="hero-product">
+            <div class="hero-plaque" onclick="goTo('custom')">
+                <div class="hero-plaque-content">
+                    <h2>ALUMI</h2>
+                    <p>PREMIUM SUBLIMATION</p>
+                </div>
+            </div>
+            <span class="hero-caption">
+                Premium aluminum • Made to order • 58 Wilayas
+            </span>
+        </div>
+    </section>
+
+
+    <!-- =========================================================
+     TRUST
+========================================================= -->
+    <section class="trust">
+        <div class="trust-item">
+            <strong>Premium Quality</strong>
+            100% Rust-Proof Aluminum
+        </div>
+
+        <div class="trust-item">
+            <strong>Custom Designs</strong>
+            Your artwork, photo & logo
+        </div>
+
+        <div class="trust-item">
+            <strong>Standard Sizes</strong>
+            A4 (30 cm × 21 cm) & A3 (42 cm × 30 cm)
+        </div>
+
+        <div class="trust-item">
+            <strong>58 Wilayas Delivery</strong>
+            Cash on delivery nationwide
+        </div>
+    </section>
+
+
+    <!-- =========================================================
+     MARKETPLACE
+========================================================= -->
+    <section class="marketplace" id="marketplace">
+        <div class="section-heading">
+            <div>
+                <h2>Explore designs</h2>
+                <p>Find something ready to personalize or print directly on metal.</p>
+            </div>
+
+            <div class="section-heading-actions">
+                <button class="add-plaque-admin-btn" onclick="openAddPlaqueModal()">
+                    + Add New Plaque
+                </button>
+
+                <input id="search" class="search" type="text" placeholder="Search plaques..."
+                    oninput="searchProducts()">
+            </div>
+        </div>
+
+        <div class="categories" id="categoryBar">
+            <button class="category active" onclick="filterProducts('all', this)">All</button>
+            <button class="category" onclick="filterProducts('gaming', this)">Gaming</button>
+            <button class="category" onclick="filterProducts('anime', this)">Anime</button>
+            <button class="category" onclick="filterProducts('business', this)">Business</button>
+            <button class="category" onclick="filterProducts('home', this)">Home</button>
+            <button class="category" onclick="filterProducts('gift', this)">Gifts</button>
+        </div>
+
+        <!-- Dynamic Products Grid -->
+        <div class="products" id="products">
+            <!-- Rendered by JavaScript -->
+        </div>
+    </section>
+
+
+    <!-- =========================================================
+     CUSTOM DESIGN STUDIO
+========================================================= -->
+    <section class="custom" id="custom">
+        <div class="custom-content">
+            <div class="badge">
+                CUSTOM MADE
+            </div>
+
+            <h2>Make your own plaque.</h2>
+
+            <p>
+                Upload your image, logo, photo, or artwork. Select dimensions (A4 or A3) and aluminum finish, and turn
+                your visual into an everlasting premium metal plaque.
+            </p>
+
+            <div class="custom-list">
+                <span>Upload any design or photo</span>
+                <span>Sizes: A4 (30 cm × 21 cm) & A3 (42 cm × 30 cm)</span>
+                <span>High-definition thermal print</span>
+                <span>Made to order in Algeria</span>
+            </div>
+
+            <!-- Live Preview Plaque -->
+            <div class="custom-preview-wrapper finish-glossy" id="customPreviewBox">
+                <img id="customLiveImg" class="custom-preview-img" alt="Custom Preview">
+                <div id="customLivePlaceholder" class="custom-preview-placeholder">
+                    YOUR DESIGN HERE
+                </div>
+            </div>
+        </div>
+
+        <!-- Customizer Control Box -->
+        <div class="upload">
+            <div class="upload-dropzone" onclick="document.getElementById('designFile').click()">
+                <div class="upload-icon">↑</div>
+                <strong id="uploadText">Choose image from device</strong>
+                <p style="font-size:12px; color:#777; margin-top:4px;">Supports PNG, JPG, WEBP</p>
+                <input type="file" id="designFile" accept="image/*" onchange="uploadDesign(this)">
+            </div>
+
+            <button type="button" class="clear-design-btn" id="clearDesignBtn" onclick="clearCustomDesign()">
+                ✕ Remove selected image
+            </button>
+
+            <div>
+                <label style="font-size: 12px; color: #858c94; display:block; margin-bottom: 6px;">Or paste direct image URL</label>
+                <div style="display:flex; gap:8px;">
+                    <input type="url" id="imageUrl" class="custom-input" placeholder="https://example.com/image.jpg"
+                        onkeydown="if(event.key === 'Enter') loadImageUrl()">
+                    <button type="button" class="btn btn-secondary" style="padding:10px 16px; font-size:13px;"
+                        onclick="loadImageUrl()">Load</button>
+                </div>
+            </div>
+
+            <div class="custom-options-row">
+                <div>
+                    <label style="font-size: 12px; color: #858c94; display:block; margin-bottom: 6px;">Metal Finish</label>
+                    <select id="customFinish" class="custom-select" onchange="updateCustomOptions()">
+                        <option value="Glossy HD Metal">Glossy HD Metal</option>
+                        <option value="Brushed Silver Metal">- coming soon -</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label style="font-size: 12px; color: #858c94; display:block; margin-bottom: 6px;">Plaque Dimensions</label>
+                    <select id="customSize" class="custom-select" onchange="updateCustomOptions()">
+                        <option value="A4 (30 cm × 21 cm)" data-price="2800" selected>A4 (30 cm × 21 cm) — 2,800 DA</option>
+                        <option value="A3 (42 cm × 30 cm)" data-price="3500">A3 (42 cm × 30 cm) — 3,500 DA</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="custom-bottom-action">
+                <div>
+                    <span style="font-size:12px; color:#777; display:block;">Plaque Price</span>
+                    <span class="custom-price-display" id="customCalculatedPrice">2,800 DA</span>
+                </div>
+
+                <button type="button" class="btn btn-primary" onclick="addCustomPlaqueToCart()">
+                    Add Custom Plaque To Cart →
+                </button>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- =========================================================
+     HOW IT WORKS
+========================================================= -->
+    <section class="how" id="how">
+        <div class="how-title">
+            <h2>How it works</h2>
+            <p>Simple from design to finished aluminum plaque.</p>
+        </div>
+
+        <div class="steps">
+            <div class="step">
+                <div class="step-number">01</div>
+                <h3>Choose a design</h3>
+                <p>Browse our marketplace or upload your own favorite graphic or photo.</p>
+            </div>
+
+            <div class="step">
+                <div class="step-number">02</div>
+                <h3>Personalize it</h3>
+                <p>Choose dimensions (A4 30 cm × 21 cm or A3 42 cm × 30 cm) and metal finish.</p>
+            </div>
+
+            <div class="step">
+                <div class="step-number">03</div>
+                <h3>We make & deliver</h3>
+                <p>Printed deep into aluminum and shipped with cash on delivery across Algeria.</p>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- =========================================================
+     BUSINESS
+========================================================= -->
+    <section class="business" id="business">
+        <div>
+            <h2>Need plaques for your business?</h2>
+            <p>Bulk orders, company signs, restaurant menus, and gaming lounge branding.</p>
+        </div>
+
+        <a href="https://wa.me/213658320335?text=Hello%20TrioVision,%20I%20would%20like%20a%20B2B%20/%20Business%20Order%20quote."
+            target="_blank" class="btn btn-whatsapp">
+             WhatsApp Business Quote 
+        </a>
+    </section>
+
+
+    <!-- =========================================================
+     FOOTER
+========================================================= -->
+    <footer>
+        <div class="footer-grid">
+            <div>
+                <div class="footer-logo">TrioVision.</div>
+                <p class="footer-about">
+                    Premium aluminum sublimation products made for people who want their designs to stand out.
+                </p>
+            </div>
+
+            <div class="footer-column">
+                <h4>Marketplace</h4>
+                <a href="#marketplace">All Products</a>
+                <a href="#marketplace">Gaming</a>
+                <a href="#marketplace">Business</a>
+                <a href="#marketplace">Gifts</a>
+            </div>
+
+            <div class="footer-column">
+                <h4>Services</h4>
+                <a href="#custom">Custom Design</a>
+                <a href="#business">Business Orders</a>
+                <a href="#how">How It Works</a>
+            </div>
+
+            <div class="footer-column">
+                <h4>Contact</h4>
+                <a href="https://wa.me/213658320335" target="_blank" style="color:#25d366; font-weight:bold;">
+                    WhatsApp: 0658 32 03 35</a>
+                <a href="https://www.instagram.com/trio_vision_?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw=="
+                    target="_blank">Instagram</a>
+                <a href="https://www.facebook.com/triovision" target="_blank">Facebook</a>
+                <a href="mailto:abdoucraft699@gmail.com">Email</a>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <span>© 2026 TrioVision. All rights reserved.</span>
+            <span class="admin-portal-link" onclick="toggleAdminPrompt()"> Admin Portal</span>
+            <span>Premium Aluminum Sublimation • 58 Wilayas Algeria</span>
+        </div>
+    </footer>
+
+
+    <!-- =========================================================
+     CART DRAWER
+========================================================= -->
+    <div class="cart-overlay" id="cartOverlay" onclick="cartOutside(event)">
+        <div class="cart-drawer">
+            <div class="cart-header">
+                <h2>Your Cart</h2>
+                <button class="close-btn" onclick="closeCart()">✕</button>
+            </div>
+
+            <div class="cart-items" id="cartItems">
+                <!-- Items injected by JS -->
+            </div>
+
+            <div class="cart-footer">
+                <div class="summary">
+                    <span>Subtotal</span>
+                    <span id="subtotal">0 DA</span>
+                </div>
+
+                <div class="summary">
+                    <span>Delivery (58 Wilayas)</span>
+                    <span style="color:#858d96;">Calculated at checkout</span>
+                </div>
+
+                <div class="summary total">
+                    <span>Total</span>
+                    <span id="total">0 DA</span>
+                </div>
+
+                <button class="checkout-btn" onclick="openCheckout()">
+                    Continue to Checkout →
+                </button>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- =========================================================
+     CHECKOUT MODAL (58 WILAYAS & WHATSAPP)
+========================================================= -->
+    <div class="checkout-overlay" id="checkoutOverlay" onclick="checkoutOutside(event)">
+        <div class="checkout-box">
+            <button class="checkout-close" onclick="closeCheckout()">✕</button>
+
+            <div id="checkoutFormContainer">
+                <h2>Delivery details</h2>
+                <p class="checkout-subtitle">Enter your information before confirming your order with Cash On Delivery.
+                </p>
+
+                <form id="checkoutForm" onsubmit="confirmOrder(event)">
+
+                    <div class="form-section">
+                        <h3>Customer information</h3>
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label>Full name *</label>
+                                <input id="fullName" type="text" placeholder="Your full name" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label>Phone number *</label>
+                                <input id="phone" type="tel" placeholder="05 / 06 / 07..." required>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-section">
+                        <h3>Delivery address (Algeria)</h3>
+                        <div class="form-grid">
+
+                            <div class="form-group">
+                                <label>Wilaya (58 Wilayas) *</label>
+                                <select id="wilaya" onchange="updateWilayaDelivery(this.value)" required>
+                                    <option value="">-- Select Wilaya --</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label>City / Commune *</label>
+                                <input id="city" type="text" placeholder="Your city" required>
+                            </div>
+
+                            <div class="form-group full">
+                                <label>Full address *</label>
+                                <input id="address" type="text" placeholder="Street, building, house number..."
+                                    required>
+                            </div>
+
+                            <div class="form-group full">
+                                <label>Delivery notes (Optional)</label>
+                                <input id="notes" type="text" placeholder="Optional notes for the courier">
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="delivery-estimate-badge" id="deliveryEstimateBadge">
+                        <span><strong>Delivery:</strong> <span id="deliveryPriceText">Select Wilaya</span></span>
+                        <span id="deliveryTimelineText">24 - 72h duration</span>
+                    </div>
+
+                    <div class="order-total">
+                        <span>Order Total (With Delivery)</span>
+                        <span id="checkoutTotal">0 DA</span>
+                    </div>
+
+                    <div class="checkout-action-stack">
+                        <button class="confirm-btn" type="submit">
+                            Confirm Order
+                        </button>
+                    </div>
+
+                </form>
+            </div>
+
+            <div class="success" id="successMessage" style="display:none;">
+                <div class="success-icon">✓</div>
+                <h2>Order Confirmed!</h2>
+                <div class="order-code-badge" id="orderCodeDisplay">ALM-000000</div>
+                <p>
+                    Thank you for your order! We have received your delivery details and will contact you by phone
+                    before delivery.
+                </p>
+                <div style="margin-top:24px; display:flex; justify-content:center; gap:10px;">
+                    <button class="btn btn-secondary" onclick="closeCheckout()">
+                        Close
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- =========================================================
+     ADMIN PLAQUE EDIT / ADD MODAL
+========================================================= -->
+    <div class="admin-modal-overlay" id="adminModalOverlay" onclick="adminModalOutside(event)">
+        <div class="admin-modal-box">
+            <button class="checkout-close" onclick="closeAdminModal()">✕</button>
+            <h2 id="adminModalTitle">Add New Plaque</h2>
+            <p class="admin-modal-subtitle">Fill in the details to publish or update this plaque on the marketplace.</p>
+
+            <form id="adminPlaqueForm" onsubmit="savePlaqueFromModal(event)">
+                <input type="hidden" id="adminEditId" value="">
+
+                <div class="form-group" style="margin-bottom:14px;">
+                    <label>Plaque Title *</label>
+                    <input id="adminTitle" type="text" placeholder="e.g. Cyber Samurai, Office Logo..." required>
+                </div>
+
+                <div class="form-grid" style="margin-bottom:14px;">
+                    <div class="form-group">
+                        <label>Category *</label>
+                        <select id="adminCategory" required>
+                            <option value="gaming">Gaming</option>
+                            <option value="anime">Anime</option>
+                            <option value="business">Business</option>
+                            <option value="home">Home</option>
+                            <option value="gift">Gifts</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Review Rating (Count)</label>
+                        <input id="adminReviews" type="number" value="35" min="1" max="999">
+                    </div>
+                </div>
+
+                <div class="form-grid" style="margin-bottom:16px;">
+                    <div class="form-group">
+                        <label>A4 Format Price (DA) *</label>
+                        <input id="adminPriceA4" type="number" value="2800" min="500" step="50" required>
+                    </div>
+                    <div class="form-group">
+                        <label>A3 Format Price (DA) *</label>
+                        <input id="adminPriceA3" type="number" value="3500" min="500" step="50" required>
+                    </div>
+                </div>
+
+                <div class="form-section">
+                    <h3>Plaque Visual / Image</h3>
+                    <div class="admin-img-preview-box" id="adminPreviewBox">
+                        <span id="adminPreviewText" style="color:#777; font-size:12px;">No image selected yet</span>
+                        <img id="adminPreviewImg" style="display:none;" alt="Plaque Preview">
+                    </div>
+
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label>Upload Image File</label>
+                            <input id="adminFileInput" type="file" accept="image/*"
+                                onchange="handleAdminFileUpload(this)">
+                        </div>
+
+                        <div class="form-group">
+                            <label>Or Direct Image URL</label>
+                            <input id="adminUrlInput" type="url" placeholder="https://..."
+                                oninput="handleAdminUrlInput(this.value)">
+                        </div>
+                    </div>
+
+                    <div class="form-group" style="margin-top:10px;">
+                        <label>Or Default Metal Badge Text (if no image)</label>
+                        <input id="adminBadgeText" type="text" placeholder="e.g. CYBER ZONE"
+                            oninput="handleAdminBadgeTextInput(this.value)">
+                    </div>
+                </div>
+
+                <div style="display:flex; justify-content:flex-end; gap:10px; margin-top:20px;">
+                    <button type="button" class="btn btn-secondary" onclick="closeAdminModal()">Cancel</button>
+                    <button type="submit" class="btn btn-primary" style="background:#38bdf8; color:#0f172a;">Save Plaque</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+
+    <!-- =========================================================
+     ADMIN LOGIN / PASSCODE PROMPT MODAL
+========================================================= -->
+    <div class="admin-modal-overlay" id="adminLoginOverlay" onclick="adminLoginOutside(event)">
+        <div class="admin-login-box">
+            <button class="checkout-close" onclick="closeAdminLoginModal()">✕</button>
+            <div style="font-size:36px; margin-bottom:10px;">⚙️</div>
+            <h2>Admin Management</h2>
+            <p style="color:#858d96; font-size:13px; margin:10px 0 20px;">
+                Enter store admin passcode to enable marketplace plaque editor mode.
+            </p>
+
+            <form onsubmit="handleAdminLoginSubmit(event)">
+                <input id="adminPassInput" type="password" class="custom-input"
+                    placeholder="Enter passcode (default: 1234)"
+                    style="text-align:center; font-size:16px; letter-spacing:3px; margin-bottom:15px;" required>
+
+                <button type="submit" class="btn btn-primary" style="width:100%; background:#38bdf8; color:#0f172a;">
+                    Unlock Admin Mode 
+                </button>
+            </form>
+        </div>
+    </div>
+
+
+    <!-- =========================================================
+     TOAST
+========================================================= -->
+    <div class="toast" id="toast">Added to cart</div>
+
+
+    <!-- =========================================================
+     JAVASCRIPT LOGIC
+========================================================= -->
+    <script>
+        /* =========================================================
+           SUPABASE CONFIGURATION (no CDN — uses fetch)
+        ========================================================= */
+        const SUPABASE_URL = "https://netjmoxaleyxgshqvggx.supabase.co";
+        const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5ldGptb3hhbGV5eGdzaHF2Z2d4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODcyNTkzMTUsImV4cCI6MjEwMjgzNTMxNX0.iZU_LOUqkg4dCqmXcLW9DgXFtl87KiM8l8Io2buUaVY";
+
+        function supabaseHeaders() {
+            return {
+                "apikey": SUPABASE_ANON_KEY,
+                "Authorization": "Bearer " + SUPABASE_ANON_KEY,
+                "Content-Type": "application/json"
+            };
+        }
+
+        async function sendOrderToSupabase(order) {
+            const itemsArray = order.items.map(it => ({
+                name: it.name,
+                size: it.size || "A4 (30 cm × 21 cm)",
+                quantity: it.quantity,
+                price: it.price
+            }));
+
+            const itemsFormatted = order.items.map(it =>
+                `${it.name} (${it.size || "A4"}) x${it.quantity} — ${formatPrice(it.price * it.quantity)}`
+            ).join("\n");
+
+            /* Upload custom images to Supabase Storage */
+            const imageUrls = [];
+            for (const item of order.items) {
+                if (item.image && item.image.startsWith("data:image/")) {
+                    try {
+                        const base64Data = item.image.split(",")[1];
+                        const byteChars = atob(base64Data);
+                        const byteArray = new Uint8Array(byteChars.length);
+                        for (let i = 0; i < byteChars.length; i++) {
+                            byteArray[i] = byteChars.charCodeAt(i);
+                        }
+                        const fileName = order.id + "_item_" + (imageUrls.length + 1) + ".png";
+                        const resp = await fetch(SUPABASE_URL + "/storage/v1/object/order-images/" + fileName, {
+                            method: "POST",
+                            headers: {
+                                "apikey": SUPABASE_ANON_KEY,
+                                "Authorization": "Bearer " + SUPABASE_ANON_KEY,
+                                "Content-Type": "image/png"
+                            },
+                            body: byteArray
+                        });
+                        if (resp.ok) {
+                            imageUrls.push(SUPABASE_URL + "/storage/v1/object/public/order-images/" + fileName);
+                        }
+                    } catch (e) {
+                        console.warn("Image upload failed:", e);
+                    }
+                } else if (item.image && item.image.startsWith("http")) {
+                    imageUrls.push(item.image);
+                }
+            }
+
+            /* Insert order row */
+            try {
+                const resp = await fetch(SUPABASE_URL + "/rest/v1/orders", {
+                    method: "POST",
+                    headers: Object.assign({}, supabaseHeaders(), { "Prefer": "return=minimal" }),
+                    body: JSON.stringify({
+                        order_code: order.id,
+                        customer_name: order.customer.name,
+                        phone: order.customer.phone,
+                        wilaya: order.customer.wilaya,
+                        city: order.customer.city,
+                        address: order.customer.address,
+                        notes: order.customer.notes || "",
+                        items: itemsArray,
+                        items_formatted: itemsFormatted,
+                        image_urls: imageUrls,
+                        subtotal: order.subtotal,
+                        shipping: order.shipping,
+                        total: order.total,
+                        status: "pending"
+                    })
+                });
+                if (!resp.ok) {
+                    const errText = await resp.text();
+                    console.error("❌ Supabase insert error:", resp.status, errText);
+                } else {
+                    console.log("✅ Order saved to Supabase.", order.id);
+                }
+            } catch (e) {
+                console.error("❌ Supabase network error:", e);
+            }
+        }
+
+        /* =========================================================
+           DEFAULT PRODUCTS CATALOG
+        ========================================================= */
+        const DEFAULT_PRODUCTS = [
+            { id: "p1", name: "Gaming Room", category: "gaming", image: "GAMING\nZONE", isCustomImg: false, rating: 48, priceA4: 2800, priceA3: 3500 },
+            { id: "p2", name: "Anime Collection", category: "anime", image: "ANIME\nCOLLECTION", isCustomImg: false, rating: 73, priceA4: 2800, priceA3: 3500 },
+            { id: "p3", name: "Business Sign", category: "business", image: "YOUR\nBUSINESS", isCustomImg: false, rating: 31, priceA4: 2800, priceA3: 3500 },
+            { id: "p4", name: "Home Decoration", category: "home", image: "HOME\nSWEET HOME", isCustomImg: false, rating: 96, priceA4: 2800, priceA3: 3500 },
+            { id: "p5", name: "Best Dad Gift", category: "gift", image: "BEST\nDAD", isCustomImg: false, rating: 52, priceA4: 2800, priceA3: 3500 },
+            { id: "p6", name: "Level Up", category: "gaming", image: "LEVEL\nUP", isCustomImg: false, rating: 27, priceA4: 2800, priceA3: 3500 },
+            { id: "p7", name: "Open For Business", category: "business", image: "OPEN\nFOR BUSINESS", isCustomImg: false, rating: 18, priceA4: 2800, priceA3: 3500 },
+            { id: "p8", name: "Family Plaque", category: "home", image: "FAMILY\nEST. 2026", isCustomImg: false, rating: 42, priceA4: 2800, priceA3: 3500 }
+        ];
+
+        let products = JSON.parse(localStorage.getItem("alumi_products") || "null");
+        if (!products || !Array.isArray(products) || products.length === 0) {
+            products = [...DEFAULT_PRODUCTS];
+            localStorage.setItem("alumi_products", JSON.stringify(products));
+        }
+
+        let isAdminActive = localStorage.getItem("alumi_admin_active") === "true";
+
+        /* =========================================================
+           58 WILAYAS OF ALGERIA DATABASE
+        ========================================================= */
+        const ALGERIA_58_WILAYAS = [
+            { code: "01", name: "01 - Adrar", fee: 900, time: "3 - 5 Days" },
+            { code: "02", name: "02 - Chlef", fee: 600, time: "48h" },
+            { code: "03", name: "03 - Laghouat", fee: 700, time: "48 - 72h" },
+            { code: "04", name: "04 - Oum El Bouaghi", fee: 700, time: "48h" },
+            { code: "05", name: "05 - Batna", fee: 700, time: "48h" },
+            { code: "06", name: "06 - Béjaïa", fee: 600, time: "48h" },
+            { code: "07", name: "07 - Biskra", fee: 700, time: "48h" },
+            { code: "08", name: "08 - Béchar", fee: 900, time: "3 - 5 Days" },
+            { code: "09", name: "09 - Blida", fee: 400, time: "24 - 48h" },
+            { code: "10", name: "10 - Bouira", fee: 450, time: "24 - 48h" },
+            { code: "11", name: "11 - Tamanrasset", fee: 950, time: "4 - 6 Days" },
+            { code: "12", name: "12 - Tébessa", fee: 700, time: "48 - 72h" },
+            { code: "13", name: "13 - Tlemcen", fee: 600, time: "48h" },
+            { code: "14", name: "14 - Tiaret", fee: 700, time: "48h" },
+            { code: "15", name: "15 - Tizi Ouzou", fee: 450, time: "24 - 48h" },
+            { code: "16", name: "16 - Alger (Algiers)", fee: 400, time: "24h" },
+            { code: "17", name: "17 - Djelfa", fee: 700, time: "48h" },
+            { code: "18", name: "18 - Jijel", fee: 600, time: "48h" },
+            { code: "19", name: "19 - Sétif", fee: 600, time: "48h" },
+            { code: "20", name: "20 - Saïda", fee: 700, time: "48h" },
+            { code: "21", name: "21 - Skikda", fee: 600, time: "48h" },
+            { code: "22", name: "22 - Sidi Bel Abbès", fee: 600, time: "48h" },
+            { code: "23", name: "23 - Annaba", fee: 600, time: "48h" },
+            { code: "24", name: "24 - Guelma", fee: 600, time: "48h" },
+            { code: "25", name: "25 - Constantine", fee: 600, time: "48h" },
+            { code: "26", name: "26 - Médéa", fee: 450, time: "24 - 48h" },
+            { code: "27", name: "27 - Mostaganem", fee: 600, time: "48h" },
+            { code: "28", name: "28 - M'Sila", fee: 700, time: "48h" },
+            { code: "29", name: "29 - Mascara", fee: 600, time: "48h" },
+            { code: "30", name: "30 - Ouargla", fee: 850, time: "3 - 5 Days" },
+            { code: "31", name: "31 - Oran", fee: 600, time: "48h" },
+            { code: "32", name: "32 - El Bayadh", fee: 750, time: "48 - 72h" },
+            { code: "33", name: "33 - Illizi", fee: 950, time: "4 - 6 Days" },
+            { code: "34", name: "34 - Bordj Bou Arréridj", fee: 600, time: "48h" },
+            { code: "35", name: "35 - Boumerdès", fee: 400, time: "24 - 48h" },
+            { code: "36", name: "36 - El Tarf", fee: 600, time: "48h" },
+            { code: "37", name: "37 - Tindouf", fee: 950, time: "4 - 6 Days" },
+            { code: "38", name: "38 - Tissemsilt", fee: 700, time: "48h" },
+            { code: "39", name: "39 - El Oued", fee: 800, time: "3 - 4 Days" },
+            { code: "40", name: "40 - Khenchela", fee: 700, time: "48h" },
+            { code: "41", name: "41 - Souk Ahras", fee: 600, time: "48h" },
+            { code: "42", name: "42 - Tipaza", fee: 400, time: "24 - 48h" },
+            { code: "43", name: "43 - Mila", fee: 600, time: "48h" },
+            { code: "44", name: "44 - Aïn Defla", fee: 550, time: "48h" },
+            { code: "45", name: "45 - Naâma", fee: 750, time: "48 - 72h" },
+            { code: "46", name: "46 - Aïn Témouchent", fee: 600, time: "48h" },
+            { code: "47", name: "47 - Ghardaïa", fee: 800, time: "3 - 4 Days" },
+            { code: "48", name: "48 - Relizane", fee: 600, time: "48h" },
+            { code: "49", name: "49 - El M'Ghair", fee: 850, time: "3 - 5 Days" },
+            { code: "50", name: "50 - El Meniaa", fee: 900, time: "3 - 5 Days" },
+            { code: "51", name: "51 - Ouled Djellal", fee: 750, time: "48 - 72h" },
+            { code: "52", name: "52 - Bordj Baji Mokhtar", fee: 1000, time: "5 - 7 Days" },
+            { code: "53", name: "53 - Béni Abbès", fee: 900, time: "3 - 5 Days" },
+            { code: "54", name: "54 - Timimoun", fee: 900, time: "3 - 5 Days" },
+            { code: "55", name: "55 - Touggourt", fee: 850, time: "3 - 5 Days" },
+            { code: "56", name: "56 - Djanet", fee: 1000, time: "5 - 7 Days" },
+            { code: "57", name: "57 - In Salah", fee: 950, time: "4 - 6 Days" },
+            { code: "58", name: "58 - In Guezzam", fee: 1000, time: "5 - 7 Days" }
+        ];
+
+        /* =========================================================
+           CART DATA & STORAGE
+        ========================================================= */
+        let cart = JSON.parse(localStorage.getItem("alumi_cart") || "[]");
+        let selectedWilayaObj = null;
+
+        let customDesign = {
+            type: null,
+            name: null,
+            url: null,
+            file: null,
+            finish: "Glossy HD Metal",
+            size: "A4 (30 cm × 21 cm)",
+            price: 2800
+        };
+
+        function saveCart() {
+            localStorage.setItem("alumi_cart", JSON.stringify(cart));
+        }
+
+        function saveProducts() {
+            localStorage.setItem("alumi_products", JSON.stringify(products));
+        }
+
+        function formatPrice(number) {
+            return Number(number).toLocaleString("fr-DZ") + " DA";
+        }
+
+        function showToast(msg) {
+            const toast = document.getElementById("toast");
+            toast.textContent = msg;
+            toast.classList.add("show");
+            setTimeout(() => { toast.classList.remove("show"); }, 3000);
+        }
+
+        function goTo(id) {
+            const elem = document.getElementById(id);
+            if (elem) elem.scrollIntoView({ behavior: "smooth" });
+        }
+
+        /* =========================================================
+           RENDER MARKETPLACE PRODUCTS
+        ========================================================= */
+        function renderMarketplace() {
+            const container = document.getElementById("products");
+            if (!container) return;
+
+            if (products.length === 0) {
+                container.innerHTML = `
+            <div style="grid-column: 1 / -1; text-align:center; padding: 60px 20px; color:#777;">
+                <h3>No plaques available in this category</h3>
+                <p style="margin-top:8px;">Add a new plaque with the Admin button above.</p>
+            </div>
+        `;
+                return;
+            }
+
+            container.innerHTML = "";
+            products.forEach((prod) => {
+                const isImg = prod.isCustomImg || (prod.image && (prod.image.startsWith("data:image/") || prod.image.startsWith("http://") || prod.image.startsWith("https://")));
+                const visualContent = isImg
+                    ? `<img src="${prod.image}" alt="${prod.name}">`
+                    : `<div class="product-plaque">${prod.image}</div>`;
+
+                container.innerHTML += `
+            <article class="product" data-id="${prod.id}" data-category="${prod.category}" data-name="${prod.name.toLowerCase()}">
+                <div class="product-admin-actions">
+                    <button class="prod-admin-btn" onclick="openEditPlaqueModal('${prod.id}')">✏️ Edit</button>
+                    <button class="prod-admin-btn del" onclick="deletePlaque('${prod.id}')">🗑️ Delete</button>
+                </div>
+
+                <div class="product-image">
+                    ${visualContent}
+                </div>
+                <div class="product-info">
+                    <span class="product-category-tag">${prod.category}</span>
+                    <h3>${prod.name}</h3>
+                    <select class="product-size-select" id="size_${prod.id}" onchange="updateProductCardPrice('${prod.id}', this)">
+                        <option value="A4 (30 cm × 21 cm)" data-price="${prod.priceA4 || 2800}" selected>A4 (30 cm × 21 cm) — ${formatPrice(prod.priceA4 || 2800)}</option>
+                        <option value="A3 (42 cm × 30 cm)" data-price="${prod.priceA3 || 3500}">A3 (42 cm × 30 cm) — ${formatPrice(prod.priceA3 || 3500)}</option>
+                    </select>
+                    <div class="rating">★★★★★ (${prod.rating || 30})</div>
+                    <div class="product-bottom">
+                        <span class="price" id="price_${prod.id}">${formatPrice(prod.priceA4 || 2800)}</span>
+                        <button class="add-btn" onclick="addProductToCartById('${prod.id}')">Add</button>
+                    </div>
+                </div>
+            </article>
+        `;
+            });
+        }
+
+        function updateProductCardPrice(prodId, selectElem) {
+            const selectedOption = selectElem.options[selectElem.selectedIndex];
+            const price = parseInt(selectedOption.dataset.price);
+            const priceElem = document.getElementById(`price_${prodId}`);
+            if (priceElem) {
+                priceElem.textContent = formatPrice(price);
+            }
+        }
+
+        function addProductToCartById(prodId) {
+            const prod = products.find(p => p.id === prodId);
+            if (!prod) return;
+
+            const selectElem = document.getElementById(`size_${prodId}`);
+            const selectedOption = selectElem ? selectElem.options[selectElem.selectedIndex] : null;
+            const size = selectedOption ? selectedOption.value : "A4 (30 cm × 21 cm)";
+            const price = selectedOption ? parseInt(selectedOption.dataset.price) : (prod.priceA4 || 2800);
+
+            addToCart(prod.name, price, prod.image, size);
+        }
+
+        function addToCart(name, price, image, size = "A4 (30 cm × 21 cm)") {
+            const existing = cart.find(item => item.name === name && item.size === size);
+
+            if (existing) {
+                existing.quantity += 1;
+            } else {
+                cart.push({
+                    name: name,
+                    price: price,
+                    image: image,
+                    size: size,
+                    quantity: 1
+                });
+            }
+
+            saveCart();
+            renderCart();
+            updateCartCount();
+            openCart();
+            showToast(`Added "${name}" (${size}) to cart ✓`);
+        }
+
+        /* =========================================================
+           ADMIN PORTAL / MANAGEMENT LOGIC
+        ========================================================= */
+        let currentAdminImgData = null;
+
+        function toggleAdminPrompt() {
+            if (isAdminActive) {
+                openAddPlaqueModal();
+            } else {
+                document.getElementById("adminLoginOverlay").classList.add("open");
+                document.getElementById("adminPassInput").value = "";
+                document.getElementById("adminPassInput").focus();
+            }
+        }
+
+        function closeAdminLoginModal() {
+            document.getElementById("adminLoginOverlay").classList.remove("open");
+        }
+
+        function adminLoginOutside(e) {
+            if (e.target.id === "adminLoginOverlay") closeAdminLoginModal();
+        }
+
+        function handleAdminLoginSubmit(e) {
+            e.preventDefault();
+            const pass = document.getElementById("adminPassInput").value.trim();
+            if (pass === "1234" || pass === "admin" || pass === "triovision") {
+                toggleAdminMode(true);
+                closeAdminLoginModal();
+                showToast("Admin Mode Enabled! You can now Add, Edit, or Delete plaques.");
+            } else {
+                showToast("Incorrect passcode! (Default is 1234)");
+            }
+        }
+
+        function toggleAdminMode(enable) {
+            isAdminActive = enable;
+            localStorage.setItem("alumi_admin_active", enable ? "true" : "false");
+
+            if (enable) {
+                document.getElementById("tv-site").classList.add("admin-mode-active");
+                document.getElementById("adminBar").classList.add("active");
+            } else {
+                document.getElementById("tv-site").classList.remove("admin-mode-active");
+                document.getElementById("adminBar").classList.remove("active");
+                showToast("Exited Admin Mode");
+            }
+            renderMarketplace();
+        }
+
+        function openAddPlaqueModal() {
+            document.getElementById("adminModalTitle").textContent = "Add New Plaque";
+            document.getElementById("adminEditId").value = "";
+            document.getElementById("adminTitle").value = "";
+            document.getElementById("adminCategory").value = "gaming";
+            document.getElementById("adminReviews").value = "35";
+            document.getElementById("adminPriceA4").value = "2800";
+            document.getElementById("adminPriceA3").value = "3500";
+            document.getElementById("adminFileInput").value = "";
+            document.getElementById("adminUrlInput").value = "";
+            document.getElementById("adminBadgeText").value = "";
+
+            currentAdminImgData = null;
+            updateAdminPreview(null, "No image selected yet");
+
+            document.getElementById("adminModalOverlay").classList.add("open");
+            document.body.style.overflow = "hidden";
+        }
+
+        function openEditPlaqueModal(prodId) {
+            const prod = products.find(p => p.id === prodId);
+            if (!prod) return;
+
+            document.getElementById("adminModalTitle").textContent = "Edit Plaque";
+            document.getElementById("adminEditId").value = prod.id;
+            document.getElementById("adminTitle").value = prod.name;
+            document.getElementById("adminCategory").value = prod.category;
+            document.getElementById("adminReviews").value = prod.rating || 30;
+            document.getElementById("adminPriceA4").value = prod.priceA4 || 2800;
+            document.getElementById("adminPriceA3").value = prod.priceA3 || 3500;
+            document.getElementById("adminFileInput").value = "";
+
+            const isImg = prod.isCustomImg || (prod.image && (prod.image.startsWith("data:image/") || prod.image.startsWith("http://") || prod.image.startsWith("https://")));
+            if (isImg) {
+                document.getElementById("adminUrlInput").value = prod.image.startsWith("http") ? prod.image : "";
+                document.getElementById("adminBadgeText").value = "";
+                currentAdminImgData = prod.image;
+                updateAdminPreview(prod.image);
+            } else {
+                document.getElementById("adminUrlInput").value = "";
+                document.getElementById("adminBadgeText").value = prod.image;
+                currentAdminImgData = prod.image;
+                updateAdminPreview(null, `Metal Badge Text: "${prod.image}"`);
+            }
+
+            document.getElementById("adminModalOverlay").classList.add("open");
+            document.body.style.overflow = "hidden";
+        }
+
+        function closeAdminModal() {
+            document.getElementById("adminModalOverlay").classList.remove("open");
+            document.body.style.overflow = "";
+        }
+
+        function adminModalOutside(e) {
+            if (e.target.id === "adminModalOverlay") closeAdminModal();
+        }
+
+        function handleAdminFileUpload(input) {
+            if (!input.files || !input.files.length) return;
+            const file = input.files[0];
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                currentAdminImgData = e.target.result;
+                document.getElementById("adminUrlInput").value = "";
+                document.getElementById("adminBadgeText").value = "";
+                updateAdminPreview(currentAdminImgData);
+            };
+            reader.readAsDataURL(file);
+        }
+
+        function handleAdminUrlInput(url) {
+            url = url.trim();
+            if (url) {
+                currentAdminImgData = url;
+                document.getElementById("adminFileInput").value = "";
+                document.getElementById("adminBadgeText").value = "";
+                updateAdminPreview(url);
+            }
+        }
+
+        function handleAdminBadgeTextInput(text) {
+            text = text.trim();
+            if (text) {
+                currentAdminImgData = text;
+                document.getElementById("adminFileInput").value = "";
+                document.getElementById("adminUrlInput").value = "";
+                updateAdminPreview(null, `Metal Badge Text: "${text}"`);
+            }
+        }
+
+        function updateAdminPreview(imgUrl, textFallback) {
+            const previewImg = document.getElementById("adminPreviewImg");
+            const previewText = document.getElementById("adminPreviewText");
+
+            if (imgUrl && (imgUrl.startsWith("data:image/") || imgUrl.startsWith("http://") || imgUrl.startsWith("https://"))) {
+                previewImg.src = imgUrl;
+                previewImg.style.display = "block";
+                previewText.style.display = "none";
+            } else {
+                previewImg.src = "";
+                previewImg.style.display = "none";
+                previewText.style.display = "block";
+                previewText.textContent = textFallback || "No visual selected";
+            }
+        }
+
+        function savePlaqueFromModal(e) {
+            e.preventDefault();
+            const editId = document.getElementById("adminEditId").value;
+            const title = document.getElementById("adminTitle").value.trim();
+            const category = document.getElementById("adminCategory").value;
+            const rating = parseInt(document.getElementById("adminReviews").value) || 30;
+            const priceA4 = parseInt(document.getElementById("adminPriceA4").value) || 2800;
+            const priceA3 = parseInt(document.getElementById("adminPriceA3").value) || 3500;
+
+            let finalImage = currentAdminImgData;
+            if (!finalImage) {
+                const badgeText = document.getElementById("adminBadgeText").value.trim();
+                finalImage = badgeText || title.toUpperCase();
+            }
+
+            const isImg = finalImage.startsWith("data:image/") || finalImage.startsWith("http://") || finalImage.startsWith("https://");
+
+            if (editId) {
+                // Update existing
+                const index = products.findIndex(p => p.id === editId);
+                if (index !== -1) {
+                    products[index] = {
+                        ...products[index],
+                        name: title,
+                        category: category,
+                        rating: rating,
+                        priceA4: priceA4,
+                        priceA3: priceA3,
+                        image: finalImage,
+                        isCustomImg: isImg
+                    };
+                    showToast(`✓ Plaque "${title}" updated successfully!`);
+                }
+            } else {
+                // Add new
+                const newId = "p_" + Date.now();
+                products.unshift({
+                    id: newId,
+                    name: title,
+                    category: category,
+                    rating: rating,
+                    priceA4: priceA4,
+                    priceA3: priceA3,
+                    image: finalImage,
+                    isCustomImg: isImg
+                });
+                showToast(`✓ New Plaque "${title}" added to marketplace!`);
+            }
+
+            saveProducts();
+            renderMarketplace();
+            closeAdminModal();
+        }
+
+        function deletePlaque(prodId) {
+            const prod = products.find(p => p.id === prodId);
+            if (!prod) return;
+
+            if (confirm(`Are you sure you want to delete "${prod.name}" from the marketplace?`)) {
+                products = products.filter(p => p.id !== prodId);
+                saveProducts();
+                renderMarketplace();
+                showToast(`Plaque "${prod.name}" removed`);
+            }
+        }
+
+        function resetDefaultProductsPrompt() {
+            if (confirm("Reset marketplace to the default initial 8 catalog plaques?")) {
+                products = [...DEFAULT_PRODUCTS];
+                saveProducts();
+                renderMarketplace();
+                showToast("Marketplace catalog reset to defaults ✓");
+            }
+        }
+
+        /* =========================================================
+           UPDATE COUNT & TOTAL
+        ========================================================= */
+        function updateCartCount() {
+            const count = cart.reduce((total, item) => total + item.quantity, 0);
+            document.getElementById("cartCount").textContent = count;
+        }
+
+        function getTotal() {
+            return cart.reduce((total, item) => total + item.price * item.quantity, 0);
+        }
+
+        /* =========================================================
+           RENDER CART
+        ========================================================= */
+        function renderCart() {
+            const container = document.getElementById("cartItems");
+
+            if (cart.length === 0) {
+                container.innerHTML = `
+            <div class="empty-cart">
+                <div class="empty-cart-icon">🛒</div>
+                <h3>Your cart is empty</h3>
+                <p>Add a plaque from the marketplace or customize your own.</p>
+            </div>
+        `;
+            } else {
+                container.innerHTML = "";
+                cart.forEach((item, index) => {
+                    const isCustomImg = item.image && (item.image.startsWith("data:image/") || item.image.startsWith("http://") || item.image.startsWith("https://") || item.image.startsWith("blob:"));
+                    const imgDisplay = isCustomImg ? `<img src="${item.image}" alt="${item.name}">` : item.image;
+
+                    container.innerHTML += `
+                <div class="cart-item">
+                    <div class="cart-image">
+                        ${imgDisplay}
+                    </div>
+
+                    <div class="cart-item-info">
+                        <h4>${item.name}</h4>
+                        <p>${formatPrice(item.price)} each • ${item.size || 'A4 (30 cm × 21 cm)'}</p>
+
+                        <div class="quantity">
+                            <button onclick="changeQuantity(${index}, -1)">-</button>
+                            <span>${item.quantity}</span>
+                            <button onclick="changeQuantity(${index}, 1)">+</button>
+                        </div>
+                    </div>
+
+                    <div class="cart-item-right">
+                        <div class="cart-item-price">
+                            ${formatPrice(item.price * item.quantity)}
+                        </div>
+                        <button class="remove-btn" onclick="removeItem(${index})">Remove</button>
+                    </div>
+                </div>
+            `;
+                });
+            }
+
+            const total = getTotal();
+            document.getElementById("subtotal").textContent = formatPrice(total);
+            document.getElementById("total").textContent = formatPrice(total);
+        }
+
+        function changeQuantity(index, amount) {
+            cart[index].quantity += amount;
+            if (cart[index].quantity <= 0) {
+                cart.splice(index, 1);
+            }
+            saveCart();
+            renderCart();
+            updateCartCount();
+        }
+
+        function removeItem(index) {
+            cart.splice(index, 1);
+            saveCart();
+            renderCart();
+            updateCartCount();
+            showToast("Product removed from cart");
+        }
+
+        /* =========================================================
+           CART DRAWER & MOBILE DRAWER TOGGLE
+        ========================================================= */
+        function openCart() {
+            renderCart();
+            document.getElementById("cartOverlay").classList.add("open");
+            document.body.style.overflow = "hidden";
+        }
+
+        function closeCart() {
+            document.getElementById("cartOverlay").classList.remove("open");
+            document.body.style.overflow = "";
+        }
+
+        function cartOutside(event) {
+            if (event.target.id === "cartOverlay") {
+                closeCart();
+            }
+        }
+
+        function toggleMobileMenu() {
+            document.getElementById("mobileNavDrawer").classList.toggle("open");
+        }
+
+        /* =========================================================
+           SEARCH & FILTER
+        ========================================================= */
+        function searchProducts() {
+            const value = document.getElementById("search").value.toLowerCase();
+            document.querySelectorAll(".product").forEach(product => {
+                const name = product.dataset.name.toLowerCase();
+                product.style.display = name.includes(value) ? "" : "none";
+            });
+        }
+
+        function filterProducts(category, button) {
+            document.querySelectorAll(".category").forEach(item => item.classList.remove("active"));
+            button.classList.add("active");
+
+            document.querySelectorAll(".product").forEach(product => {
+                if (category === "all" || product.dataset.category === category) {
+                    product.style.display = "";
+                } else {
+                    product.style.display = "none";
+                }
+            });
+        }
+
+        /* =========================================================
+           CUSTOM STUDIO UPLOAD & OPTIONS (WITH BASE64 PERSISTENCE)
+        ========================================================= */
+        function uploadDesign(input) {
+            if (!input.files || !input.files.length) return;
+            const file = input.files[0];
+            if (!file.type.startsWith("image/")) {
+                showToast("Please select an image file (PNG/JPG/WEBP)");
+                return;
+            }
+
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                const base64Url = e.target.result;
+                customDesign.type = "file";
+                customDesign.name = file.name;
+                customDesign.url = base64Url;
+                customDesign.file = file;
+
+                document.getElementById("uploadText").textContent = file.name;
+                document.getElementById("imageUrl").value = "";
+                document.getElementById("clearDesignBtn").style.display = "inline-block";
+                showCustomLivePreview(base64Url);
+                showToast("✓ Image selected");
+            };
+            reader.readAsDataURL(file);
+        }
+
+        function loadImageUrl() {
+            const input = document.getElementById("imageUrl");
+            const url = input.value.trim();
+            if (!url) {
+                showToast("Please enter an image URL first");
+                return;
+            }
+
+            const img = new Image();
+            img.onload = function () {
+                customDesign.type = "url";
+                customDesign.name = "Custom Web Image";
+                customDesign.url = url;
+                customDesign.file = null;
+
+                document.getElementById("uploadText").textContent = "Web image loaded";
+                document.getElementById("designFile").value = "";
+                document.getElementById("clearDesignBtn").style.display = "inline-block";
+                showCustomLivePreview(url);
+                showToast("✓ Image URL loaded");
+            };
+            img.onerror = function () {
+                showToast("Could not load image URL. Use a direct image link.");
+            };
+            img.src = url;
+        }
+
+        function clearCustomDesign() {
+            customDesign.type = null;
+            customDesign.name = null;
+            customDesign.url = null;
+            customDesign.file = null;
+
+            document.getElementById("uploadText").textContent = "Choose image from device";
+            document.getElementById("imageUrl").value = "";
+            document.getElementById("designFile").value = "";
+            document.getElementById("clearDesignBtn").style.display = "none";
+
+            const img = document.getElementById("customLiveImg");
+            const placeholder = document.getElementById("customLivePlaceholder");
+            img.src = "";
+            img.style.display = "none";
+            placeholder.style.display = "block";
+
+            showToast("Design cleared");
+        }
+
+        function showCustomLivePreview(url) {
+            const img = document.getElementById("customLiveImg");
+            const placeholder = document.getElementById("customLivePlaceholder");
+            img.src = url;
+            img.style.display = "block";
+            placeholder.style.display = "none";
+        }
+
+        function updateCustomOptions() {
+            const sizeSelect = document.getElementById("customSize");
+            const finishSelect = document.getElementById("customFinish");
+            const selectedOption = sizeSelect.options[sizeSelect.selectedIndex];
+            const price = parseInt(selectedOption.dataset.price);
+
+            customDesign.size = sizeSelect.value;
+            customDesign.finish = finishSelect.value;
+            customDesign.price = price;
+
+            // Update finish background shader on live plaque
+            const previewBox = document.getElementById("customPreviewBox");
+            previewBox.className = "custom-preview-wrapper";
+            if (finishSelect.value.includes("Glossy")) {
+                previewBox.classList.add("finish-glossy");
+            } else if (finishSelect.value.includes("Brushed")) {
+                previewBox.classList.add("finish-brushed");
+            } else if (finishSelect.value.includes("Obsidian")) {
+                previewBox.classList.add("finish-obsidian");
+            } else if (finishSelect.value.includes("Matte")) {
+                previewBox.classList.add("finish-matte");
+            }
+
+            document.getElementById("customCalculatedPrice").textContent = formatPrice(price);
+        }
+
+        function addCustomPlaqueToCart() {
+            if (!customDesign.url) {
+                showToast("Please upload an image or load a URL first!");
+                document.getElementById("custom").scrollIntoView({ behavior: "smooth" });
+                return;
+            }
+
+            const itemName = `Custom Plaque (${customDesign.finish})`;
+
+            cart.push({
+                name: itemName,
+                price: customDesign.price,
+                image: customDesign.url,
+                size: customDesign.size,
+                finish: customDesign.finish,
+                quantity: 1
+            });
+
+            saveCart();
+            renderCart();
+            updateCartCount();
+            openCart();
+            showToast(`✓ Custom Plaque (${customDesign.size}) added to cart!`);
+        }
+
+        /* =========================================================
+           CHECKOUT & 58 WILAYAS LOGISTICS
+        ========================================================= */
+        function populateWilayas() {
+            const select = document.getElementById("wilaya");
+            select.innerHTML = `<option value="">-- Select Wilaya (58 Wilayas) --</option>` +
+                ALGERIA_58_WILAYAS.map(w => `<option value="${w.code}">${w.name}</option>`).join("");
+        }
+
+        function openCheckout() {
+            if (cart.length === 0) {
+                showToast("Your cart is empty");
+                return;
+            }
+
+            renderCart();
+            closeCart();
+            updateCheckoutCalculations();
+
+            document.getElementById("checkoutFormContainer").style.display = "block";
+            document.getElementById("successMessage").style.display = "none";
+            document.getElementById("checkoutOverlay").classList.add("open");
+            document.body.style.overflow = "hidden";
+        }
+
+        function closeCheckout() {
+            document.getElementById("checkoutOverlay").classList.remove("open");
+            document.body.style.overflow = "";
+        }
+
+        function checkoutOutside(event) {
+            if (event.target.id === "checkoutOverlay") {
+                closeCheckout();
+            }
+        }
+
+        function updateWilayaDelivery(code) {
+            selectedWilayaObj = ALGERIA_58_WILAYAS.find(w => w.code === code) || null;
+            if (selectedWilayaObj) {
+                document.getElementById("deliveryPriceText").textContent = formatPrice(selectedWilayaObj.fee);
+                document.getElementById("deliveryTimelineText").textContent = `Duration: ${selectedWilayaObj.time}`;
+            } else {
+                document.getElementById("deliveryPriceText").textContent = "Select Wilaya";
+                document.getElementById("deliveryTimelineText").textContent = "24 - 72h duration";
+            }
+            updateCheckoutCalculations();
+        }
+
+        function updateCheckoutCalculations() {
+            const subtotal = getTotal();
+            const shipping = selectedWilayaObj ? selectedWilayaObj.fee : 0;
+            const total = subtotal + shipping;
+            document.getElementById("checkoutTotal").textContent = formatPrice(total);
+        }
+
+        function confirmOrder(event) {
+            event.preventDefault();
+            if (!selectedWilayaObj) {
+                showToast("Please select your Wilaya");
+                return;
+            }
+
+            const form = document.getElementById("checkoutForm");
+            if (!form.checkValidity()) {
+                form.reportValidity();
+                return;
+            }
+
+            const order = buildOrderObject();
+            sendOrderToSupabase(order);
+            showSuccessView(order);
+        }
+
+        function buildOrderObject() {
+            const orderId = "ALM-" + Math.floor(100000 + Math.random() * 900000);
+            const subtotal = getTotal();
+            const shipping = selectedWilayaObj.fee;
+            const total = subtotal + shipping;
+
+            return {
+                id: orderId,
+                customer: {
+                    name: document.getElementById("fullName").value.trim(),
+                    phone: document.getElementById("phone").value.trim(),
+                    wilaya: selectedWilayaObj.name,
+                    city: document.getElementById("city").value.trim(),
+                    address: document.getElementById("address").value.trim(),
+                    notes: document.getElementById("notes").value.trim()
+                },
+                items: [...cart],
+                subtotal: subtotal,
+                shipping: shipping,
+                total: total
+            };
+        }
+
+        function showSuccessView(order) {
+            document.getElementById("checkoutFormContainer").style.display = "none";
+            document.getElementById("orderCodeDisplay").textContent = order.id;
+            document.getElementById("successMessage").style.display = "block";
+
+            // Clear cart
+            cart = [];
+            saveCart();
+            renderCart();
+            updateCartCount();
+        }
+
+        /* =========================================================
+           INITIALIZATION
+        ========================================================= */
+        window.addEventListener("DOMContentLoaded", () => {
+            populateWilayas();
+            renderMarketplace();
+            renderCart();
+            updateCartCount();
+
+            if (isAdminActive) {
+                document.getElementById("tv-site").classList.add("admin-mode-active");
+                document.getElementById("adminBar").classList.add("active");
+            }
+        });
+    </script>
+</div>
