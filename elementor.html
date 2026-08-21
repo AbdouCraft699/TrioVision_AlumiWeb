@@ -1699,10 +1699,6 @@
                  WhatsApp
             </a>
 
-            <button class="account-btn" onclick="toggleAdminPrompt()" title="Admin Management">
-                 Admin
-            </button>
-
             <button class="cart-btn" onclick="openCart()">
                  Cart (<span id="cartCount">0</span>)
             </button>
@@ -1719,7 +1715,6 @@
         <a href="#custom" onclick="toggleMobileMenu()">Custom Design Studio</a>
         <a href="#how" onclick="toggleMobileMenu()">How It Works</a>
         <a href="#business" onclick="toggleMobileMenu()">Business & Bulk</a>
-        <a href="javascript:void(0)" onclick="toggleMobileMenu(); toggleAdminPrompt();">Admin Version</a>
         <a href="https://wa.me/213658320335" target="_blank" style="color:#25d366;">Direct WhatsApp Contact</a>
     </div>
 
@@ -2005,7 +2000,6 @@
 
         <div class="footer-bottom">
             <span>© 2026 TrioVision. All rights reserved.</span>
-            <span class="admin-portal-link" onclick="toggleAdminPrompt()"> Admin Portal</span>
             <span>Premium Aluminum Sublimation • 58 Wilayas Algeria</span>
         </div>
     </footer>
@@ -2357,24 +2351,57 @@
         /* =========================================================
            DEFAULT PRODUCTS CATALOG
         ========================================================= */
-        const DEFAULT_PRODUCTS = [
-            { id: "p1", name: "Gaming Room", category: "gaming", image: "GAMING\nZONE", isCustomImg: false, rating: 48, priceA4: 2800, priceA3: 3500 },
-            { id: "p2", name: "Anime Collection", category: "anime", image: "ANIME\nCOLLECTION", isCustomImg: false, rating: 73, priceA4: 2800, priceA3: 3500 },
-            { id: "p3", name: "Business Sign", category: "business", image: "YOUR\nBUSINESS", isCustomImg: false, rating: 31, priceA4: 2800, priceA3: 3500 },
-            { id: "p4", name: "Home Decoration", category: "home", image: "HOME\nSWEET HOME", isCustomImg: false, rating: 96, priceA4: 2800, priceA3: 3500 },
-            { id: "p5", name: "Best Dad Gift", category: "gift", image: "BEST\nDAD", isCustomImg: false, rating: 52, priceA4: 2800, priceA3: 3500 },
-            { id: "p6", name: "Level Up", category: "gaming", image: "LEVEL\nUP", isCustomImg: false, rating: 27, priceA4: 2800, priceA3: 3500 },
-            { id: "p7", name: "Open For Business", category: "business", image: "OPEN\nFOR BUSINESS", isCustomImg: false, rating: 18, priceA4: 2800, priceA3: 3500 },
-            { id: "p8", name: "Family Plaque", category: "home", image: "FAMILY\nEST. 2026", isCustomImg: false, rating: 42, priceA4: 2800, priceA3: 3500 }
-        ];
+        const DEFAULT_PRODUCTS = [];
 
-        let products = JSON.parse(localStorage.getItem("alumi_products") || "null");
-        if (!products || !Array.isArray(products) || products.length === 0) {
-            products = [...DEFAULT_PRODUCTS];
-            localStorage.setItem("alumi_products", JSON.stringify(products));
-        }
+        /* Clear old cached products — all products now come from Supabase */
+        localStorage.removeItem("alumi_products");
+
+        let products = [...DEFAULT_PRODUCTS];
+        localStorage.setItem("alumi_products", JSON.stringify(products));
 
         let isAdminActive = localStorage.getItem("alumi_admin_active") === "true";
+
+        /* =========================================================
+           LOAD PRODUCTS FROM SUPABASE
+        ========================================================= */
+        async function loadProductsFromSupabase() {
+            try {
+                var resp = await fetch(SUPABASE_URL + "/rest/v1/products?select=*&active=eq.true&order=created_at.desc", {
+                    headers: {
+                        "apikey": SUPABASE_ANON_KEY,
+                        "Authorization": "Bearer " + SUPABASE_ANON_KEY
+                    }
+                });
+                if (!resp.ok) return;
+                var dbProducts = await resp.json();
+                if (dbProducts.length > 0) {
+                    /* Map Supabase field names to storefront format */
+                    var mapped = dbProducts.map(function(p) {
+                        return {
+                            id: p.id,
+                            name: p.name,
+                            category: p.category,
+                            image: p.image,
+                            isCustomImg: p.is_custom_img,
+                            rating: p.rating,
+                            priceA4: p.price_a4,
+                            priceA3: p.price_a3
+                        };
+                    });
+                    /* Merge: keep DEFAULT_PRODUCTS + add Supabase products (deduplicate by name) */
+                    var existingNames = mapped.map(function(p) { return p.name.toLowerCase(); });
+                    var defaults = DEFAULT_PRODUCTS.filter(function(d) {
+                        return existingNames.indexOf(d.name.toLowerCase()) === -1;
+                    });
+                    products = mapped.concat(defaults);
+                    localStorage.setItem("alumi_products", JSON.stringify(products));
+                    renderMarketplace();
+                }
+            } catch (e) {
+                console.warn("Could not load products from Supabase:", e);
+            }
+        }
+        loadProductsFromSupabase();
 
         /* =========================================================
            58 WILAYAS OF ALGERIA DATABASE
