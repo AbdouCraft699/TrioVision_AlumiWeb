@@ -1668,6 +1668,833 @@
             .form-grid {
                 grid-template-columns: 1fr;
             }
+
+            .header-controls {
+                gap: 6px;
+            }
+        }
+
+        /* =========================================================
+   LANGUAGE SWITCHER & THEME TOGGLE
+========================================================= */
+        .header-controls {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .lang-switcher {
+            display: flex;
+            border: 1px solid #292e34;
+            border-radius: 8px;
+            overflow: hidden;
+            background: #15191e;
+        }
+
+        .lang-btn {
+            background: transparent;
+            border: none;
+            color: #858c94;
+            padding: 7px 10px;
+            font-size: 12px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: .2s;
+            border-right: 1px solid #292e34;
+        }
+
+        .lang-btn:last-child {
+            border-right: none;
+        }
+
+        .lang-btn.active,
+        .lang-btn:hover {
+            background: white;
+            color: #111;
+        }
+
+        .theme-toggle {
+            background: #15191e;
+            border: 1px solid #292e34;
+            color: #858c94;
+            padding: 7px 10px;
+            border-radius: 8px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: .2s;
+        }
+
+        .theme-toggle:hover {
+            background: #22272e;
+            color: white;
+        }
+
+        /* =========================================================
+   ORDER TRACKING MODAL
+========================================================= */
+        .track-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: 300;
+            background: rgba(0, 0, 0, .85);
+            backdrop-filter: blur(7px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            opacity: 0;
+            visibility: hidden;
+            transition: .3s;
+        }
+
+        .track-overlay.open {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .track-box {
+            width: min(520px, 100%);
+            max-height: 90vh;
+            overflow-y: auto;
+            background: #111519;
+            border: 1px solid #30363d;
+            border-radius: 18px;
+            padding: 32px;
+            position: relative;
+        }
+
+        .track-box h2 {
+            font-size: 24px;
+            margin-bottom: 6px;
+            font-weight: 900;
+        }
+
+        .track-subtitle {
+            color: #737b84;
+            font-size: 13px;
+            margin-bottom: 25px;
+        }
+
+        .track-result {
+            margin-top: 20px;
+            padding: 18px;
+            background: #161b22;
+            border: 1px solid #282f38;
+            border-radius: 12px;
+        }
+
+        .track-result h3 {
+            font-size: 16px;
+            margin-bottom: 12px;
+        }
+
+        .track-result-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px solid #1e252c;
+            font-size: 13px;
+        }
+
+        .track-result-row:last-child {
+            border-bottom: none;
+        }
+
+        .track-result-label {
+            color: #777f87;
+        }
+
+        .track-result-value {
+            font-weight: bold;
+            color: #e2e8f0;
+        }
+
+        .track-status-badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+
+        .track-status-pending {
+            background: rgba(251, 191, 36, 0.15);
+            color: #fbbf24;
+        }
+
+        .track-status-confirmed {
+            background: rgba(56, 189, 248, 0.15);
+            color: #38bdf8;
+        }
+
+        .track-status-shipped {
+            background: rgba(34, 197, 94, 0.15);
+            color: #22c55e;
+        }
+
+        .track-status-delivered {
+            background: rgba(34, 197, 94, 0.25);
+            color: #4ade80;
+        }
+
+        .track-status-cancelled {
+            background: rgba(239, 68, 68, 0.15);
+            color: #ef4444;
+        }
+
+        .track-error {
+            color: #ef4444;
+            text-align: center;
+            padding: 20px;
+            font-size: 14px;
+        }
+
+        .track-items-list {
+            margin-top: 10px;
+            padding: 12px;
+            background: #0d1013;
+            border-radius: 8px;
+        }
+
+        .track-items-list p {
+            font-size: 12px;
+            color: #a0a8b2;
+            line-height: 1.7;
+        }
+
+        /* =========================================================
+   LIGHT MODE THEME
+========================================================= */
+        body.light-mode {
+            background: #f5f5f7;
+            color: #1d1d1f;
+        }
+
+        body.light-mode header {
+            background: rgba(245, 245, 247, 0.92);
+            border-bottom-color: #e0e0e0;
+        }
+
+        body.light-mode .logo span {
+            color: #86868b;
+        }
+
+        body.light-mode nav a {
+            color: #6e6e73;
+        }
+
+        body.light-mode nav a:hover {
+            color: #1d1d1f;
+        }
+
+        body.light-mode .account-btn {
+            border-color: #d2d2d7;
+            color: #6e6e73;
+        }
+
+        body.light-mode .account-btn:hover {
+            color: #1d1d1f;
+            border-color: #86868b;
+        }
+
+        body.light-mode .cart-btn {
+            background: #1d1d1f;
+            color: white;
+        }
+
+        body.light-mode .cart-btn:hover {
+            background: #333;
+        }
+
+        body.light-mode .mobile-menu-btn {
+            border-color: #d2d2d7;
+            color: #1d1d1f;
+        }
+
+        body.light-mode .mobile-nav-drawer {
+            background: #f5f5f7;
+            border-bottom-color: #e0e0e0;
+        }
+
+        body.light-mode .mobile-nav-drawer a {
+            color: #6e6e73;
+            border-bottom-color: #e0e0e0;
+        }
+
+        body.light-mode .mobile-nav-drawer a:hover {
+            color: #1d1d1f;
+        }
+
+        body.light-mode .hero {
+            background: radial-gradient(circle at 78% 45%, #e8e8ed, transparent 30%), radial-gradient(circle at 15% 15%, #f0f0f2, transparent 35%);
+        }
+
+        body.light-mode .badge {
+            border-color: #d2d2d7;
+            color: #6e6e73;
+        }
+
+        body.light-mode .hero h1 span {
+            color: #86868b;
+        }
+
+        body.light-mode .hero p {
+            color: #6e6e73;
+        }
+
+        body.light-mode .hero-plaque {
+            box-shadow: 0 35px 90px rgba(0, 0, 0, .2), inset 0 1px 2px rgba(255, 255, 255, .9);
+        }
+
+        body.light-mode .hero-caption {
+            color: #86868b;
+        }
+
+        body.light-mode .btn-primary {
+            background: #1d1d1f;
+            color: white;
+        }
+
+        body.light-mode .btn-primary:hover {
+            background: #333;
+        }
+
+        body.light-mode .btn-secondary {
+            background: #e8e8ed;
+            color: #1d1d1f;
+            border-color: #d2d2d7;
+        }
+
+        body.light-mode .btn-secondary:hover {
+            background: #d2d2d7;
+        }
+
+        body.light-mode .trust {
+            background: #f0f0f2;
+            border-color: #e0e0e0;
+        }
+
+        body.light-mode .trust-item {
+            border-right-color: #e0e0e0;
+            color: #6e6e73;
+        }
+
+        body.light-mode .trust-item strong {
+            color: #1d1d1f;
+        }
+
+        body.light-mode .section-heading h2 {
+            color: #1d1d1f;
+        }
+
+        body.light-mode .section-heading p {
+            color: #86868b;
+        }
+
+        body.light-mode .search {
+            background: #e8e8ed;
+            border-color: #d2d2d7;
+            color: #1d1d1f;
+        }
+
+        body.light-mode .search:focus {
+            border-color: #86868b;
+        }
+
+        body.light-mode .category {
+            background: #e8e8ed;
+            border-color: #d2d2d7;
+            color: #6e6e73;
+        }
+
+        body.light-mode .category.active,
+        body.light-mode .category:hover {
+            background: #1d1d1f;
+            color: white;
+            border-color: #1d1d1f;
+        }
+
+        body.light-mode .product {
+            background: white;
+            border-color: #e0e0e0;
+        }
+
+        body.light-mode .product:hover {
+            border-color: #d2d2d7;
+            box-shadow: 0 25px 55px rgba(0, 0, 0, .08);
+        }
+
+        body.light-mode .product-image {
+            background: radial-gradient(circle, #e8e8ed, #f5f5f7);
+        }
+
+        body.light-mode .product-plaque {
+            box-shadow: 0 20px 35px rgba(0, 0, 0, .15);
+        }
+
+        body.light-mode .product-size-select {
+            background: #f5f5f7;
+            border-color: #d2d2d7;
+            color: #6e6e73;
+        }
+
+        body.light-mode .rating {
+            color: #86868b;
+        }
+
+        body.light-mode .add-btn {
+            background: #1d1d1f;
+            color: white;
+        }
+
+        body.light-mode .add-btn:hover {
+            background: #333;
+        }
+
+        body.light-mode .custom {
+            border-color: #e0e0e0;
+            background: radial-gradient(circle at 80% 30%, #e8e8ed, transparent 35%), #f5f5f7;
+        }
+
+        body.light-mode .custom h2 {
+            color: #1d1d1f;
+        }
+
+        body.light-mode .custom p {
+            color: #6e6e73;
+        }
+
+        body.light-mode .custom-list span {
+            color: #6e6e73;
+        }
+
+        body.light-mode .custom-list span::before {
+            color: #1d1d1f;
+        }
+
+        body.light-mode .upload {
+            border-color: #d2d2d7;
+            background: white;
+        }
+
+        body.light-mode .upload-dropzone {
+            background: #f5f5f7;
+            border-color: #d2d2d7;
+        }
+
+        body.light-mode .upload-dropzone:hover {
+            border-color: #86868b;
+        }
+
+        body.light-mode .custom-input,
+        body.light-mode .custom-select {
+            background: #f5f5f7;
+            border-color: #d2d2d7;
+            color: #1d1d1f;
+        }
+
+        body.light-mode .custom-input:focus,
+        body.light-mode .custom-select:focus {
+            border-color: #86868b;
+        }
+
+        body.light-mode .custom-bottom-action {
+            border-top-color: #e0e0e0;
+        }
+
+        body.light-mode .how {
+            color: #1d1d1f;
+        }
+
+        body.light-mode .how-title h2 {
+            color: #1d1d1f;
+        }
+
+        body.light-mode .how-title p {
+            color: #86868b;
+        }
+
+        body.light-mode .step {
+            background: white;
+            border-color: #e0e0e0;
+        }
+
+        body.light-mode .step-number {
+            background: #1d1d1f;
+            color: white;
+        }
+
+        body.light-mode .step p {
+            color: #6e6e73;
+        }
+
+        body.light-mode .business {
+            background: #f5f5f7;
+            border-color: #e0e0e0;
+        }
+
+        body.light-mode .business h2 {
+            color: #1d1d1f;
+        }
+
+        body.light-mode .business p {
+            color: #6e6e73;
+        }
+
+        body.light-mode footer {
+            border-top-color: #e0e0e0;
+            color: #6e6e73;
+        }
+
+        body.light-mode .footer-logo {
+            color: #1d1d1f;
+        }
+
+        body.light-mode .footer-about {
+            color: #6e6e73;
+        }
+
+        body.light-mode .footer-column h4 {
+            color: #1d1d1f;
+        }
+
+        body.light-mode .footer-column a {
+            color: #86868b;
+        }
+
+        body.light-mode .footer-column a:hover {
+            color: #1d1d1f;
+        }
+
+        body.light-mode .footer-bottom {
+            border-top-color: #e0e0e0;
+        }
+
+        /* Light mode cart */
+        body.light-mode .cart-overlay {
+            background: rgba(0, 0, 0, .4);
+        }
+
+        body.light-mode .cart-drawer {
+            background: white;
+            border-left-color: #e0e0e0;
+        }
+
+        body.light-mode .cart-header {
+            border-bottom-color: #e0e0e0;
+        }
+
+        body.light-mode .cart-header h2 {
+            color: #1d1d1f;
+        }
+
+        body.light-mode .close-btn {
+            background: #f5f5f7;
+            border-color: #d2d2d7;
+            color: #1d1d1f;
+        }
+
+        body.light-mode .cart-item {
+            border-bottom-color: #e0e0e0;
+        }
+
+        body.light-mode .cart-item-info h4 {
+            color: #1d1d1f;
+        }
+
+        body.light-mode .cart-item-info p {
+            color: #86868b;
+        }
+
+        body.light-mode .quantity button {
+            background: #f5f5f7;
+            border-color: #d2d2d7;
+            color: #1d1d1f;
+        }
+
+        body.light-mode .empty-cart h3 {
+            color: #1d1d1f;
+        }
+
+        body.light-mode .empty-cart p {
+            color: #86868b;
+        }
+
+        body.light-mode .cart-footer {
+            background: #f5f5f7;
+            border-top-color: #e0e0e0;
+        }
+
+        body.light-mode .summary {
+            color: #6e6e73;
+        }
+
+        body.light-mode .summary.total {
+            color: #1d1d1f;
+            border-top-color: #e0e0e0;
+        }
+
+        body.light-mode .checkout-btn {
+            background: #1d1d1f;
+            color: white;
+        }
+
+        body.light-mode .checkout-btn:hover {
+            background: #333;
+        }
+
+        /* Light mode checkout */
+        body.light-mode .checkout-overlay {
+            background: rgba(0, 0, 0, .5);
+        }
+
+        body.light-mode .checkout-box {
+            background: white;
+            border-color: #e0e0e0;
+        }
+
+        body.light-mode .checkout-box h2 {
+            color: #1d1d1f;
+        }
+
+        body.light-mode .checkout-subtitle {
+            color: #86868b;
+        }
+
+        body.light-mode .checkout-close {
+            background: #f5f5f7;
+            border-color: #d2d2d7;
+            color: #1d1d1f;
+        }
+
+        body.light-mode .form-section h3 {
+            color: #1d1d1f;
+        }
+
+        body.light-mode .form-group label {
+            color: #6e6e73;
+        }
+
+        body.light-mode .form-group input,
+        body.light-mode .form-group select,
+        body.light-mode .form-group textarea {
+            background: #f5f5f7;
+            color: #1d1d1f;
+            border-color: #d2d2d7;
+        }
+
+        body.light-mode .form-group input:focus,
+        body.light-mode .form-group select:focus,
+        body.light-mode .form-group textarea:focus {
+            border-color: #86868b;
+        }
+
+        body.light-mode .phone-prefix {
+            background: #e8e8ed;
+            border-color: #d2d2d7;
+            color: #007AFF;
+        }
+
+        body.light-mode .delivery-estimate-badge {
+            background: #f5f5f7;
+            border-color: #e0e0e0;
+            color: #6e6e73;
+        }
+
+        body.light-mode .order-total {
+            border-color: #e0e0e0;
+            color: #1d1d1f;
+        }
+
+        body.light-mode .confirm-btn {
+            background: #25d366;
+            color: white;
+        }
+
+        /* Light mode track modal */
+        body.light-mode .track-box {
+            background: white;
+            border-color: #e0e0e0;
+        }
+
+        body.light-mode .track-box h2 {
+            color: #1d1d1f;
+        }
+
+        body.light-mode .track-subtitle {
+            color: #86868b;
+        }
+
+        body.light-mode .track-result {
+            background: #f5f5f7;
+            border-color: #e0e0e0;
+        }
+
+        body.light-mode .track-result-label {
+            color: #86868b;
+        }
+
+        body.light-mode .track-result-value {
+            color: #1d1d1f;
+        }
+
+        body.light-mode .track-result-row {
+            border-bottom-color: #e0e0e0;
+        }
+
+        body.light-mode .track-items-list {
+            background: #f0f0f2;
+        }
+
+        /* Light mode lang switcher & theme toggle */
+        body.light-mode .lang-switcher {
+            background: #e8e8ed;
+            border-color: #d2d2d7;
+        }
+
+        body.light-mode .lang-btn {
+            color: #6e6e73;
+            border-right-color: #d2d2d7;
+        }
+
+        body.light-mode .lang-btn.active,
+        body.light-mode .lang-btn:hover {
+            background: #1d1d1f;
+            color: white;
+        }
+
+        body.light-mode .theme-toggle {
+            background: #e8e8ed;
+            border-color: #d2d2d7;
+            color: #6e6e73;
+        }
+
+        body.light-mode .theme-toggle:hover {
+            background: #1d1d1f;
+            color: white;
+        }
+
+        body.light-mode .toast {
+            background: #1d1d1f;
+            color: white;
+        }
+
+        /* Light mode admin */
+        body.light-mode .admin-bar {
+            background: linear-gradient(90deg, #f0f0f2, #e8e8ed);
+            border-bottom-color: #38bdf8;
+        }
+
+        body.light-mode .admin-bar span {
+            color: #1d1d1f;
+        }
+
+        body.light-mode .admin-modal-overlay {
+            background: rgba(0, 0, 0, .5);
+        }
+
+        body.light-mode .admin-modal-box {
+            background: white;
+            border-color: #38bdf8;
+        }
+
+        body.light-mode .admin-modal-box h2 {
+            color: #1d1d1f;
+        }
+
+        body.light-mode .admin-login-box {
+            background: white;
+            border-color: #38bdf8;
+        }
+
+        body.light-mode .admin-img-preview-box {
+            background: #f5f5f7;
+            border-color: #d2d2d7;
+        }
+
+        body.light-mode .admin-bar-actions .admin-mini-btn {
+            background: #e0e0e0;
+            color: #1d1d1f;
+            border-color: #d2d2d7;
+        }
+
+        body.light-mode .admin-bar-actions .admin-mini-btn:hover {
+            background: #d2d2d7;
+        }
+
+        /* RTL Support — Arabic text direction only, layout stays identical to EN/FR */
+        body[dir="rtl"] {
+            direction: ltr;
+        }
+
+        /* Make Arabic text flow right-to-left inside text containers only */
+        body[dir="rtl"] .hero-content,
+        body[dir="rtl"] .custom-content,
+        body[dir="rtl"] .how-title,
+        body[dir="rtl"] .step p,
+        body[dir="rtl"] .business > div,
+        body[dir="rtl"] .section-heading > div,
+        body[dir="rtl"] .footer-about,
+        body[dir="rtl"] .footer-column,
+        body[dir="rtl"] .cart-header h2,
+        body[dir="rtl"] .checkout-box h2,
+        body[dir="rtl"] .checkout-subtitle,
+        body[dir="rtl"] .form-section h3,
+        body[dir="rtl"] .form-group label,
+        body[dir="rtl"] .track-box h2,
+        body[dir="rtl"] .track-subtitle,
+        body[dir="rtl"] .track-result,
+        body[dir="rtl"] .track-items-list {
+            direction: rtl;
+            text-align: right;
+        }
+
+        /* Arabic text inputs should be RTL */
+        body[dir="rtl"] .custom-input,
+        body[dir="rtl"] .form-group input,
+        body[dir="rtl"] .form-group textarea,
+        body[dir="rtl"] .search {
+            direction: rtl;
+            text-align: right;
+        }
+
+        /* Keep select dropdowns LTR for readability */
+        body[dir="rtl"] .custom-select,
+        body[dir="rtl"] .form-group select,
+        body[dir="rtl"] .product-size-select {
+            direction: ltr;
+        }
+
+        body[dir="rtl"] .custom-list span::before {
+            content: none;
+        }
+
+        body[dir="rtl"] .custom-list span::after {
+            content: " ✓";
+            color: white;
+            font-weight: bold;
+            margin-left: 4px;
+        }
+
+        body[dir="rtl"].light-mode .custom-list span::after {
+            color: #1d1d1f;
+        }
+
+        body[dir="rtl"] .lang-switcher {
+            direction: ltr;
+        }
+
+        body[dir="rtl"] .cart-item-right {
+            text-align: left;
+        }
+
+        body[dir="rtl"] .hero-plaque {
+            transform: rotate(-5deg);
+        }
+
+        body[dir="rtl"] .hero-plaque:hover {
+            transform: rotate(0deg) scale(1.02);
         }</style>
 </head>
 
@@ -1698,19 +2525,32 @@
         </a>
 
         <nav>
-            <a href="#marketplace">Marketplace</a>
-            <a href="#custom">Custom Design</a>
-            <a href="#how">How It Works</a>
-            <a href="#business">Business</a>
+            <a href="#marketplace" data-i18n="nav_marketplace">Marketplace</a>
+            <a href="#custom" data-i18n="nav_custom">Custom Design</a>
+            <a href="#how" data-i18n="nav_how">How It Works</a>
+            <a href="#business" data-i18n="nav_business">Business</a>
         </nav>
 
         <div class="header-right">
+            <div class="header-controls">
+                <div class="lang-switcher">
+                    <button class="lang-btn active" onclick="setLanguage('en')">EN</button>
+                    <button class="lang-btn" onclick="setLanguage('fr')">FR</button>
+                    <button class="lang-btn" onclick="setLanguage('ar')">عربي</button>
+                </div>
+                <button class="theme-toggle" onclick="toggleTheme()" title="Toggle dark/light mode" id="themeToggleBtn">☀️</button>
+            </div>
+
+            <button class="btn btn-secondary" style="padding:8px 14px; font-size:12px; border-radius:99px;" onclick="openTrackOrder()">
+                📦 <span data-i18n="nav_track">Track Order</span>
+            </button>
+
             <a href="https://wa.me/213658320335" target="_blank" class="account-btn">
                  WhatsApp
             </a>
 
             <button class="cart-btn" onclick="openCart()">
-                 Cart (<span id="cartCount">0</span>)
+                 <span data-i18n="nav_cart">Cart</span> (<span id="cartCount">0</span>)
             </button>
 
             <button class="mobile-menu-btn" onclick="toggleMobileMenu()" aria-label="Toggle Navigation">
@@ -1721,11 +2561,20 @@
 
     <!-- Mobile Navigation Drawer -->
     <div class="mobile-nav-drawer" id="mobileNavDrawer">
-        <a href="#marketplace" onclick="toggleMobileMenu()">Marketplace</a>
-        <a href="#custom" onclick="toggleMobileMenu()">Custom Design Studio</a>
-        <a href="#how" onclick="toggleMobileMenu()">How It Works</a>
-        <a href="#business" onclick="toggleMobileMenu()">Business & Bulk</a>
-        <a href="https://wa.me/213658320335" target="_blank" style="color:#25d366;">Direct WhatsApp Contact</a>
+        <a href="#marketplace" onclick="toggleMobileMenu()" data-i18n="nav_marketplace">Marketplace</a>
+        <a href="#custom" onclick="toggleMobileMenu()" data-i18n="nav_custom">Custom Design Studio</a>
+        <a href="#how" onclick="toggleMobileMenu()" data-i18n="nav_how">How It Works</a>
+        <a href="#business" onclick="toggleMobileMenu()" data-i18n="nav_business">Business & Bulk</a>
+        <a href="#" onclick="toggleMobileMenu(); openTrackOrder();" data-i18n="nav_track">Track Order</a>
+        <a href="https://wa.me/213658320335" target="_blank" style="color:#25d366;" data-i18n="nav_whatsapp">Direct WhatsApp Contact</a>
+        <div style="display:flex; gap:8px; padding-top:8px; border-bottom:none;">
+            <div class="lang-switcher">
+                <button class="lang-btn active" onclick="setLanguage('en')">EN</button>
+                <button class="lang-btn" onclick="setLanguage('fr')">FR</button>
+                <button class="lang-btn" onclick="setLanguage('ar')">عربي</button>
+            </div>
+            <button class="theme-toggle" onclick="toggleTheme()" id="themeToggleBtnMobile">☀️</button>
+        </div>
     </div>
 
 
@@ -1734,27 +2583,27 @@
 ========================================================= -->
     <section class="hero">
         <div class="hero-content">
-            <div class="badge">
+            <div class="badge" data-i18n="hero_badge">
                 PREMIUM ALUMINUM SUBLIMATION
             </div>
 
-            <h1>
+            <h1 data-i18n="hero_title">
                 Your design.<br>
                 <span>On metal.</span>
             </h1>
 
-            <p>
+            <p data-i18n="hero_desc">
                 Premium sublimation aluminum plaques for homes, gaming setups, businesses, gifts, and everything in
                 between. Available in A4 (30 cm × 21 cm) & A3 (42 cm × 30 cm) with express delivery across all 58 Wilayas of
                 Algeria.
             </p>
 
             <div class="hero-buttons">
-                <button class="btn btn-primary" onclick="goTo('marketplace')">
+                <button class="btn btn-primary" onclick="goTo('marketplace')" data-i18n="hero_explore">
                     Explore Marketplace
                 </button>
 
-                <button class="btn btn-secondary" onclick="goTo('custom')">
+                <button class="btn btn-secondary" onclick="goTo('custom')" data-i18n="hero_custom">
                     Create Custom
                 </button>
             </div>
@@ -1779,23 +2628,23 @@
 ========================================================= -->
     <section class="trust">
         <div class="trust-item">
-            <strong>Premium Quality</strong>
-            100% Rust-Proof Aluminum
+            <strong data-i18n="trust1_title">Premium Quality</strong>
+            <span data-i18n="trust1_desc">100% Rust-Proof Aluminum</span>
         </div>
 
         <div class="trust-item">
-            <strong>Custom Designs</strong>
-            Your artwork, photo & logo
+            <strong data-i18n="trust2_title">Custom Designs</strong>
+            <span data-i18n="trust2_desc">Your artwork, photo & logo</span>
         </div>
 
         <div class="trust-item">
-            <strong>Standard Sizes</strong>
-            A4 (30 cm × 21 cm) & A3 (42 cm × 30 cm)
+            <strong data-i18n="trust3_title">Standard Sizes</strong>
+            <span data-i18n="trust3_desc">A4 (30 cm × 21 cm) & A3 (42 cm × 30 cm)</span>
         </div>
 
         <div class="trust-item">
-            <strong>58 Wilayas Delivery</strong>
-            Cash on delivery nationwide
+            <strong data-i18n="trust4_title">58 Wilayas Delivery</strong>
+            <span data-i18n="trust4_desc">Cash on delivery nationwide</span>
         </div>
     </section>
 
@@ -1806,27 +2655,27 @@
     <section class="marketplace" id="marketplace">
         <div class="section-heading">
             <div>
-                <h2>Explore designs</h2>
-                <p>Find something ready to personalize or print directly on metal.</p>
+                <h2 data-i18n="mp_title">Explore designs</h2>
+                <p data-i18n="mp_desc">Find something ready to personalize or print directly on metal.</p>
             </div>
 
             <div class="section-heading-actions">
                 <button class="add-plaque-admin-btn" onclick="openAddPlaqueModal()">
-                    + Add New Plaque
+                    + <span data-i18n="mp_add">Add New Plaque</span>
                 </button>
 
-                <input id="search" class="search" type="text" placeholder="Search plaques..."
+                <input id="search" class="search" type="text" data-i18n-placeholder="mp_search" placeholder="Search plaques..."
                     oninput="searchProducts()">
             </div>
         </div>
 
         <div class="categories" id="categoryBar">
-            <button class="category active" onclick="filterProducts('all', this)">All</button>
-            <button class="category" onclick="filterProducts('gaming', this)">Gaming</button>
-            <button class="category" onclick="filterProducts('anime', this)">Anime</button>
-            <button class="category" onclick="filterProducts('business', this)">Business</button>
-            <button class="category" onclick="filterProducts('home', this)">Home</button>
-            <button class="category" onclick="filterProducts('gift', this)">Gifts</button>
+            <button class="category active" onclick="filterProducts('all', this)" data-i18n="cat_all">All</button>
+            <button class="category" onclick="filterProducts('gaming', this)" data-i18n="cat_gaming">Gaming</button>
+            <button class="category" onclick="filterProducts('anime', this)" data-i18n="cat_anime">Anime</button>
+            <button class="category" onclick="filterProducts('business', this)" data-i18n="cat_business">Business</button>
+            <button class="category" onclick="filterProducts('home', this)" data-i18n="cat_home">Home</button>
+            <button class="category" onclick="filterProducts('gift', this)" data-i18n="cat_gifts">Gifts</button>
         </div>
 
         <!-- Dynamic Products Grid -->
@@ -1841,22 +2690,22 @@
 ========================================================= -->
     <section class="custom" id="custom">
         <div class="custom-content">
-            <div class="badge">
+            <div class="badge" data-i18n="custom_badge">
                 CUSTOM MADE
             </div>
 
-            <h2>Make your own plaque.</h2>
+            <h2 data-i18n="custom_title">Make your own plaque.</h2>
 
-            <p>
+            <p data-i18n="custom_desc">
                 Upload your image, logo, photo, or artwork. Select dimensions (A4 or A3) and aluminum finish, and turn
                 your visual into an everlasting premium metal plaque.
             </p>
 
             <div class="custom-list">
-                <span>Upload any design or photo</span>
-                <span>Sizes: A4 (30 cm × 21 cm) & A3 (42 cm × 30 cm)</span>
-                <span>High-definition thermal print</span>
-                <span>Made to order in Algeria</span>
+                <span data-i18n="custom_list1">Upload any design or photo</span>
+                <span data-i18n="custom_list2">Sizes: A4 (30 cm × 21 cm) & A3 (42 cm × 30 cm)</span>
+                <span data-i18n="custom_list3">High-definition thermal print</span>
+                <span data-i18n="custom_list4">Made to order in Algeria</span>
             </div>
 
             <!-- Live Preview Plaque -->
@@ -1872,8 +2721,8 @@
         <div class="upload">
             <div class="upload-dropzone" onclick="document.getElementById('designFile').click()">
                 <div class="upload-icon">↑</div>
-                <strong id="uploadText">Choose image from device</strong>
-                <p style="font-size:12px; color:#777; margin-top:4px;">Supports PNG, JPG, WEBP</p>
+                <strong id="uploadText" data-i18n="upload_choose">Choose image from device</strong>
+                <p style="font-size:12px; color:#777; margin-top:4px;" data-i18n="upload_support">Supports PNG, JPG, WEBP</p>
                 <input type="file" id="designFile" accept="image/*" onchange="uploadDesign(this)">
             </div>
 
@@ -1911,11 +2760,11 @@
 
             <div class="custom-bottom-action">
                 <div>
-                    <span style="font-size:12px; color:#777; display:block;">Plaque Price</span>
+                    <span style="font-size:12px; color:#777; display:block;" data-i18n="custom_price_label">Plaque Price</span>
                     <span class="custom-price-display" id="customCalculatedPrice">2,800 DA</span>
                 </div>
 
-                <button type="button" class="btn btn-primary" onclick="addCustomPlaqueToCart()">
+                <button type="button" class="btn btn-primary" onclick="addCustomPlaqueToCart()" data-i18n="custom_add_cart">
                     Add Custom Plaque To Cart →
                 </button>
             </div>
@@ -1928,27 +2777,27 @@
 ========================================================= -->
     <section class="how" id="how">
         <div class="how-title">
-            <h2>How it works</h2>
-            <p>Simple from design to finished aluminum plaque.</p>
+            <h2 data-i18n="how_title">How it works</h2>
+            <p data-i18n="how_desc">Simple from design to finished aluminum plaque.</p>
         </div>
 
         <div class="steps">
             <div class="step">
                 <div class="step-number">01</div>
-                <h3>Choose a design</h3>
-                <p>Browse our marketplace or upload your own favorite graphic or photo.</p>
+                <h3 data-i18n="how_step1_title">Choose a design</h3>
+                <p data-i18n="how_step1_desc">Browse our marketplace or upload your own favorite graphic or photo.</p>
             </div>
 
             <div class="step">
                 <div class="step-number">02</div>
-                <h3>Personalize it</h3>
-                <p>Choose dimensions (A4 30 cm × 21 cm or A3 42 cm × 30 cm) and metal finish.</p>
+                <h3 data-i18n="how_step2_title">Personalize it</h3>
+                <p data-i18n="how_step2_desc">Choose dimensions (A4 30 cm × 21 cm or A3 42 cm × 30 cm) and metal finish.</p>
             </div>
 
             <div class="step">
                 <div class="step-number">03</div>
-                <h3>We make & deliver</h3>
-                <p>Printed deep into aluminum and shipped with cash on delivery across Algeria.</p>
+                <h3 data-i18n="how_step3_title">We make & deliver</h3>
+                <p data-i18n="how_step3_desc">Printed deep into aluminum and shipped with cash on delivery across Algeria.</p>
             </div>
         </div>
     </section>
@@ -1959,13 +2808,13 @@
 ========================================================= -->
     <section class="business" id="business">
         <div>
-            <h2>Need plaques for your business?</h2>
-            <p>Bulk orders, company signs, restaurant menus, and gaming lounge branding.</p>
+            <h2 data-i18n="biz_title">Need plaques for your business?</h2>
+            <p data-i18n="biz_desc">Bulk orders, company signs, restaurant menus, and gaming lounge branding.</p>
         </div>
 
         <a href="https://wa.me/213658320335?text=Hello%20TrioVision,%20I%20would%20like%20a%20B2B%20/%20Business%20Order%20quote."
             target="_blank" class="btn btn-whatsapp">
-             WhatsApp Business Quote 
+             <span data-i18n="biz_btn">WhatsApp Business Quote</span>
         </a>
     </section>
 
@@ -1977,28 +2826,28 @@
         <div class="footer-grid">
             <div>
                 <div class="footer-logo">TrioVision.</div>
-                <p class="footer-about">
+                <p class="footer-about" data-i18n="footer_about">
                     Premium aluminum sublimation products made for people who want their designs to stand out.
                 </p>
             </div>
 
             <div class="footer-column">
-                <h4>Marketplace</h4>
-                <a href="#marketplace">All Products</a>
+                <h4 data-i18n="footer_mp">Marketplace</h4>
+                <a href="#marketplace" data-i18n="footer_all">All Products</a>
                 <a href="#marketplace">Gaming</a>
-                <a href="#marketplace">Business</a>
-                <a href="#marketplace">Gifts</a>
+                <a href="#marketplace" data-i18n="cat_business">Business</a>
+                <a href="#marketplace" data-i18n="cat_gifts">Gifts</a>
             </div>
 
             <div class="footer-column">
-                <h4>Services</h4>
-                <a href="#custom">Custom Design</a>
-                <a href="#business">Business Orders</a>
-                <a href="#how">How It Works</a>
+                <h4 data-i18n="footer_services">Services</h4>
+                <a href="#custom" data-i18n="footer_custom">Custom Design</a>
+                <a href="#business" data-i18n="footer_b2b">Business Orders</a>
+                <a href="#how" data-i18n="nav_how">How It Works</a>
             </div>
 
             <div class="footer-column">
-                <h4>Contact</h4>
+                <h4 data-i18n="footer_contact">Contact</h4>
                 <a href="https://wa.me/213658320335" target="_blank" style="color:#25d366; font-weight:bold;">
                     WhatsApp: 0658 32 03 35</a>
                 <a href="https://www.instagram.com/trio_vision_?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw=="
@@ -2010,7 +2859,7 @@
 
         <div class="footer-bottom">
             <span>© 2026 TrioVision. All rights reserved.</span>
-            <span>Premium Aluminum Sublimation • 58 Wilayas Algeria</span>
+            <span data-i18n="footer_tagline">Premium Aluminum Sublimation • 58 Wilayas Algeria</span>
         </div>
     </footer>
 
@@ -2021,7 +2870,7 @@
     <div class="cart-overlay" id="cartOverlay" onclick="cartOutside(event)">
         <div class="cart-drawer">
             <div class="cart-header">
-                <h2>Your Cart</h2>
+                <h2 data-i18n="cart_title">Your Cart</h2>
                 <button class="close-btn" onclick="closeCart()">✕</button>
             </div>
 
@@ -2031,21 +2880,21 @@
 
             <div class="cart-footer">
                 <div class="summary">
-                    <span>Subtotal</span>
+                    <span data-i18n="cart_subtotal">Subtotal</span>
                     <span id="subtotal">0 DA</span>
                 </div>
 
                 <div class="summary">
-                    <span>Delivery (58 Wilayas)</span>
-                    <span style="color:#858d96;">Calculated at checkout</span>
+                    <span data-i18n="cart_delivery">Delivery (58 Wilayas)</span>
+                    <span style="color:#858d96;" data-i18n="cart_calc">Calculated at checkout</span>
                 </div>
 
                 <div class="summary total">
-                    <span>Total</span>
+                    <span data-i18n="cart_total">Total</span>
                     <span id="total">0 DA</span>
                 </div>
 
-                <button class="checkout-btn" onclick="openCheckout()">
+                <button class="checkout-btn" onclick="openCheckout()" data-i18n="cart_checkout">
                     Continue to Checkout →
                 </button>
             </div>
@@ -2061,51 +2910,66 @@
             <button class="checkout-close" onclick="closeCheckout()">✕</button>
 
             <div id="checkoutFormContainer">
-                <h2>Delivery details</h2>
-                <p class="checkout-subtitle">Enter your information before confirming your order with Cash On Delivery.
+                <h2 data-i18n="checkout_title">Delivery details</h2>
+                <p class="checkout-subtitle" data-i18n="checkout_subtitle">Enter your information before confirming your order with Cash On Delivery.
                 </p>
 
                 <form id="checkoutForm" onsubmit="confirmOrder(event)">
 
                     <div class="form-section">
-                        <h3>Customer information</h3>
+                        <h3 data-i18n="checkout_customer">Customer information</h3>
                         <div class="form-grid">
                             <div class="form-group">
-                                <label>Full name *</label>
-                                <input id="fullName" type="text" placeholder="Your full name" required>
+                                <label data-i18n="label_firstname">First Name *</label>
+                                <input id="firstName" type="text" data-i18n-placeholder="ph_firstname" placeholder="First name" required>
                             </div>
 
                             <div class="form-group">
-                                <label>Phone number *</label>
-                                <input id="phone" type="tel" placeholder="05 / 06 / 07..." required>
+                                <label data-i18n="label_lastname">Last Name *</label>
+                                <input id="lastName" type="text" data-i18n-placeholder="ph_lastname" placeholder="Last name" required>
+                            </div>
+
+                            <div class="form-group full">
+                                <label data-i18n="label_phone">Phone Number * <span style="font-size:11px; color:#6b7280;">(+213 format)</span></label>
+                                <div style="display:flex; gap:0;">
+                                    <span style="padding:12px 12px; background:#1e242b; color:#38bdf8; border:1px solid #30363d; border-right:none; border-radius:8px 0 0 8px; font-weight:bold; font-size:13px; white-space:nowrap;">+213</span>
+                                    <input id="phone" type="tel" placeholder="XX XXX XXXX" required
+                                        maxlength="10" pattern="[0-9]{10}"
+                                        style="border-radius:0 8px 8px 0; flex:1; padding:12px 13px; background:#181c21; color:white; border:1px solid #30363d; outline:none; font-size:13px;"
+                                        oninput="formatPhoneInput(this)"
+                                        title="Enter exactly 10 digits (e.g. 0555123456)">
+                                </div>
+                                <span id="phoneError" style="color:#ef4444; font-size:11px; display:none; margin-top:4px;">Phone must be exactly 10 digits (05/06/07...)</span>
                             </div>
                         </div>
                     </div>
 
                     <div class="form-section">
-                        <h3>Delivery address (Algeria)</h3>
+                        <h3 data-i18n="checkout_address">Delivery address (Algeria)</h3>
                         <div class="form-grid">
 
                             <div class="form-group">
-                                <label>Wilaya (58 Wilayas) *</label>
+                                <label data-i18n="label_wilaya">Wilaya (58 Wilayas) *</label>
                                 <select id="wilaya" onchange="updateWilayaDelivery(this.value)" required>
                                     <option value="">-- Select Wilaya --</option>
                                 </select>
                             </div>
 
                             <div class="form-group">
-                                <label>City / Commune *</label>
-                                <input id="city" type="text" placeholder="Your city" required>
+                                <label data-i18n="label_city">City / Commune *</label>
+                                <select id="city" required>
+                                    <option value="">-- Select Wilaya first --</option>
+                                </select>
                             </div>
 
                             <div class="form-group full">
-                                <label>Full address *</label>
+                                <label data-i18n="label_address">Full address *</label>
                                 <input id="address" type="text" placeholder="Street, building, house number..."
                                     required>
                             </div>
 
                             <div class="form-group full">
-                                <label>Delivery notes (Optional)</label>
+                                <label data-i18n="label_notes">Delivery notes (Optional)</label>
                                 <input id="notes" type="text" placeholder="Optional notes for the courier">
                             </div>
 
@@ -2123,7 +2987,7 @@
                     </div>
 
                     <div class="checkout-action-stack">
-                        <button class="confirm-btn" type="submit">
+                        <button class="confirm-btn" type="submit" data-i18n="checkout_confirm">
                             Confirm Order
                         </button>
                     </div>
@@ -2133,14 +2997,14 @@
 
             <div class="success" id="successMessage" style="display:none;">
                 <div class="success-icon">✓</div>
-                <h2>Order Confirmed!</h2>
+                <h2 data-i18n="checkout_success">Order Confirmed!</h2>
                 <div class="order-code-badge" id="orderCodeDisplay">ALM-000000</div>
-                <p>
+                <p data-i18n="checkout_thanks">
                     Thank you for your order! We have received your delivery details and will contact you by phone
                     before delivery.
                 </p>
                 <div style="margin-top:24px; display:flex; justify-content:center; gap:10px;">
-                    <button class="btn btn-secondary" onclick="closeCheckout()">
+                    <button class="btn btn-secondary" onclick="closeCheckout()" data-i18n="checkout_close">
                         Close
                     </button>
                 </div>
@@ -2258,6 +3122,37 @@
 
 
     <!-- =========================================================
+     ORDER TRACKING MODAL
+========================================================= -->
+    <div class="track-overlay" id="trackOverlay" onclick="trackOutside(event)">
+        <div class="track-box">
+            <button class="checkout-close" onclick="closeTrackOrder()">✕</button>
+
+            <div id="trackFormContainer">
+                <h2 data-i18n="track_title">📦 Track Your Order</h2>
+                <p class="track-subtitle" data-i18n="track_subtitle">Enter your order code and phone number to check the status of your order. Both are required for privacy protection.</p>
+
+                <form onsubmit="searchOrder(event)">
+                    <div class="form-group" style="margin-bottom:14px;">
+                        <label data-i18n="track_code_label">Order Code *</label>
+                        <input id="trackCode" type="text" placeholder="ALM-123456" required style="width:100%; padding:12px 13px; background:#181c21; color:white; border:1px solid #30363d; border-radius:8px; outline:none; font-size:13px;">
+                    </div>
+                    <div class="form-group" style="margin-bottom:18px;">
+                        <label data-i18n="track_phone_label">Phone Number *</label>
+                        <input id="trackPhone" type="tel" placeholder="+213 xxx xx xx xx" required style="width:100%; padding:12px 13px; background:#181c21; color:white; border:1px solid #30363d; border-radius:8px; outline:none; font-size:13px;">
+                    </div>
+                    <button type="submit" class="btn btn-primary" style="width:100%; background:#38bdf8; color:#0f172a; font-weight:bold;" data-i18n="track_btn">
+                        🔍 Track Order
+                    </button>
+                </form>
+            </div>
+
+            <div id="trackResults" style="display:none;"></div>
+        </div>
+    </div>
+
+
+    <!-- =========================================================
      TOAST
 ========================================================= -->
     <div class="toast" id="toast">Added to cart</div>
@@ -2266,6 +3161,7 @@
     <!-- =========================================================
      JAVASCRIPT LOGIC
 ========================================================= -->
+    <script src="cities.js"></script>
     <script>
         /* =========================================================
            SUPABASE CONFIGURATION (no CDN — uses fetch)
@@ -2861,13 +3757,14 @@
         ========================================================= */
         function renderCart() {
             const container = document.getElementById("cartItems");
+            const t = TRANSLATIONS[currentLang] || TRANSLATIONS.en;
 
             if (cart.length === 0) {
                 container.innerHTML = `
             <div class="empty-cart">
                 <div class="empty-cart-icon">🛒</div>
-                <h3>Your cart is empty</h3>
-                <p>Add a plaque from the marketplace or customize your own.</p>
+                <h3>${t.empty_cart_title || "Your cart is empty"}</h3>
+                <p>${t.empty_cart_desc || "Add a plaque from the marketplace or customize your own."}</p>
             </div>
         `;
             } else {
@@ -3145,8 +4042,60 @@
             }
         }
 
+        /* =========================================================
+           PHONE VALIDATION (exactly 10 digits +213)
+        ========================================================= */
+        function formatPhoneInput(input) {
+            // Strip everything except digits
+            let val = input.value.replace(/[^0-9]/g, "");
+            // Limit to 10 digits
+            if (val.length > 10) val = val.slice(0, 10);
+            input.value = val;
+
+            const phoneErr = document.getElementById("phoneError");
+            if (val.length > 0 && val.length !== 10) {
+                phoneErr.style.display = "block";
+                phoneErr.textContent = "Phone must be exactly 10 digits (" + val.length + "/10)";
+            } else if (val.length === 10 && !val.startsWith("0")) {
+                phoneErr.style.display = "block";
+                phoneErr.textContent = "Algerian numbers start with 05, 06, or 07";
+            } else {
+                phoneErr.style.display = "none";
+            }
+        }
+
+        function validatePhone() {
+            const phone = document.getElementById("phone").value.trim();
+            return /^[0-9]{10}$/.test(phone) && phone.startsWith("0");
+        }
+
+        /* =========================================================
+           CITIES DATABASE (all 58 wilayas)
+        ========================================================= */
+        // ALGERIA_CITIES loaded from cities.js
+
+        /* =========================================================
+           POPULATE CITIES FOR SELECTED WILAYA
+        ========================================================= */
+        function populateCities(wilayaCode) {
+            const citySelect = document.getElementById("city");
+            const cities = ALGERIA_CITIES[wilayaCode];
+
+            if (!cities || cities.length === 0) {
+                citySelect.innerHTML = '<option value="">-- Select Wilaya first --</option>';
+                return;
+            }
+
+            citySelect.innerHTML = '<option value="">-- Select City --</option>' +
+                cities.map(c => '<option value="' + c + '">' + c + '</option>').join("");
+        }
+
         function updateWilayaDelivery(code) {
             selectedWilayaObj = ALGERIA_58_WILAYAS.find(w => w.code === code) || null;
+
+            // Populate cities for selected wilaya
+            populateCities(code);
+
             if (selectedWilayaObj) {
                 document.getElementById("deliveryPriceText").textContent = formatPrice(selectedWilayaObj.fee);
                 document.getElementById("deliveryTimelineText").textContent = `Duration: ${selectedWilayaObj.time}`;
@@ -3171,6 +4120,20 @@
                 return;
             }
 
+            // Validate phone is exactly 10 digits
+            if (!validatePhone()) {
+                showToast("Please enter a valid 10-digit phone number");
+                document.getElementById("phone").focus();
+                return;
+            }
+
+            // Validate city is selected
+            const cityVal = document.getElementById("city").value;
+            if (!cityVal) {
+                showToast("Please select your city");
+                return;
+            }
+
             const form = document.getElementById("checkoutForm");
             if (!form.checkValidity()) {
                 form.reportValidity();
@@ -3188,13 +4151,21 @@
             const shipping = selectedWilayaObj.fee;
             const total = subtotal + shipping;
 
+            const firstName = document.getElementById("firstName").value.trim();
+            const lastName = document.getElementById("lastName").value.trim();
+            const fullName = (firstName + " " + lastName).trim();
+            const phoneVal = document.getElementById("phone").value.trim();
+            const fullPhone = "+213" + phoneVal;
+
             return {
                 id: orderId,
                 customer: {
-                    name: document.getElementById("fullName").value.trim(),
-                    phone: document.getElementById("phone").value.trim(),
+                    name: fullName,
+                    firstName: firstName,
+                    lastName: lastName,
+                    phone: fullPhone,
                     wilaya: selectedWilayaObj.name,
-                    city: document.getElementById("city").value.trim(),
+                    city: document.getElementById("city").value,
                     address: document.getElementById("address").value.trim(),
                     notes: document.getElementById("notes").value.trim()
                 },
@@ -3230,7 +4201,591 @@
                 document.body.classList.add("admin-mode-active");
                 document.getElementById("adminBar").classList.add("active");
             }
+
+            // Initialize saved language
+            const savedLang = localStorage.getItem("alumi_lang") || "en";
+            setLanguage(savedLang);
+
+            // Initialize saved theme
+            const savedTheme = localStorage.getItem("alumi_theme") || "dark";
+            if (savedTheme === "light") {
+                document.body.classList.add("light-mode");
+                updateThemeIcons(true);
+            }
         });
+
+        /* =========================================================
+           MULTI-LANGUAGE (i18n) SYSTEM — EN / FR / AR
+        ========================================================= */
+        const TRANSLATIONS = {
+            en: {
+                // Nav
+                nav_marketplace: "Marketplace",
+                nav_custom: "Custom Design",
+                nav_how: "How It Works",
+                nav_business: "Business",
+                nav_track: "Track Order",
+                nav_cart: "Cart",
+                nav_whatsapp: "Direct WhatsApp Contact",
+
+                // Hero
+                hero_badge: "PREMIUM ALUMINUM SUBLIMATION",
+                hero_title: "Your design.<br><span>On metal.</span>",
+                hero_desc: "Premium sublimation aluminum plaques for homes, gaming setups, businesses, gifts, and everything in between. Available in A4 (30 cm × 21 cm) & A3 (42 cm × 30 cm) with express delivery across all 58 Wilayas of Algeria.",
+                hero_explore: "Explore Marketplace",
+                hero_custom: "Create Custom",
+
+                // Trust
+                trust1_title: "Premium Quality",
+                trust1_desc: "100% Rust-Proof Aluminum",
+                trust2_title: "Custom Designs",
+                trust2_desc: "Your artwork, photo & logo",
+                trust3_title: "Standard Sizes",
+                trust3_desc: "A4 (30 cm × 21 cm) & A3 (42 cm × 30 cm)",
+                trust4_title: "58 Wilayas Delivery",
+                trust4_desc: "Cash on delivery nationwide",
+
+                // Marketplace
+                mp_title: "Explore designs",
+                mp_desc: "Find something ready to personalize or print directly on metal.",
+                mp_add: "Add New Plaque",
+                mp_search: "Search plaques...",
+                cat_all: "All",
+                cat_gaming: "Gaming",
+                cat_anime: "Anime",
+                cat_business: "Business",
+                cat_home: "Home",
+                cat_gifts: "Gifts",
+
+                // Custom Studio
+                custom_badge: "CUSTOM MADE",
+                custom_title: "Make your own plaque.",
+                custom_desc: "Upload your image, logo, photo, or artwork. Select dimensions (A4 or A3) and aluminum finish, and turn your visual into an everlasting premium metal plaque.",
+                custom_list1: "Upload any design or photo",
+                custom_list2: "Sizes: A4 (30 cm × 21 cm) & A3 (42 cm × 30 cm)",
+                custom_list3: "High-definition thermal print",
+                custom_list4: "Made to order in Algeria",
+                upload_choose: "Choose image from device",
+                upload_support: "Supports PNG, JPG, WEBP",
+                custom_price_label: "Plaque Price",
+                custom_add_cart: "Add Custom Plaque To Cart →",
+
+                // How it Works
+                how_title: "How it works",
+                how_desc: "Simple from design to finished aluminum plaque.",
+                how_step1_title: "Choose a design",
+                how_step1_desc: "Browse our marketplace or upload your own favorite graphic or photo.",
+                how_step2_title: "Personalize it",
+                how_step2_desc: "Choose dimensions (A4 30 cm × 21 cm or A3 42 cm × 30 cm) and metal finish.",
+                how_step3_title: "We make & deliver",
+                how_step3_desc: "Printed deep into aluminum and shipped with cash on delivery across Algeria.",
+
+                // Business
+                biz_title: "Need plaques for your business?",
+                biz_desc: "Bulk orders, company signs, restaurant menus, and gaming lounge branding.",
+                biz_btn: "WhatsApp Business Quote",
+
+                // Footer
+                footer_about: "Premium aluminum sublimation products made for people who want their designs to stand out.",
+                footer_mp: "Marketplace",
+                footer_all: "All Products",
+                footer_services: "Services",
+                footer_custom: "Custom Design",
+                footer_b2b: "Business Orders",
+                footer_contact: "Contact",
+                footer_tagline: "Premium Aluminum Sublimation • 58 Wilayas Algeria",
+
+                // Cart
+                cart_title: "Your Cart",
+                cart_subtotal: "Subtotal",
+                cart_delivery: "Delivery (58 Wilayas)",
+                cart_calc: "Calculated at checkout",
+                cart_total: "Total",
+                cart_checkout: "Continue to Checkout →",
+                empty_cart_title: "Your cart is empty",
+                empty_cart_desc: "Add a plaque from the marketplace or customize your own.",
+
+                // Checkout
+                checkout_title: "Delivery details",
+                checkout_subtitle: "Enter your information before confirming your order with Cash On Delivery.",
+                checkout_customer: "Customer information",
+                checkout_address: "Delivery address (Algeria)",
+                checkout_confirm: "Confirm Order",
+                checkout_success: "Order Confirmed!",
+                checkout_thanks: "Thank you for your order! We have received your delivery details and will contact you by phone before delivery.",
+                checkout_close: "Close",
+
+                // Track
+                track_title: "📦 Track Your Order",
+                track_subtitle: "Enter your order code and phone number to check the status of your order. Both are required for privacy protection.",
+                track_code_label: "Order Code *",
+                track_phone_label: "Phone Number *",
+                track_btn: "🔍 Track Order",
+                track_not_found: "❌ Order not found. Please make sure your order code and phone number match exactly.",
+                track_error: "⚠️ Could not search order. Please try again later.",
+                track_result_title: "Order Details",
+                track_status: "Status",
+                track_name: "Customer Name",
+                track_wilaya: "Wilaya",
+                track_city: "City",
+                track_total: "Total",
+                track_placed: "Order Placed",
+                track_items: "Items Ordered",
+                track_back: "← Track Another Order",
+                track_update_cart: "Product removed from cart",
+                track_added_to_cart: "added to cart ✓",
+                // Form labels
+                label_firstname: "First Name *",
+                ph_firstname: "First name",
+                label_lastname: "Last Name *",
+                ph_lastname: "Last name",
+                label_phone: "Phone Number *",
+                label_wilaya: "Wilaya (58 Wilayas) *",
+                label_city: "City / Commune *",
+                label_address: "Full address *",
+                label_notes: "Delivery notes (Optional)",
+                // Statuses
+                status_pending: "Pending",
+                status_confirmed: "Confirmed",
+                status_shipped: "Shipped",
+                status_delivered: "Delivered",
+                status_cancelled: "Cancelled"
+            },
+
+            fr: {
+                nav_marketplace: "Boutique",
+                nav_custom: "Design Personnalisé",
+                nav_how: "Comment ça marche",
+                nav_business: "Entreprise",
+                track_order: "Suivre Commande",
+                nav_cart: "Panier",
+                nav_track: "Suivre Commande",
+                nav_whatsapp: "Contact WhatsApp Direct",
+
+                hero_badge: "SUBLIMATION ALUMINIUM PREMIUM",
+                hero_title: "Votre design.<br><span>Sur métal.</span>",
+                hero_desc: "Plaques en aluminium sublimation premium pour maisons, setups gaming, entreprises, cadeaux et bien plus. Disponibles en A4 (30 cm × 21 cm) et A3 (42 cm × 30 cm) avec livraison express dans les 58 Wilayas d'Algérie.",
+                hero_explore: "Parcourir la Boutique",
+                hero_custom: "Créer Personnalisé",
+
+                trust1_title: "Qualité Premium",
+                trust1_desc: "Aluminium 100% Inoxydable",
+                trust2_title: "Designs Personnalisés",
+                trust2_desc: "Votre artwork, photo et logo",
+                trust3_title: "Tailles Standard",
+                trust3_desc: "A4 (30 cm × 21 cm) & A3 (42 cm × 30 cm)",
+                trust4_title: "Livraison 58 Wilayas",
+                trust4_desc: "Paiement à la livraison partout",
+
+                mp_title: "Explorer les designs",
+                mp_desc: "Trouvez quelque chose à personnaliser ou imprimer directement sur métal.",
+                mp_add: "Ajouter une Plaque",
+                mp_search: "Rechercher des plaques...",
+                cat_all: "Tout",
+                cat_gaming: "Gaming",
+                cat_anime: "Anime",
+                cat_business: "Entreprise",
+                cat_home: "Maison",
+                cat_gifts: "Cadeaux",
+
+                custom_badge: "PERSONNALISÉ",
+                custom_title: "Créez votre propre plaque.",
+                custom_desc: "Téléchargez votre image, logo, photo ou artwork. Sélectionnez les dimensions (A4 ou A3) et la finition aluminium, et transformez votre visuel en une plaque métallique premium éternelle.",
+                custom_list1: "Téléchargez n'importe quel design ou photo",
+                custom_list2: "Tailles : A4 (30 cm × 21 cm) & A3 (42 cm × 30 cm)",
+                custom_list3: "Impression thermique haute définition",
+                custom_list4: "Fabriqué sur commande en Algérie",
+                upload_choose: "Choisir une image de l'appareil",
+                upload_support: "Compatible PNG, JPG, WEBP",
+                custom_price_label: "Prix de la Plaque",
+                custom_add_cart: "Ajouter au Panier →",
+
+                how_title: "Comment ça marche",
+                how_desc: "Simple du design à la plaque en aluminium terminée.",
+                how_step1_title: "Choisissez un design",
+                how_step1_desc: "Parcourez notre boutique ou téléchargez votre graphique ou photo préféré.",
+                how_step2_title: "Personnalisez-le",
+                how_step2_desc: "Choisissez les dimensions (A4 30 cm × 21 cm ou A3 42 cm × 30 cm) et la finition métallique.",
+                how_step3_title: "Nous fabriquons et livrons",
+                how_step3_desc: "Imprimé en profondeur dans l'aluminium et expédié avec paiement à la livraison en Algérie.",
+
+                biz_title: "Besoin de plaques pour votre entreprise ?",
+                biz_desc: "Commandes en gros, panneaux d'entreprise, menus de restaurant et branding de salles de jeux.",
+                biz_btn: "Devis WhatsApp Entreprise",
+
+                footer_about: "Produits en aluminium sublimation premium conçus pour ceux qui veulent que leurs designs se démarquent.",
+                footer_mp: "Boutique",
+                footer_all: "Tous les Produits",
+                footer_services: "Services",
+                footer_custom: "Design Personnalisé",
+                footer_b2b: "Commandes Entreprise",
+                footer_contact: "Contact",
+                footer_tagline: "Sublimation Aluminium Premium • 58 Wilayas Algérie",
+
+                cart_title: "Votre Panier",
+                cart_subtotal: "Sous-total",
+                cart_delivery: "Livraison (58 Wilayas)",
+                cart_calc: "Calculé à la caisse",
+                cart_total: "Total",
+                cart_checkout: "Continuer vers le Paiement →",
+                empty_cart_title: "Votre panier est vide",
+                empty_cart_desc: "Ajoutez une plaque de la boutique ou personnalisez la vôtre.",
+
+                checkout_title: "Détails de livraison",
+                checkout_subtitle: "Entrez vos informations avant de confirmer votre commande avec paiement à la livraison.",
+                checkout_customer: "Informations client",
+                checkout_address: "Adresse de livraison (Algérie)",
+                checkout_confirm: "Confirmer la Commande",
+                checkout_success: "Commande Confirmée !",
+                checkout_thanks: "Merci pour votre commande ! Nous avons reçu vos informations de livraison et vous contacterons par téléphone avant la livraison.",
+                checkout_close: "Fermer",
+
+                track_title: "📦 Suivre Votre Commande",
+                track_subtitle: "Entrez votre code de commande et numéro de téléphone pour vérifier l'état de votre commande. Les deux sont requis pour la protection de la vie privée.",
+                track_code_label: "Code de Commande *",
+                track_phone_label: "Numéro de Téléphone *",
+                track_btn: "🔍 Suivre la Commande",
+                track_not_found: "❌ Commande introuvable. Veuillez vérifier que votre code de commande et numéro de téléphone correspondent exactement.",
+                track_error: "⚠️ Impossible de rechercher la commande. Veuillez réessayer plus tard.",
+                track_result_title: "Détails de la Commande",
+                track_status: "Statut",
+                track_name: "Nom du Client",
+                track_wilaya: "Wilaya",
+                track_city: "Ville",
+                track_total: "Total",
+                track_placed: "Commande Passée",
+                track_items: "Articles Commandés",
+                track_back: "← Suivre une Autre Commande",
+                update_cart_empty: "Panier mis à jour",
+                label_firstname: "Prénom *",
+                ph_firstname: "Prénom",
+                label_lastname: "Nom de famille *",
+                ph_lastname: "Nom de famille",
+                label_phone: "Numéro de Téléphone *",
+                label_wilaya: "Wilaya (58 Wilayas) *",
+                label_city: "Ville / Commune *",
+                label_address: "Adresse complète *",
+                label_notes: "Notes de livraison (Optionnel)",
+                status_pending: "En attente",
+                status_confirmed: "Confirmée",
+                status_shipped: "Expédiée",
+                status_delivered: "Livrée",
+                status_cancelled: "Annulée"
+            },
+
+            ar: {
+                nav_marketplace: "المتجر",
+                nav_custom: "تصميم مخصص",
+                nav_how: "كيف يعمل",
+                nav_business: "الأعمال",
+                nav_track: "تتبع الطلب",
+                nav_cart: "السلة",
+                nav_whatsapp: "تواصل واتساب المباشر",
+
+                hero_badge: "سبقة الألومنيوم المميزة",
+                hero_title: "تصميمك.<br><span>على المعدن.</span>",
+                hero_desc: "صور على لوحات ألومنيوم مميزة للمنازل وأجهزة الألعاب والأعمال والهدايا وأكثر. متوفرة بمقاس A4 (30 سم × 21 سم) و A3 (42 سم × 30 سم) مع توصيل سريع عبر الولايات الـ 58 في الجزائر.",
+                hero_explore: "تصفح المتجر",
+                hero_custom: "إنشاء مخصص",
+
+                trust1_title: "جودة مميزة",
+                trust1_desc: "ألومنيوم مقاوم للصدأ 100%",
+                trust2_title: "تصاميم مخصصة",
+                trust2_desc: " artwork وصورة وشعارك",
+                trust3_title: "مقاسات قياسية",
+                trust3_desc: "A4 (30 سم × 21 سم) و A3 (42 سم × 30 سم)",
+                trust4_title: "توصيل 58 ولاية",
+                trust4_desc: "الدفع عند الاستلام في جميع أنحاء البلاد",
+
+                mp_title: "استكشف التصاميم",
+                mp_desc: "ابحث عن شيء جاهز للتخصيص أو الطباعة مباشرة على المعدن.",
+                mp_add: "إضافة لوحة جديدة",
+                mp_search: "بحث في اللوحات...",
+                cat_all: "الكل",
+                cat_gaming: "ألعاب",
+                cat_anime: "أنمي",
+                cat_business: "أعمال",
+                cat_home: "منزل",
+                cat_gifts: "هدايا",
+
+                custom_badge: "مخصص",
+                custom_title: "اصنع لوحتك الخاصة.",
+                custom_desc: "ارفع صورتك أو شعارك أو artwork. اختر الأبعاد (A4 أو A3) وتشطيب الألومنيوم، و حوّل تصميمك إلى لوحة معدنية مميزة تدوم للأبد.",
+                custom_list1: "ارفع أي تصميم أو صورة",
+                custom_list2: "مقاسات: A4 (30 سم × 21 سم) و A3 (42 سم × 30 سم)",
+                custom_list3: "طباعة حرارية عالية الدقة",
+                custom_list4: "مصنوع في الجزائر",
+                upload_choose: "اختر صورة من الجهاز",
+                upload_support: "يدعم PNG, JPG, WEBP",
+                custom_price_label: "سعر اللوحة",
+                custom_add_cart: "أضف إلى السلة ←",
+
+                how_title: "كيف يعمل",
+                how_desc: "بسيط من التصميم إلى لوحة الألومنيوم النهائية.",
+                how_step1_title: "اختر تصميماً",
+                how_step1_desc: "تصفح متجرنا أو ارفع رسماً أو صورتك المفضلة.",
+                how_step2_title: "خصصها",
+                how_step2_desc: "اختر الأبعاد (A4 30 سم × 21 سم أو A3 42 سم × 30 سم) وتشطيب المعدن.",
+                how_step3_title: "نصنع ونوصّل",
+                how_step3_desc: "مطبوع بعمق في الألومنيوم ومرسل مع الدفع عند الاستلام في جميع أنحاء الجزائر.",
+
+                biz_title: "تحتاج لوحات لأعمالك؟",
+                biz_desc: "طلبات بالجملة، لوحات شركات، قوائم مطاعم، وعلامات غرف ألعاب.",
+                biz_btn: "عرض أسعار واتساب للأعمال",
+
+                footer_about: "منتجات ألومنيوم سبقة مميزة صُنعت لمن يريد أن تبرز تصاميمه.",
+                footer_mp: "المتجر",
+                footer_all: "جميع المنتجات",
+                footer_services: "الخدمات",
+                footer_custom: "تصميم مخصص",
+                footer_b2b: "طلبات الشركات",
+                footer_contact: "التواصل",
+                footer_tagline: "سبقة ألومنيوم مميزة • 58 ولاية جزائرية",
+
+                cart_title: "سلة التسوق",
+                cart_subtotal: "المجموع الفرعي",
+                cart_delivery: "التوصيل (58 ولاية)",
+                cart_calc: "يُحسب عند الدفع",
+                cart_total: "الإجمالي",
+                cart_checkout: "متابعة للدفع ←",
+                empty_cart_title: "سلتك فارغة",
+                empty_cart_desc: "أضف لوحة من المتجر أو خصص لوحتك الخاصة.",
+
+                checkout_title: "تفاصيل التوصيل",
+                checkout_subtitle: "أدخل معلوماتك قبل تأكيد طلبك بالدفع عند الاستلام.",
+                checkout_customer: "معلومات العميل",
+                checkout_address: "عنوان التوصيل (الجزائر)",
+                checkout_confirm: "تأكيد الطلب",
+                checkout_success: "تم تأكيد الطلب!",
+                checkout_thanks: "شكراً لطلبك! تلقينا تفاصيل التوصيل وسنتواصل معك عبر الهاتف قبل التوصيل.",
+                checkout_close: "إغلاق",
+
+                track_title: "📦 تتبع طلبك",
+                track_subtitle: "أدخل كود الطلب ورقم الهاتف للتحقق من حالة طلبك. كلاهما مطلوب لحماية الخصوصية.",
+                track_code_label: "كود الطلب *",
+                track_phone_label: "رقم الهاتف *",
+                track_btn: "🔍 تتبع الطلب",
+                track_not_found: "❌ الطلب غير موجود. تأكد من تطابق كود الطلب ورقم الهاتف تماماً.",
+                track_error: "⚠️ تعذر البحث عن الطلب. حاول مرة أخرى لاحقاً.",
+                track_result_title: "تفاصيل الطلب",
+                track_status: "الحالة",
+                track_name: "اسم العميل",
+                track_wilaya: "الولاية",
+                track_city: "المدينة",
+                track_total: "الإجمالي",
+                track_placed: "تاريخ الطلب",
+                track_items: "المنتجات المطلوبة",
+                track_back: "← تتبع طلب آخر",
+                update_cart_empty: "تم تحديث السلة",
+                label_firstname: "الاسم الأول *",
+                ph_firstname: "الاسم الأول",
+                label_lastname: "اسم العائلة *",
+                ph_lastname: "اسم العائلة",
+                label_phone: "رقم الهاتف *",
+                label_wilaya: "الولاية (58 ولاية) *",
+                label_city: "المدينة / البلدية *",
+                label_address: "العنوان الكامل *",
+                label_notes: "ملاحظات التوصيل (اختياري)",
+                status_pending: "قيد الانتظار",
+                status_confirmed: "مؤكد",
+                status_shipped: "تم الشحن",
+                status_delivered: "تم التوصيل",
+                status_cancelled: "ملغي"
+            }
+        };
+
+        let currentLang = localStorage.getItem("alumi_lang") || "en";
+
+        function setLanguage(lang) {
+            currentLang = lang;
+            localStorage.setItem("alumi_lang", lang);
+
+            // Update lang button active states
+            document.querySelectorAll(".lang-btn").forEach(btn => {
+                btn.classList.remove("active");
+                if ((lang === "en" && btn.textContent.trim() === "EN") ||
+                    (lang === "fr" && btn.textContent.trim() === "FR") ||
+                    (lang === "ar" && btn.textContent.trim() === "عربي")) {
+                    btn.classList.add("active");
+                }
+            });
+
+            // Set RTL for Arabic
+            if (lang === "ar") {
+                document.body.setAttribute("dir", "rtl");
+            } else {
+                document.body.removeAttribute("dir");
+            }
+
+            // Apply translations to all [data-i18n] elements
+            const t = TRANSLATIONS[lang];
+            document.querySelectorAll("[data-i18n]").forEach(el => {
+                const key = el.getAttribute("data-i18n");
+                if (t[key]) {
+                    el.innerHTML = t[key];
+                }
+            });
+
+            // Apply translations to placeholders
+            document.querySelectorAll("[data-i18n-placeholder]").forEach(el => {
+                const key = el.getAttribute("data-i18n-placeholder");
+                if (t[key]) {
+                    el.placeholder = t[key];
+                }
+            });
+
+            // Re-render cart to update translated strings
+            renderCart();
+        }
+
+        /* =========================================================
+           DARK / LIGHT MODE TOGGLE
+        ========================================================= */
+        function toggleTheme() {
+            const isLight = document.body.classList.toggle("light-mode");
+            localStorage.setItem("alumi_theme", isLight ? "light" : "dark");
+            updateThemeIcons(isLight);
+        }
+
+        function updateThemeIcons(isLight) {
+            const icon = isLight ? "🌙" : "☀️";
+            const btn1 = document.getElementById("themeToggleBtn");
+            const btn2 = document.getElementById("themeToggleBtnMobile");
+            if (btn1) btn1.textContent = icon;
+            if (btn2) btn2.textContent = icon;
+        }
+
+        /* =========================================================
+           ORDER TRACKING (Code + Phone → Supabase)
+        ========================================================= */
+        function openTrackOrder() {
+            document.getElementById("trackFormContainer").style.display = "block";
+            document.getElementById("trackResults").style.display = "none";
+            document.getElementById("trackCode").value = "";
+            document.getElementById("trackPhone").value = "";
+            document.getElementById("trackOverlay").classList.add("open");
+            document.body.style.overflow = "hidden";
+        }
+
+        function closeTrackOrder() {
+            document.getElementById("trackOverlay").classList.remove("open");
+            document.body.style.overflow = "";
+        }
+
+        function trackOutside(event) {
+            if (event.target.id === "trackOverlay") closeTrackOrder();
+        }
+
+        async function searchOrder(event) {
+            event.preventDefault();
+            const code = document.getElementById("trackCode").value.trim().toUpperCase();
+            let phone = document.getElementById("trackPhone").value.trim();
+
+            const t = TRANSLATIONS[currentLang];
+
+            if (!code || !phone) {
+                showToast("Please fill in both fields");
+                return;
+            }
+
+            // Normalize phone: add +213 if missing
+            if (!phone.startsWith("+")) {
+                phone = "+213" + phone.replace(/[^0-9]/g, "");
+            }
+
+            const resultsDiv = document.getElementById("trackResults");
+            resultsDiv.innerHTML = "<p style='text-align:center; color:#858d96; padding:20px;'>🔍 Searching...</p>";
+            resultsDiv.style.display = "block";
+
+            try {
+                const resp = await fetch(
+                    SUPABASE_URL + "/rest/v1/orders?order_code=eq." + encodeURIComponent(code) + "&phone=eq." + encodeURIComponent(phone) + "&select=*",
+                    {
+                        headers: {
+                            "apikey": SUPABASE_ANON_KEY,
+                            "Authorization": "Bearer " + SUPABASE_ANON_KEY
+                        }
+                    }
+                );
+
+                if (!resp.ok) {
+                    throw new Error("Network error");
+                }
+
+                const data = await resp.json();
+
+                if (data.length === 0) {
+                    resultsDiv.innerHTML = `<div class="track-error">${t.track_not_found}</div>`;
+                    return;
+                }
+
+                const order = data[0];
+                const statusKey = "status_" + (order.status || "pending");
+                const statusLabel = t[statusKey] || order.status;
+                const statusClass = "track-status-" + (order.status || "pending");
+
+                // Format items
+                let itemsHtml = "";
+                if (order.items_formatted) {
+                    const lines = order.items_formatted.split("\n");
+                    itemsHtml = lines.map(line => "<p>• " + line + "</p>").join("");
+                } else if (order.items) {
+                    const items = typeof order.items === "string" ? JSON.parse(order.items) : order.items;
+                    itemsHtml = items.map(item => "<p>• " + item.name + " (" + (item.size || "A4") + ") x" + item.quantity + " — " + formatPrice(item.price * item.quantity) + "</p>").join("");
+                }
+
+                const placedDate = order.created_at ? new Date(order.created_at).toLocaleDateString(currentLang === "ar" ? "ar-DZ" : currentLang === "fr" ? "fr-FR" : "en-US", { year: "numeric", month: "long", day: "numeric" }) : "N/A";
+
+                resultsDiv.innerHTML = `
+                    <div class="track-result">
+                        <h3>${t.track_result_title}</h3>
+                        <div class="track-result-row">
+                            <span class="track-result-label">Order Code</span>
+                            <span class="track-result-value" style="color:#7de3ff;">${order.order_code}</span>
+                        </div>
+                        <div class="track-result-row">
+                            <span class="track-result-label">${t.track_status}</span>
+                            <span class="track-status-badge ${statusClass}">${statusLabel}</span>
+                        </div>
+                        <div class="track-result-row">
+                            <span class="track-result-label">${t.track_name}</span>
+                            <span class="track-result-value">${order.customer_name}</span>
+                        </div>
+                        <div class="track-result-row">
+                            <span class="track-result-label">${t.track_wilaya}</span>
+                            <span class="track-result-value">${order.wilaya || "N/A"}</span>
+                        </div>
+                        <div class="track-result-row">
+                            <span class="track-result-label">${t.track_city}</span>
+                            <span class="track-result-value">${order.city || "N/A"}</span>
+                        </div>
+                        <div class="track-result-row">
+                            <span class="track-result-label">${t.track_total}</span>
+                            <span class="track-result-value">${formatPrice(order.total || 0)}</span>
+                        </div>
+                        <div class="track-result-row">
+                            <span class="track-result-label">${t.track_placed}</span>
+                            <span class="track-result-value">${placedDate}</span>
+                        </div>
+                    </div>
+
+                    <div class="track-items-list">
+                        <strong style="font-size:13px; display:block; margin-bottom:8px;">${t.track_items}:</strong>
+                        ${itemsHtml}
+                    </div>
+
+                    <div style="margin-top:18px; text-align:center;">
+                        <button class="btn btn-secondary" onclick="openTrackOrder()" style="font-size:13px;">
+                            ${t.track_back}
+                        </button>
+                    </div>
+                `;
+
+            } catch (e) {
+                console.error("Order tracking error:", e);
+                resultsDiv.innerHTML = `<div class="track-error">${t.track_error}</div>`;
+            }
+        }
     </script>
 </body>
 
