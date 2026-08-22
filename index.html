@@ -2495,6 +2495,76 @@
 
         body[dir="rtl"] .hero-plaque:hover {
             transform: rotate(0deg) scale(1.02);
+        }
+
+        /* =========================================================
+   FLOATING WHATSAPP BALL
+========================================================= */
+        @keyframes whatsappBouncePulse {
+            0%   { transform: scale(1);    box-shadow: 0 6px 28px rgba(37,211,102,0.55); }
+            15%  { transform: scale(1.25); box-shadow: 0 6px 36px rgba(37,211,102,0.75); }
+            30%  { transform: scale(0.95); box-shadow: 0 4px 20px rgba(37,211,102,0.45); }
+            45%  { transform: scale(1.18); box-shadow: 0 6px 32px rgba(37,211,102,0.68); }
+            60%  { transform: scale(1);    box-shadow: 0 6px 28px rgba(37,211,102,0.55); }
+            100% { transform: scale(1);    box-shadow: 0 6px 28px rgba(37,211,102,0.55); }
+        }
+
+        .whatsapp-float {
+            position: fixed;
+            bottom: 28px;
+            right: 28px;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: #25d366;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 6px 28px rgba(37, 211, 102, 0.55);
+            z-index: 90;
+            cursor: pointer;
+            opacity: 1;
+            transform: scale(1);
+            transition: opacity 0.5s ease, transform 0.5s ease;
+            animation: whatsappBouncePulse 1.2s ease-in-out 3;
+        }
+
+        .whatsapp-float.no-bounce {
+            animation: none;
+        }
+
+        .whatsapp-float.hidden {
+            opacity: 0;
+            transform: scale(0.6);
+            pointer-events: none;
+        }
+
+        .whatsapp-float:hover {
+            transform: scale(1.1);
+            box-shadow: 0 8px 35px rgba(37, 211, 102, 0.7);
+        }
+
+        .whatsapp-float.hidden:hover {
+            transform: scale(0.6);
+        }
+
+        .whatsapp-float svg {
+            width: 32px;
+            height: 32px;
+            fill: white;
+        }
+
+        @media(max-width: 600px) {
+            .whatsapp-float {
+                width: 52px;
+                height: 52px;
+                bottom: 20px;
+                right: 20px;
+            }
+            .whatsapp-float svg {
+                width: 26px;
+                height: 26px;
+            }
         }</style>
 </head>
 
@@ -2817,6 +2887,12 @@
              <span data-i18n="biz_btn">WhatsApp Business Quote</span>
         </a>
     </section>
+
+
+    <!-- Floating WhatsApp Ball -->
+    <a href="https://wa.me/213658320335?text=Hello%20TrioVision" target="_blank" class="whatsapp-float" id="whatsappFloat" aria-label="Chat on WhatsApp">
+        <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg"><path d="M16.004 0h-.008C7.174 0 0 7.176 0 16c0 3.5 1.132 6.744 3.054 9.374L1.054 31.25l6.124-1.97C9.72 30.798 12.748 32 16.004 32 24.83 32 32 24.822 32 16S24.83 0 16.004 0zm9.316 22.59c-.39 1.1-1.932 2.014-3.14 2.28-.836.18-1.926.322-5.598-1.2-4.7-1.92-7.722-6.644-7.952-6.954-.222-.31-1.83-2.44-1.83-4.656 0-2.214 1.162-3.3 1.576-3.76.39-.43.938-.548 1.246-.548.156 0 .294.008.418.014.44.018.66.044.946.72.35.84 1.196 2.91 1.298 3.12.102.21.34.71.1.154-.2.43-.34.696-.68 1.066-.34.36-.714.806-.308 1.576.404.77 1.796 2.95 3.85 4.776.45.4 3.236 2.144 3.856 2.432.15.072.268.114.36.154.74.34 1.174.288 1.614.174.49-.128 1.578-.646 1.8-1.272.222-.626.222-1.162.156-1.276-.066-.114-.244-.184-.51-.316z"/></svg>
+    </a>
 
 
     <!-- =========================================================
@@ -4786,6 +4862,34 @@
                 resultsDiv.innerHTML = `<div class="track-error">${t.track_error}</div>`;
             }
         }
+    </script>
+
+    <!-- WhatsApp Float Intersection Observer -->
+    <script>
+        (function() {
+            const floatBtn = document.getElementById('whatsappFloat');
+            const businessSection = document.getElementById('business');
+            if (!floatBtn || !businessSection) return;
+
+            const observer = new IntersectionObserver(function(entries) {
+                entries.forEach(function(entry) {
+                    if (entry.isIntersecting) {
+                        floatBtn.classList.add('hidden');
+                    } else {
+                        floatBtn.classList.remove('hidden');
+                    }
+                });
+            }, {
+                threshold: 0.3
+            });
+
+            observer.observe(businessSection);
+
+            // Stop the bounce-pulse animation after it finishes (3 iterations × 1.2s ≈ 3.6s)
+            setTimeout(function() {
+                floatBtn.classList.add('no-bounce');
+            }, 4000);
+        })();
     </script>
 </body>
 
