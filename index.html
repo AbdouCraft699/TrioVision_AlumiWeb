@@ -130,10 +130,131 @@
             font-size: 25px;
             font-weight: 900;
             letter-spacing: 4px;
+            display: inline-flex;
+            align-items: center;
         }
 
         .logo span {
             color: #8e949b;
+        }
+
+        /* ── Logo letter bounce-in animation ── */
+        .logo-text {
+            display: inline-flex;
+            overflow: hidden;
+        }
+
+        .logo-letter {
+            display: inline-block;
+            animation: logoBounceIn .5s cubic-bezier(.34,1.56,.64,1) both;
+        }
+
+        @keyframes logoBounceIn {
+            0%   { opacity: 0; transform: translateY(-30px) scale(0.3); }
+            50%  { opacity: 1; transform: translateY(6px) scale(1.1); }
+            70%  { transform: translateY(-3px) scale(0.95); }
+            100% { opacity: 1; transform: translateY(0) scale(1); }
+        }
+
+        .logo-dot {
+            display: inline-block;
+            color: #8e949b;
+            animation: dotBounce 1.4s ease-in-out infinite, logoBounceIn .5s cubic-bezier(.34,1.56,.64,1) both;
+            animation-delay: 1.1s, 1.1s;
+        }
+
+        @keyframes dotBounce {
+            0%, 100% { transform: translateY(0) scale(1); }
+            20%      { transform: translateY(-12px) scale(1.3); }
+            40%      { transform: translateY(0) scale(0.85); }
+            55%      { transform: translateY(-6px) scale(1.15); }
+            70%      { transform: translateY(0) scale(0.9); }
+            85%      { transform: translateY(-2px) scale(1.05); }
+        }
+
+        /* Eye letters — the two O's (test.html style) */
+        .logo-eye {
+            width: 22px;
+            height: 22px;
+            border: 2.5px solid #8e949b;
+            border-radius: 50%;
+            position: relative;
+            overflow: hidden;
+            background: transparent;
+            vertical-align: middle;
+            margin-top: 10px;
+            flex-shrink: 0;
+            transition: 0.5s ease;
+        }
+
+        .logo-eye.bounce-in {
+            animation: logoBounceIn .5s cubic-bezier(.34,1.56,.64,1) both;
+        }
+
+        .logo-eye.blink {
+            animation: logoEyeBlink 0.18s ease-in-out;
+        }
+
+        @keyframes logoEyeBlink {
+            0%   { transform: scaleY(1); }
+            45%  { transform: scaleY(0.08); }
+            100% { transform: scaleY(1); }
+        }
+
+        .logo-eye-pupil {
+            width: 9px;
+            height: 9px;
+            background: #8e949b;
+            border-radius: 50%;
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            transition: left 0.45s ease, top 0.45s ease, transform 0.15s ease;
+        }
+
+        /* Dark inner pupil */
+        .logo-eye-pupil::after {
+            content: '';
+            width: 4px;
+            height: 4px;
+            background: #0b0b0f;
+            border-radius: 50%;
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        /* White reflection */
+        .logo-eye-pupil::before {
+            content: '';
+            width: 2px;
+            height: 2px;
+            background: white;
+            border-radius: 50%;
+            position: absolute;
+            left: 2px;
+            top: 1px;
+            z-index: 2;
+        }
+
+        /* Hover wiggle */
+        .logo:hover .logo-text {
+            animation: logoWiggle .4s ease;
+        }
+
+        .logo:hover .logo-dot {
+            animation: dotBounce 1.4s ease-in-out infinite, logoWiggle .4s ease;
+        }
+
+        @keyframes logoWiggle {
+            0%   { transform: rotate(0deg); }
+            20%  { transform: rotate(-5deg); }
+            40%  { transform: rotate(4deg); }
+            60%  { transform: rotate(-3deg); }
+            80%  { transform: rotate(2deg); }
+            100% { transform: rotate(0deg); }
         }
 
         nav {
@@ -2780,7 +2901,9 @@
 ========================================================= -->
     <header>
         <a href="#" class="logo">
-            TrioVision<span>.</span>
+            <span class="logo-text">
+                <span class="logo-letter" style="animation-delay:0s">T</span><span class="logo-letter" style="animation-delay:0.06s">r</span><span class="logo-letter" style="animation-delay:0.12s">i</span><span class="logo-eye" style="animation-delay:0.18s"><span class="logo-eye-pupil"></span></span><span class="logo-letter" style="animation-delay:0.24s">V</span><span class="logo-letter" style="animation-delay:0.30s">i</span><span class="logo-letter" style="animation-delay:0.36s">s</span><span class="logo-letter" style="animation-delay:0.42s">i</span><span class="logo-eye" style="animation-delay:0.48s"><span class="logo-eye-pupil"></span></span><span class="logo-letter" style="animation-delay:0.54s">n</span>
+            </span><span class="logo-dot">.</span>
         </a>
 
         <nav>
@@ -5078,6 +5201,69 @@
             setTimeout(function() {
                 floatBtn.classList.add('no-bounce');
             }, 4000);
+        })();
+    </script>
+
+    <!-- Logo Eye Random Look + Blink -->
+    <script>
+        (function() {
+            var pupils = document.querySelectorAll('.logo-eye-pupil');
+            var eyes = document.querySelectorAll('.logo-eye');
+
+            // Bounce-in once on page load, then remove so blink doesn't conflict
+            eyes.forEach(function(e) { e.classList.add('bounce-in'); });
+            setTimeout(function() {
+                eyes.forEach(function(e) { e.classList.remove('bounce-in'); });
+            }, 600);
+
+            var positions = [
+                { x: -5, y: 0 },
+                { x: 5, y: 0 },
+                { x: 0, y: -5 },
+                { x: 0, y: 5 },
+                { x: -4, y: -3 },
+                { x: 4, y: -3 },
+                { x: -4, y: 3 },
+                { x: 4, y: 3 }
+            ];
+
+            function movePupils(x, y, speed) {
+                pupils.forEach(function(p) {
+                    p.style.transition = 'left ' + speed + 'ms ease-out, top ' + speed + 'ms ease-out';
+                    p.style.left = 'calc(50% + ' + x + 'px)';
+                    p.style.top = 'calc(50% + ' + y + 'px)';
+                });
+            }
+
+            function blink() {
+                eyes.forEach(function(e) {
+                    e.classList.add('blink');
+                });
+                setTimeout(function() {
+                    eyes.forEach(function(e) {
+                        e.classList.remove('blink');
+                    });
+                }, 180);
+            }
+
+            async function lookAround() {
+                for (var i = 0; i < 7; i++) {
+                    var pos = positions[Math.floor(Math.random() * positions.length)];
+                    movePupils(pos.x, pos.y, 100);
+                    await new Promise(function(r) { setTimeout(r, 1500); });
+                }
+                movePupils(0, 0, 250);
+                await new Promise(function(r) { setTimeout(r, 10000); });
+                lookAround();
+            }
+
+            function randomBlink() {
+                blink();
+                setTimeout(randomBlink, 9000 + Math.random() * 10000);
+            }
+
+            lookAround();
+            randomBlink();
         })();
     </script>
 </body>
