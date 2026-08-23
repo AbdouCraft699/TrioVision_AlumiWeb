@@ -122,7 +122,7 @@
             top: 0;
             z-index: 50;
             background: rgba(10, 12, 15, 0.92);
-            backdrop-filter: blur(12px);
+            backdrop-filter: blur(18px);
             border-bottom: 1px solid #20242a;
         }
 
@@ -216,6 +216,16 @@
             z-index: 45;
             transform: translateY(-150%);
             transition: transform .3s ease;
+            max-height: calc(100vh - 76px);
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        @media(max-width: 600px) {
+            .mobile-nav-drawer {
+                top: auto;
+                max-height: calc(100vh - 80px);
+            }
         }
 
         .mobile-nav-drawer.open {
@@ -484,6 +494,28 @@
             flex-wrap: wrap;
             gap: 9px;
             margin-bottom: 35px;
+        }
+
+        @media(max-width: 600px) {
+            .categories {
+                flex-wrap: nowrap;
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+                padding-bottom: 10px;
+                margin-bottom: 25px;
+                gap: 8px;
+                scrollbar-width: none;
+                -ms-overflow-style: none;
+            }
+
+            .categories::-webkit-scrollbar {
+                display: none;
+            }
+
+            .category {
+                white-space: nowrap;
+                flex-shrink: 0;
+            }
         }
 
         .category {
@@ -1023,12 +1055,11 @@
             position: fixed;
             inset: 0;
             background: rgba(0, 0, 0, .75);
-            backdrop-filter: blur(4px);
+            backdrop-filter: blur(6px);
             z-index: 200;
             opacity: 0;
             visibility: hidden;
             transition: .3s;
-            will-change: opacity;
         }
 
         .cart-overlay.open {
@@ -1048,7 +1079,26 @@
             flex-direction: column;
             transform: translateX(100%);
             transition: .35s ease;
-            will-change: transform;
+        }
+
+        @media(max-width: 600px) {
+            .cart-item {
+                grid-template-columns: 60px 1fr;
+                gap: 10px;
+            }
+
+            .cart-item-right {
+                grid-column: 1 / -1;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                margin-top: 8px;
+            }
+
+            .cart-image {
+                width: 60px;
+                height: 50px;
+            }
         }
 
         .cart-overlay.open .cart-drawer {
@@ -1242,7 +1292,7 @@
             inset: 0;
             z-index: 300;
             background: rgba(0, 0, 0, .85);
-            backdrop-filter: blur(4px);
+            backdrop-filter: blur(7px);
             display: flex;
             align-items: center;
             justify-content: center;
@@ -1250,7 +1300,6 @@
             opacity: 0;
             visibility: hidden;
             transition: .3s;
-            will-change: opacity;
         }
 
         .checkout-overlay.open {
@@ -1442,7 +1491,7 @@
             inset: 0;
             z-index: 350;
             background: rgba(0, 0, 0, .85);
-            backdrop-filter: blur(4px);
+            backdrop-filter: blur(7px);
             display: flex;
             align-items: center;
             justify-content: center;
@@ -1450,7 +1499,6 @@
             opacity: 0;
             visibility: hidden;
             transition: .3s;
-            will-change: opacity;
         }
 
         .admin-modal-overlay.open {
@@ -1559,12 +1607,24 @@
 
             .hero {
                 flex-direction: column;
-                align-items: flex-start;
+                align-items: center;
+                text-align: center;
                 padding: 70px 6%;
+                justify-content: center;
+            }
+
+            .hero-content {
+                max-width: 100%;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
             }
 
             .hero-product {
                 width: 100%;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
             }
 
             .hero-plaque {
@@ -1583,28 +1643,79 @@
             .footer-grid {
                 grid-template-columns: 1fr 1fr;
             }
+
+            .header-controls {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
         }
 
         @media(max-width: 600px) {
             header {
                 padding: 0 5%;
+                height: auto;
+                min-height: 60px;
+                flex-wrap: wrap;
+                gap: 8px;
+                padding-top: 10px;
+                padding-bottom: 10px;
+            }
+
+            .header-right {
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 6px;
+            }
+
+            .header-controls {
+                gap: 6px;
+                order: 3;
+                width: 100%;
+                justify-content: center;
             }
 
             .account-btn {
                 display: none;
             }
 
+            .cart-btn {
+                order: 2;
+            }
+
+            .mobile-menu-btn {
+                order: 1;
+            }
+
+            .hero {
+                padding: 50px 5%;
+                min-height: auto;
+            }
+
             .hero h1 {
-                font-size: 46px;
+                font-size: 40px;
+                letter-spacing: -2px;
+            }
+
+            .hero p {
+                font-size: 15px;
+            }
+
+            .hero-buttons {
+                justify-content: center;
             }
 
             .hero-plaque {
-                width: 285px;
-                height: 185px;
+                width: 260px;
+                height: 170px;
+            }
+
+            .hero-plaque-content h2 {
+                font-size: 32px;
             }
 
             .trust {
                 grid-template-columns: 1fr;
+                padding: 20px 5%;
             }
 
             .trust-item {
@@ -1615,6 +1726,10 @@
 
             .trust-item:last-child {
                 border-bottom: none;
+            }
+
+            .marketplace {
+                padding: 60px 5%;
             }
 
             .section-heading {
@@ -1634,47 +1749,106 @@
 
             .products {
                 grid-template-columns: 1fr;
+                gap: 16px;
+            }
+
+            .product-image {
+                height: 200px;
             }
 
             .custom {
-                margin: 20px 5% 70px;
-                padding: 30px 20px;
+                margin: 15px 5% 60px;
+                padding: 25px 16px;
+                border-radius: 16px;
             }
 
             .custom h2 {
-                font-size: 32px;
+                font-size: 28px;
+                letter-spacing: -1px;
+            }
+
+            .custom p {
+                font-size: 14px;
             }
 
             .custom-list {
                 grid-template-columns: 1fr;
+                font-size: 12px;
+            }
+
+            .custom-preview-wrapper {
+                height: 180px;
             }
 
             .custom-options-row {
                 grid-template-columns: 1fr;
             }
 
+            .upload {
+                padding: 20px 16px;
+            }
+
+            .upload-dropzone {
+                padding: 40px 16px;
+            }
+
+            .how {
+                padding: 20px 5% 60px;
+            }
+
+            .how-title h2 {
+                font-size: 28px;
+            }
+
+            .step {
+                padding: 20px;
+            }
+
             .business {
-                margin: 0 5% 70px;
-                padding: 30px 25px;
+                margin: 0 5% 60px;
+                padding: 25px 20px;
                 flex-direction: column;
-                align-items: flex-start;
+                align-items: center;
+                text-align: center;
+            }
+
+            .business h2 {
+                font-size: 24px;
+            }
+
+            footer {
+                padding: 40px 5% 25px;
             }
 
             .footer-grid {
                 grid-template-columns: 1fr;
+                gap: 30px;
             }
 
             .footer-bottom {
                 flex-direction: column;
                 gap: 10px;
+                text-align: center;
             }
 
             .form-grid {
                 grid-template-columns: 1fr;
             }
 
-            .header-controls {
-                gap: 6px;
+            .checkout-box {
+                padding: 20px 16px;
+            }
+
+            .cart-drawer {
+                width: 100%;
+            }
+
+            .track-box {
+                padding: 20px 16px;
+            }
+
+            .admin-modal-box {
+                padding: 20px 16px;
             }
         }
 
@@ -1741,7 +1915,7 @@
             inset: 0;
             z-index: 300;
             background: rgba(0, 0, 0, .85);
-            backdrop-filter: blur(4px);
+            backdrop-filter: blur(7px);
             display: flex;
             align-items: center;
             justify-content: center;
@@ -1749,7 +1923,6 @@
             opacity: 0;
             visibility: hidden;
             transition: .3s;
-            will-change: opacity;
         }
 
         .track-overlay.open {
@@ -2505,6 +2678,29 @@
         /* =========================================================
    FLOATING WHATSAPP BALL
 ========================================================= */
+        /* =========================================================
+   MOBILE TOUCH IMPROVEMENTS
+========================================================= */
+        @media(hover: none) and (pointer: coarse) {
+            button, a, .product, .category, .btn, .cart-btn, .account-btn {
+                -webkit-tap-highlight-color: transparent;
+            }
+
+            .product:hover {
+                transform: none;
+                box-shadow: none;
+            }
+
+            .hero-plaque:hover {
+                transform: rotate(5deg);
+            }
+
+            .whatsapp-float:hover {
+                transform: scale(1);
+                box-shadow: 0 6px 28px rgba(37, 211, 102, 0.55);
+            }
+        }
+
         @keyframes whatsappBouncePulse {
             0%   { transform: scale(1);    box-shadow: 0 6px 28px rgba(37,211,102,0.55); }
             15%  { transform: scale(1.25); box-shadow: 0 6px 36px rgba(37,211,102,0.75); }
@@ -3524,14 +3720,14 @@
                 return;
             }
 
-            const htmlParts = [];
+            container.innerHTML = "";
             products.forEach((prod) => {
                 const isImg = prod.isCustomImg || (prod.image && (prod.image.startsWith("data:image/") || prod.image.startsWith("http://") || prod.image.startsWith("https://")));
                 const visualContent = isImg
-                    ? `<img src="${prod.image}" alt="${prod.name}" loading="lazy">`
+                    ? `<img src="${prod.image}" alt="${prod.name}">`
                     : `<div class="product-plaque">${prod.image}</div>`;
 
-                htmlParts.push(`
+                container.innerHTML += `
             <article class="product" data-id="${prod.id}" data-category="${prod.category}" data-name="${prod.name.toLowerCase()}">
                 <div class="product-admin-actions">
                     <button class="prod-admin-btn" onclick="openEditPlaqueModal('${prod.id}')">✏️ Edit</button>
@@ -3555,9 +3751,8 @@
                     </div>
                 </div>
             </article>
-        `);
+        `;
             });
-            container.innerHTML = htmlParts.join("");
         }
 
         function updateProductCardPrice(prodId, selectElem) {
@@ -3863,12 +4058,12 @@
             </div>
         `;
             } else {
-                const cartParts = [];
+                container.innerHTML = "";
                 cart.forEach((item, index) => {
                     const isCustomImg = item.image && (item.image.startsWith("data:image/") || item.image.startsWith("http://") || item.image.startsWith("https://") || item.image.startsWith("blob:"));
-                    const imgDisplay = isCustomImg ? `<img src="${item.image}" alt="${item.name}" loading="lazy">` : item.image;
+                    const imgDisplay = isCustomImg ? `<img src="${item.image}" alt="${item.name}">` : item.image;
 
-                    cartParts.push(`
+                    container.innerHTML += `
                 <div class="cart-item">
                     <div class="cart-image">
                         ${imgDisplay}
@@ -3892,9 +4087,8 @@
                         <button class="remove-btn" onclick="removeItem(${index})">Remove</button>
                     </div>
                 </div>
-            `);
+            `;
                 });
-                container.innerHTML = cartParts.join("");
             }
 
             const total = getTotal();
