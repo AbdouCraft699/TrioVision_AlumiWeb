@@ -1574,7 +1574,7 @@
 
             /* Mobile card layout */
             document.getElementById("orderCards").innerHTML = filtered.map(function(o) {
-                var items = (o.items || []).map(function(i) { return i.name + " (" + i.size + ") ×" + i.quantity; }).join(\", \");
+                var items = (o.items || []).map(function(i) { return i.name + " (" + i.size + ") ×" + i.quantity; }).join(", ");
                 var date = new Date(o.created_at).toLocaleDateString("fr-DZ", { day: "2-digit", month: "short", year: "numeric" });
                 var time = new Date(o.created_at).toLocaleTimeString("fr-DZ", { hour: "2-digit", minute: "2-digit" });
                 return '<div class="order-card">' +
