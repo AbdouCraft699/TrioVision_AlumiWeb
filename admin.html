@@ -1155,6 +1155,149 @@
             border-radius: 50%;
             border: 2px solid #0f172a;
         }
+
+        /* ═══════════════════════════════════════════════════════
+           HAMBURGER BUTTON (mobile only)
+        ═══════════════════════════════════════════════════════ */
+        .hamburger-btn {
+            display: none;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            color: var(--text-primary);
+            width: 40px; height: 40px;
+            border-radius: var(--radius-sm);
+            font-size: 20px;
+            cursor: pointer;
+            flex-shrink: 0;
+            transition: var(--transition);
+            align-items: center;
+            justify-content: center;
+        }
+        .hamburger-btn:hover { background: var(--bg-card-hover); }
+
+        /* ═══════════════════════════════════════════════════════
+           MOBILE SIDEBAR OVERLAY
+        ═══════════════════════════════════════════════════════ */
+        .mobile-sidebar-backdrop {
+            position: fixed; inset: 0;
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(4px);
+            z-index: 900;
+            opacity: 0; visibility: hidden;
+            transition: all 0.3s ease;
+        }
+        .mobile-sidebar-backdrop.open {
+            opacity: 1; visibility: visible;
+        }
+        .mobile-sidebar {
+            position: fixed;
+            top: 0; left: 0;
+            width: min(280px, 85vw);
+            height: 100vh;
+            height: 100dvh;
+            background: var(--bg-secondary);
+            border-right: 1px solid var(--border);
+            z-index: 950;
+            transform: translateX(-100%);
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex; flex-direction: column;
+            overflow-y: auto;
+        }
+        .mobile-sidebar.open { transform: translateX(0); }
+        .mobile-sidebar-header {
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 20px 18px;
+            border-bottom: 1px solid var(--border);
+        }
+        .mobile-sidebar-logo {
+            font-size: 20px; font-weight: 900; letter-spacing: 3px;
+            background: linear-gradient(135deg, #f1f5f9 0%, #38bdf8 50%, #a855f7 100%);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .mobile-sidebar-close {
+            background: var(--bg-card); border: 1px solid var(--border);
+            color: var(--text-primary); width: 36px; height: 36px;
+            border-radius: var(--radius-sm); font-size: 18px;
+            cursor: pointer; transition: var(--transition);
+            display: flex; align-items: center; justify-content: center;
+        }
+        .mobile-sidebar-close:hover { background: var(--danger); color: white; border-color: var(--danger); }
+        .mobile-sidebar-nav {
+            flex: 1; padding: 12px 0;
+            display: flex; flex-direction: column;
+        }
+        .mobile-nav-item {
+            padding: 14px 20px;
+            font-size: 15px; font-weight: 600;
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border-left: 3px solid transparent;
+            display: flex; align-items: center; gap: 12px;
+        }
+        .mobile-nav-item:hover {
+            background: rgba(56, 189, 248, 0.05);
+            color: var(--text-primary);
+        }
+        .mobile-nav-item.active {
+            color: var(--accent);
+            border-left-color: var(--accent);
+            background: rgba(56, 189, 248, 0.08);
+        }
+        .mobile-sidebar-footer {
+            padding: 16px 18px;
+            border-top: 1px solid var(--border);
+        }
+        .mobile-sidebar-link {
+            color: var(--text-muted);
+            font-size: 13px; text-decoration: none;
+            display: block; padding: 8px 0;
+            transition: var(--transition);
+        }
+        .mobile-sidebar-link:hover { color: var(--accent); }
+
+        /* ═══════════════════════════════════════════════════════
+           TABLE WRAPPER (horizontal scroll)
+        ═══════════════════════════════════════════════════════ */
+        .table-wrap {
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            border-radius: var(--radius-md);
+            border: 1px solid var(--border);
+        }
+        .table-wrap table { margin: 0; }
+
+        /* ═══════════════════════════════════════════════════════
+           FAB REFRESH BUTTON (always visible on mobile)
+        ═══════════════════════════════════════════════════════ */
+        .refresh-fab {
+            position: fixed;
+            bottom: 24px; right: 20px;
+            width: 52px; height: 52px;
+            border-radius: 26px;
+            background: linear-gradient(135deg, #38bdf8, #818cf8);
+            color: #0f172a;
+            border: none;
+            font-size: 22px; font-weight: 900;
+            cursor: pointer;
+            z-index: 40;
+            box-shadow: 0 4px 20px rgba(56, 189, 248, 0.4);
+            display: none;
+            align-items: center; justify-content: center;
+            transition: var(--transition);
+        }
+        .refresh-fab:active { transform: scale(0.92); }
+        .refresh-fab.show { display: flex; }
+
+        /* ═══════════════════════════════════════════════════════
+           SAFE AREA PADDING (iPhone notch)
+        ═══════════════════════════════════════════════════════ */
+        @supports (padding-top: env(safe-area-inset-top)) {
+            .top-bar { padding-top: calc(14px + env(safe-area-inset-top)); }
+            .install-banner { padding-bottom: calc(16px + env(safe-area-inset-bottom)); }
+            .refresh-fab { bottom: calc(24px + env(safe-area-inset-bottom)); }
+        }
     </style>
 </head>
 <body>
@@ -1205,7 +1348,28 @@
     ═══════════════════════════════════════════════════════ -->
     <div class="dashboard" id="dashboard">
 
+        <!-- Mobile Sidebar Overlay -->
+        <div class="mobile-sidebar-backdrop" id="mobileSidebarBackdrop" onclick="closeMobileSidebar()"></div>
+        <nav class="mobile-sidebar" id="mobileSidebar">
+            <div class="mobile-sidebar-header">
+                <div class="mobile-sidebar-logo">TRIO<span>VISION</span></div>
+                <button class="mobile-sidebar-close" onclick="closeMobileSidebar()">✕</button>
+            </div>
+            <div class="mobile-sidebar-nav">
+                <div class="mobile-nav-item active" data-tab="orders" onclick="switchTabMobile('orders', this)">📦 Orders</div>
+                <div class="mobile-nav-item" data-tab="products" onclick="switchTabMobile('products', this)">🏷️ Products</div>
+                <div class="mobile-nav-item" data-tab="customers" onclick="switchTabMobile('customers', this)">👥 Customers</div>
+                <div class="mobile-nav-item" data-tab="analytics" onclick="switchTabMobile('analytics', this)">📊 Analytics</div>
+                <div class="mobile-nav-item" data-tab="finance" onclick="switchTabMobile('finance', this)">💰 Finance</div>
+            </div>
+            <div class="mobile-sidebar-footer">
+                <a href="index.html" class="mobile-sidebar-link">← Back to Store</a>
+                <button class="logout-btn" onclick="logout()" style="width:100%; margin-top:8px;">🔒 Lock</button>
+            </div>
+        </nav>
+
         <div class="top-bar">
+            <button class="hamburger-btn" id="hamburgerBtn" onclick="openMobileSidebar()" aria-label="Open menu">☰</button>
             <h1>TrioVision <span>Admin</span></h1>
             <div class="top-bar-right">
                 <span class="badge-pill">Dashboard</span>
@@ -1795,6 +1959,9 @@
         <button class="install-btn" onclick="installApp()">📲 Install</button>
         <button class="install-dismiss" onclick="dismissInstall()">✕</button>
     </div>
+
+    <!-- Floating Refresh FAB (mobile) -->
+    <button class="refresh-fab" id="refreshFab" onclick="refreshCurrentTab()">↻</button>
 
     <!-- Toast -->
     <div id="toast" style="position:fixed;right:25px;bottom:25px;z-index:200;background:white;color:#111;padding:12px 18px;border-radius:8px;font-weight:bold;font-size:13px;box-shadow:0 8px 25px rgba(0,0,0,.4);opacity:0;transition:opacity .3s;pointer-events:none;"></div>
