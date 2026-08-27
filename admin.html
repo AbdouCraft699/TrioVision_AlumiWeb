@@ -205,63 +205,127 @@
         .btn-cancel { padding: 12px 24px; background: #334155; color: white; border: 1px solid #475569; border-radius: 8px; font-weight: bold; font-size: 14px; cursor: pointer; }
         .btn-cancel:hover { background: #475569; }
 
+        /* ═══════════════════════════════════════════════
+           MOBILE ORDER CARDS
+        ═══════════════════════════════════════════════ */
+        .order-cards { display: none; }
+        .order-card {
+            background: #121519;
+            border: 1px solid #252b31;
+            border-radius: 12px;
+            padding: 14px;
+            margin-bottom: 10px;
+        }
+        .order-card-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        .order-card-code { color: #7dd3fc; font-weight: bold; font-family: monospace; font-size: 14px; }
+        .order-card-date { color: #777f88; font-size: 11px; }
+        .order-card-customer {
+            color: #7dd3fc; cursor: pointer; text-decoration: underline;
+            text-decoration-style: dotted; font-size: 13px; margin-bottom: 4px;
+        }
+        .order-card-location { color: #777f88; font-size: 12px; margin-bottom: 8px; }
+        .order-card-items { color: #a0a8b2; font-size: 12px; margin-bottom: 10px; line-height: 1.5; }
+        .order-card-bottom {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-top: 1px solid #1e2228;
+            padding-top: 10px;
+        }
+        .order-card-price { font-weight: 900; color: #22c55e; font-size: 16px; }
+        .order-card-actions { display: flex; gap: 6px; }
+        .order-card-actions button {
+            padding: 8px 14px; border-radius: 8px; border: 1px solid #343a41;
+            background: #181c21; color: white; font-size: 13px; cursor: pointer;
+        }
+        .order-card-actions button:active { background: #38bdf8; color: #0f172a; }
+
+        /* ═══════════════════════════════════════════════
+           MOBILE PRODUCT CARDS
+        ═══════════════════════════════════════════════ */
+        .product-cards { display: none; }
+        .product-card {
+            background: #121519;
+            border: 1px solid #252b31;
+            border-radius: 12px;
+            padding: 14px;
+            margin-bottom: 10px;
+            display: flex;
+            gap: 12px;
+            align-items: center;
+        }
+        .product-card-thumb {
+            width: 60px; height: 60px; border-radius: 8px;
+            overflow: hidden; background: #252b31; flex-shrink: 0;
+            display: flex; align-items: center; justify-content: center;
+        }
+        .product-card-thumb img { width: 100%; height: 100%; object-fit: cover; }
+        .product-card-info { flex: 1; }
+        .product-card-info .name { font-weight: bold; font-size: 14px; margin-bottom: 4px; }
+        .product-card-info .category { color: #777f88; font-size: 12px; }
+        .product-card-info .prices { color: #22c55e; font-size: 12px; margin-top: 4px; }
+        .product-card-actions { display: flex; gap: 6px; flex-shrink: 0; }
+        .product-card-actions button {
+            padding: 8px 12px; border-radius: 8px; border: 1px solid #343a41;
+            background: #181c21; color: white; font-size: 12px; cursor: pointer;
+        }
+
         @media(max-width: 900px) {
             .stats { grid-template-columns: repeat(2, 1fr); }
-            .order-table, .product-table { font-size: 11px; }
-            .order-table th, .order-table td, .product-table th, .product-table td { padding: 10px 8px; }
             .analytics-grid { grid-template-columns: 1fr; }
             .top-bar { flex-wrap: wrap; padding: 10px 4%; }
             .top-bar-right { gap: 8px; flex-wrap: wrap; justify-content: flex-end; }
         }
         @media(max-width: 600px) {
             /* === TOP BAR === */
-            .top-bar { padding: 10px 3%; gap: 8px; }
-            .top-bar h1 { font-size: 16px; }
-            .top-bar-right { gap: 6px; }
+            .top-bar { padding: 14px 3% 10px; gap: 6px; min-height: 52px; }
+            .top-bar h1 { font-size: 15px; flex-shrink: 0; }
+            .top-bar-right { gap: 5px; flex-wrap: nowrap; overflow-x: auto; -webkit-overflow-scrolling: touch; padding-bottom: 2px; }
             .badge-pill { display: none; }
-            .shortcuts-btn, .push-toggle { display: none; }
-            .refresh-btn { padding: 7px 12px; font-size: 12px; }
-            .logout-btn { padding: 7px 12px; font-size: 12px; }
-            .activity-bell { padding: 7px 10px; }
+            .shortcuts-btn, .push-toggle, .activity-bell { display: none; }
+            .refresh-btn { padding: 6px 10px; font-size: 11px; white-space: nowrap; }
+            .logout-btn { padding: 6px 10px; font-size: 11px; white-space: nowrap; }
             .activity-dropdown { width: calc(100vw - 20px); right: -10px; max-height: 350px; }
 
             /* === TABS === */
-            .tabs { padding: 0 3%; overflow-x: auto; -webkit-overflow-scrolling: touch; }
-            .tab { padding: 12px 16px; font-size: 13px; }
+            .tabs { padding: 0 3%; overflow-x: auto; -webkit-overflow-scrolling: touch; border-bottom: 1px solid #1e2228; }
+            .tab { padding: 12px 14px; font-size: 13px; white-space: nowrap; }
 
             /* === STATS === */
             .stats { padding: 14px 3%; grid-template-columns: repeat(2, 1fr); gap: 10px; }
-            .stat-card { padding: 14px 10px; }
+            .stat-card { padding: 14px 8px; }
             .stat-card .number { font-size: 22px; }
             .stat-card .label { font-size: 11px; }
 
             /* === FILTERS === */
-            .filters { padding: 10px 3% 14px; gap: 8px; }
-            .search-input { width: 100%; padding: 12px 14px; font-size: 14px; }
-            .filter-btn { padding: 8px 12px; font-size: 11px; }
-            .date-range-group { flex-wrap: wrap; width: 100%; }
-            .date-range-group input[type="date"] { flex: 1; min-width: 0; font-size: 13px; padding: 10px; }
-            .quick-date-btn { padding: 8px 10px; font-size: 10px; }
-            .export-csv-btn { width: 100%; justify-content: center; padding: 11px; }
+            .filters { padding: 10px 3% 12px; gap: 8px; }
+            .search-input { width: 100%; padding: 11px 14px; font-size: 14px; }
+            .filter-btn { padding: 7px 11px; font-size: 11px; }
+            .date-range-group { flex-wrap: wrap; width: 100%; gap: 6px; }
+            .date-range-group label { font-size: 11px; }
+            .date-range-group input[type="date"] { flex: 1; min-width: 0; font-size: 12px; padding: 9px; }
+            .quick-date-btn { padding: 7px 9px; font-size: 10px; }
+            .export-csv-btn { width: 100%; justify-content: center; padding: 10px; font-size: 12px; }
 
-            /* === TABLES — horizontal scroll on mobile === */
-            .orders-container, .products-container { padding: 0 3% 40px; overflow-x: auto; -webkit-overflow-scrolling: touch; }
-            .order-table, .product-table { min-width: 700px; font-size: 11px; }
-            .order-table th, .order-table td, .product-table th, .product-table td { padding: 8px 6px; white-space: nowrap; }
-            .order-table th:last-child, .product-table th:last-child,
-            .order-table td:last-child, .product-table td:last-child { white-space: normal; }
-            .items-list { max-width: 150px; }
-            .items-list li { font-size: 11px; }
+            /* === TABLES — hide on mobile, show cards === */
+            .order-table, .product-table { display: none !important; }
+            .order-cards, .product-cards { display: block; padding: 0 3% 80px; }
 
             /* === ANALYTICS === */
             .analytics-grid { padding: 14px 3%; grid-template-columns: 1fr; gap: 14px; }
-            .analytics-card { padding: 16px; }
-            .chart-wrap { height: 220px; }
+            .analytics-card { padding: 14px; }
+            .chart-wrap { height: 200px; }
             .best-seller-info .name { font-size: 12px; }
 
             /* === MODALS === */
-            .modal-box { padding: 20px; max-height: 90vh; border-radius: 12px; }
-            .modal-box h2 { font-size: 18px; }
+            .modal-overlay { padding: 10px; }
+            .modal-box { padding: 18px; max-height: 88vh; border-radius: 14px; }
+            .modal-box h2 { font-size: 17px; }
             .detail-row { flex-direction: column; gap: 4px; }
             .detail-row .value { font-size: 13px; }
             .cust-order-card { flex-direction: column; gap: 10px; align-items: flex-start; }
@@ -287,16 +351,32 @@
             .install-banner-text h4 { font-size: 13px; }
             .install-banner-text p { font-size: 11px; }
 
+            /* === FLOATING REFRESH BUTTON === */
+            .refresh-fab-mobile {
+                position: fixed;
+                bottom: 20px;
+                right: 16px;
+                width: 48px;
+                height: 48px;
+                border-radius: 24px;
+                background: #1e293b;
+                border: 1px solid #334155;
+                justify-content: center;
+                align-items: center;
+                z-index: 30;
+            }
+
             /* === NOTIFICATION POPUP === */
             #orderNotificationPopup { right: 10px; left: 10px; top: 60px; max-width: none; }
 
             /* === TOAST === */
-            #toast { right: 10px; bottom: 15px; left: 10px; text-align: center; }
+            #toast { right: 10px; bottom: 70px; left: 10px; text-align: center; }
         }
         @media(max-width: 380px) {
             .stats { grid-template-columns: 1fr; }
             .stat-card .number { font-size: 20px; }
-            .filter-btn { padding: 7px 10px; font-size: 10px; }
+            .filter-btn { padding: 6px 9px; font-size: 10px; }
+            .quick-date-btn { padding: 6px 8px; font-size: 9px; }
         }
 
         /* ═══════════════════════════════════════════════════════
@@ -914,6 +994,8 @@
                     </thead>
                     <tbody id="orderTableBody"></tbody>
                 </table>
+                <!-- Mobile card layout -->
+                <div class="order-cards" id="orderCards"></div>
                 <div class="empty-state" id="ordersEmpty" style="display:none;">
                     <h3>No orders found</h3>
                     <p>Orders will appear here when customers place them.</p>
@@ -956,6 +1038,8 @@
                     </thead>
                     <tbody id="productTableBody"></tbody>
                 </table>
+                <!-- Mobile card layout -->
+                <div class="product-cards" id="productCards"></div>
                 <div class="empty-state" id="productsEmpty" style="display:none;">
                     <h3>No products yet</h3>
                     <p>Click "+ Add Product" to create your first plaque.</p>
@@ -1464,6 +1548,8 @@
             document.getElementById("orderTable").style.display = "table";
             document.getElementById("ordersEmpty").style.display = "none";
 
+            var isMobile = window.innerWidth <= 600;
+
             document.getElementById("orderTableBody").innerHTML = filtered.map(function(o) {
                 var items = (o.items || []).map(function(i) { return "<li>" + i.name + " (" + i.size + ") ×" + i.quantity + "</li>"; }).join("");
                 var date = new Date(o.created_at).toLocaleDateString("fr-DZ", { day: "2-digit", month: "short", year: "numeric" });
@@ -1484,6 +1570,30 @@
                         "<button class=\"action-btn\" onclick=\"cycleStatus('" + o.id + "', '" + o.status + "')\" title=\"Cycle Status\">↻</button> " +
                     "</td>" +
                 "</tr>";
+            }).join("");
+
+            /* Mobile card layout */
+            document.getElementById("orderCards").innerHTML = filtered.map(function(o) {
+                var items = (o.items || []).map(function(i) { return i.name + " (" + i.size + ") ×" + i.quantity; }).join(\", \");
+                var date = new Date(o.created_at).toLocaleDateString("fr-DZ", { day: "2-digit", month: "short", year: "numeric" });
+                var time = new Date(o.created_at).toLocaleTimeString("fr-DZ", { hour: "2-digit", minute: "2-digit" });
+                return '<div class="order-card">' +
+                    '<div class="order-card-top">' +
+                        '<span class="order-card-code">' + o.order_code + '</span>' +
+                        '<span class="status-badge status-' + o.status + '">' + o.status + '</span>' +
+                    '</div>' +
+                    '<div class="order-card-customer" onclick="viewCustomerHistory(\'' + o.phone.replace(/'/g, "\\'") + '\')">' + o.customer_name + '</div>' +
+                    '<div class="order-card-location">📍 ' + o.wilaya + ', ' + o.city + ' &nbsp;·&nbsp; 📞 ' + o.phone + '</div>' +
+                    '<div class="order-card-items">' + items + '</div>' +
+                    '<div class="order-card-bottom">' +
+                        '<span class="order-card-price">' + Number(o.total).toLocaleString("fr-DZ") + ' DA</span>' +
+                        '<div class="order-card-actions">' +
+                            '<button onclick="viewOrder(\'' + o.id + '\')">👁 Details</button>' +
+                            '<button onclick="cycleStatus(\'' + o.id + '\', \'' + o.status + '\')">↻ Status</button>' +
+                        '</div>' +
+                    '</div>' +
+                    '<div style="color:#555e69; font-size:10px; margin-top:8px;">' + date + ' ' + time + '</div>' +
+                '</div>';
             }).join("");
 
             updateBulkBar();
@@ -1875,6 +1985,27 @@
                         "<button class=\"action-btn danger\" onclick=\"deleteProduct('" + p.id + "', '" + p.name.replace(/'/g, "\\'") + "')\" title=\"Delete\">🗑</button>" +
                     "</td>" +
                 "</tr>";
+            }).join("");
+
+            /* Mobile card layout */
+            document.getElementById("productCards").innerHTML = filtered.map(function(p) {
+                var thumb = "";
+                if (p.image && (p.image.startsWith("http") || p.image.startsWith("data:"))) {
+                    thumb = '<img src="' + p.image + '" style="width:100%;height:100%;object-fit:cover;">';
+                }
+                var statusLabel = p.active ? '<span style="color:#22c55e;">Active</span>' : '<span style="color:#777;">Hidden</span>';
+                return '<div class="product-card">' +
+                    '<div class="product-card-thumb">' + thumb + '</div>' +
+                    '<div class="product-card-info">' +
+                        '<div class="name">' + p.name + ' ' + statusLabel + '</div>' +
+                        '<div class="category">' + p.category + '</div>' +
+                        '<div class="prices">A4: ' + Number(p.price_a4).toLocaleString("fr-DZ") + ' DA · A3: ' + Number(p.price_a3).toLocaleString("fr-DZ") + ' DA</div>' +
+                    '</div>' +
+                    '<div class="product-card-actions">' +
+                        '<button onclick="editProduct(\'' + p.id + '\')">✏️</button>' +
+                        '<button onclick="toggleProductActive(\'' + p.id + '\', ' + p.active + ')">' + (p.active ? '👁' : '👁‍🗨') + '</button>' +
+                    '</div>' +
+                '</div>';
             }).join("");
         }
 
