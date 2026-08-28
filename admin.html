@@ -1621,6 +1621,71 @@
         @media (min-width: 769px) {
             #adCards { display: none !important; }
         }
+
+        /* ═══════════════════════════════════════════════════════
+           MOBILE BOTTOM TAB BAR (native-app feel)
+        ═══════════════════════════════════════════════════════ */
+        .mobile-bottom-bar {
+            display: none;
+            position: fixed; bottom: 0; left: 0; right: 0;
+            background: rgba(15, 17, 23, 0.95);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-top: 1px solid var(--border);
+            z-index: 90;
+            padding-bottom: env(safe-area-inset-bottom, 0px);
+        }
+        .mobile-bottom-bar-inner {
+            display: flex; align-items: center; justify-content: space-around;
+            height: 56px;
+        }
+        .mobile-bottom-tab {
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            gap: 2px; flex: 1; height: 100%;
+            color: var(--text-muted); font-size: 10px; font-weight: 600;
+            cursor: pointer; transition: all 0.15s ease;
+            -webkit-tap-highlight-color: transparent;
+            position: relative;
+        }
+        .mobile-bottom-tab .tab-icon { font-size: 20px; line-height: 1; }
+        .mobile-bottom-tab.active { color: var(--accent); }
+        .mobile-bottom-tab.active::before {
+            content: '';
+            position: absolute; top: 0; left: 20%; right: 20%;
+            height: 2px; background: var(--accent); border-radius: 0 0 2px 2px;
+        }
+        .mobile-bottom-tab:active { transform: scale(0.92); }
+        [data-theme="light"] .mobile-bottom-bar {
+            background: rgba(255, 255, 255, 0.95);
+            border-top-color: var(--border);
+        }
+
+        @media (max-width: 600px) {
+            .mobile-bottom-bar { display: block; }
+            body { padding-bottom: 64px; }
+            .orders-container, .products-container { padding-bottom: 90px !important; }
+            .analytics-grid { padding-bottom: 90px; }
+            #customersPanel .orders-container { padding-bottom: 90px !important; }
+            #financePanel > div:last-of-type { padding-bottom: 80px; }
+            #marketingPanel { padding-bottom: 80px; }
+            .hamburger-btn { display: none !important; }
+            /* Extra compact on mobile */
+            .top-bar { padding: 6px 3%; min-height: 42px; }
+            .top-bar h1 { font-size: 14px; }
+            .refresh-btn, .logout-btn { padding: 5px 8px; font-size: 10px; }
+            .stat-card .number { font-size: 18px; }
+            .stat-card .label { font-size: 9px; }
+            .stat-card { padding: 10px 4px; }
+            .search-input { padding: 10px 12px; font-size: 14px; }
+            .filter-btn { padding: 6px 10px; font-size: 11px; }
+            .order-card { padding: 10px; margin-bottom: 8px; }
+            .order-card-actions button { padding: 8px 12px; font-size: 12px; min-height: 38px; }
+            .product-card { padding: 10px; }
+            .product-card-actions button { padding: 8px 10px; font-size: 14px; min-height: 38px; }
+            .expense-card { padding: 12px; margin-bottom: 8px; }
+            .expense-card-actions button { padding: 8px 10px; font-size: 12px; min-height: 38px; }
+            .quick-exp-btn { padding: 10px 6px; min-height: 44px; font-size: 12px; }
+        }
     </style>
 </head>
 <body>
@@ -2845,6 +2910,36 @@
         <button class="install-dismiss" onclick="dismissInstall()">✕</button>
     </div>
 
+    <!-- Mobile Bottom Tab Bar -->
+    <div class="mobile-bottom-bar" id="mobileBottomBar">
+        <div class="mobile-bottom-bar-inner">
+            <div class="mobile-bottom-tab active" data-tab="orders" onclick="switchTabMobile('orders', this); switchBottomTab(this);">
+                <span class="tab-icon">📦</span>
+                <span>Orders</span>
+            </div>
+            <div class="mobile-bottom-tab" data-tab="products" onclick="switchTabMobile('products', this); switchBottomTab(this);">
+                <span class="tab-icon">🏷️</span>
+                <span>Products</span>
+            </div>
+            <div class="mobile-bottom-tab" data-tab="customers" onclick="switchTabMobile('customers', this); switchBottomTab(this);">
+                <span class="tab-icon">👥</span>
+                <span>Customers</span>
+            </div>
+            <div class="mobile-bottom-tab" data-tab="analytics" onclick="switchTabMobile('analytics', this); switchBottomTab(this);">
+                <span class="tab-icon">📊</span>
+                <span>Analytics</span>
+            </div>
+            <div class="mobile-bottom-tab" data-tab="finance" onclick="switchTabMobile('finance', this); switchBottomTab(this);">
+                <span class="tab-icon">💰</span>
+                <span>Finance</span>
+            </div>
+            <div class="mobile-bottom-tab" data-tab="marketing" onclick="switchTabMobile('marketing', this); switchBottomTab(this);">
+                <span class="tab-icon">📣</span>
+                <span>Ads</span>
+            </div>
+        </div>
+    </div>
+
     <!-- Floating Refresh FAB (mobile) -->
     <button class="refresh-fab" id="refreshFab" onclick="refreshCurrentTab()">↻</button>
 
@@ -3117,10 +3212,20 @@
                 item.classList.remove('active');
                 if (item.dataset.tab === name) item.classList.add('active');
             });
+            // Sync bottom tab bar
+            document.querySelectorAll('.mobile-bottom-tab').forEach(function(t) {
+                t.classList.remove('active');
+                if (t.dataset.tab === name) t.classList.add('active');
+            });
 
             if (name === "customers") renderCustomers();
             if (name === "analytics") renderAnalytics();
             if (name === "finance") renderFinance();
+        }
+
+        function switchBottomTab(el) {
+            document.querySelectorAll('.mobile-bottom-tab').forEach(function(t) { t.classList.remove('active'); });
+            if (el) el.classList.add('active');
         }
 
         function refreshCurrentTab() {
@@ -3147,11 +3252,15 @@
             document.body.style.overflow = '';
         }
         function switchTabMobile(name, el) {
-            // Sync both mobile nav and desktop tabs
+            // Sync both mobile nav, desktop tabs, and bottom bar
             document.querySelectorAll('.mobile-nav-item').forEach(function(item) { item.classList.remove('active'); });
             document.querySelectorAll('.tab').forEach(function(tab) {
                 tab.classList.remove('active');
                 if (tab.dataset.tab === name) tab.classList.add('active');
+            });
+            document.querySelectorAll('.mobile-bottom-tab').forEach(function(t) {
+                t.classList.remove('active');
+                if (t.dataset.tab === name) t.classList.add('active');
             });
             if (el) el.classList.add('active');
             document.querySelectorAll('.tab-panel').forEach(function(p) { p.classList.remove('active'); });
