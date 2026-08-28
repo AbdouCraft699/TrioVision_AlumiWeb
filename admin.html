@@ -2884,18 +2884,46 @@
         }
 
         // ═══════════════════════════════════════════════════════
+        // SUPABASE SETTINGS HELPER (key-value store)
+        // ═══════════════════════════════════════════════════════
+        async function sbGetSetting(key) {
+            try {
+                var resp = await fetch(SUPABASE_URL + '/rest/v1/settings?key=eq.' + encodeURIComponent(key) + '&select=value', { headers: sbHeaders() });
+                if (!resp.ok) return null;
+                var rows = await resp.json();
+                return rows.length > 0 ? rows[0].value : null;
+            } catch(e) { return null; }
+        }
+
+        async function sbSetSetting(key, value) {
+            try {
+                await fetch(SUPABASE_URL + '/rest/v1/settings', {
+                    method: 'POST',
+                    headers: Object.assign({}, sbHeaders(), { 'Prefer': 'resolution=merge-duplicates' }),
+                    body: JSON.stringify({ key: key, value: value, updated_at: new Date().toISOString() })
+                });
+            } catch(e) { console.error('sbSetSetting error:', e); }
+        }
+
+        // ═══════════════════════════════════════════════════════
         // SUPABASE AUTH + MFA
         // ═══════════════════════════════════════════════════════
         const sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
         var currentMfaFactor = null;
 
-        function showDashboard() {
+        async function showDashboard() {
             document.getElementById("loginScreen").style.display = "none";
             document.getElementById("dashboard").classList.add("active");
-            loadOrders();
-            loadProducts();
-            loadExpenses();
-            loadActivityFeed();
+            // Load cloud data in parallel
+            await Promise.all([
+                loadOrders(),
+                loadProducts(),
+                loadExpensesCloud(),
+                loadSettingsCloud(),
+                loadMarketingDataCloud(),
+                loadActivityFeedCloud(),
+                loadOrderMetadataCloud()
+            ]);
         }
 
         // --- Screen switching ---
@@ -3431,39 +3459,139 @@
         }
 
         // --- Order Detail ---
-        // --- Status Timeline Storage ---
-        function getStatusTimeline(orderId) {
+        // --- Status Timeline Storage (cloud-backed) ---
+        var orderMetadataCache = {}; // { orderId: { status_timeline: [], admin_note: '' } }
+
+        async function loadOrderMetadataCloud() {
             try {
-                var all = JSON.parse(localStorage.getItem("tv_status_timeline") || "{}");
+                var resp = await fetch(SUPABASE_URL + '/rest/v1/order_metadata?select=*', { headers: sbHeaders() });
+                if (!resp.ok) throw new Error(resp.status);
+                var rows = await resp.json();
+                rows.forEach(function(r) {
+                    orderMetadataCache[r.order_id] = {
+                        status_timeline: r.status_timeline || [],
+                        admin_note: r.admin_note || ''
+                    };
+                });
+                // Migrate from localStorage if cloud is empty
+                if (rows.length === 0) {
+                    try {
+                        var localTimeline = JSON.parse(localStorage.getItem('tv_status_timeline') || '{}');
+                        var localNotes = JSON.parse(localStorage.getItem('tv_admin_notes') || '{}');
+                        var allIds = new Set([...Object.keys(localTimeline), ...Object.keys(localNotes)]);
+                        for (var id of allIds) {
+                            orderMetadataCache[id] = {
+                                status_timeline: localTimeline[id] || [],
+                                admin_note: localNotes[id] || ''
+                            };
+                        }
+                        if (allIds.size > 0) await syncOrderMetadataToCloud();
+                    } catch(e) {}
+                }
+                // Keep localStorage in sync
+                var tlAll = {}; var notesAll = {};
+                for (var k in orderMetadataCache) {
+                    tlAll[k] = orderMetadataCache[k].status_timeline;
+                    notesAll[k] = orderMetadataCache[k].admin_note;
+                }
+                localStorage.setItem('tv_status_timeline', JSON.stringify(tlAll));
+                localStorage.setItem('tv_admin_notes', JSON.stringify(notesAll));
+            } catch(e) {
+                console.error('loadOrderMetadataCloud error:', e);
+            }
+        }
+
+        async function syncOrderMetadataToCloud() {
+            var entries = [];
+            for (var orderId in orderMetadataCache) {
+                entries.push({
+                    order_id: orderId,
+                    status_timeline: orderMetadataCache[orderId].status_timeline || [],
+                    admin_note: orderMetadataCache[orderId].admin_note || '',
+                    updated_at: new Date().toISOString()
+                });
+            }
+            if (entries.length === 0) return;
+            try {
+                await fetch(SUPABASE_URL + '/rest/v1/order_metadata', {
+                    method: 'POST',
+                    headers: Object.assign({}, sbHeaders(), { 'Prefer': 'resolution=merge-duplicates' }),
+                    body: JSON.stringify(entries)
+                });
+            } catch(e) { console.error('syncOrderMetadataToCloud error:', e); }
+        }
+
+        function getStatusTimeline(orderId) {
+            if (orderMetadataCache[orderId]) return orderMetadataCache[orderId].status_timeline || [];
+            // Fallback to localStorage
+            try {
+                var all = JSON.parse(localStorage.getItem('tv_status_timeline') || '{}');
                 return all[orderId] || [];
             } catch (e) { return []; }
         }
-        function saveStatusTimeline(orderId, timeline) {
+
+        async function saveStatusTimeline(orderId, timeline) {
+            if (!orderMetadataCache[orderId]) orderMetadataCache[orderId] = { status_timeline: [], admin_note: '' };
+            orderMetadataCache[orderId].status_timeline = timeline;
+            // Update localStorage
             try {
-                var all = JSON.parse(localStorage.getItem("tv_status_timeline") || "{}");
+                var all = JSON.parse(localStorage.getItem('tv_status_timeline') || '{}');
                 all[orderId] = timeline;
-                localStorage.setItem("tv_status_timeline", JSON.stringify(all));
-            } catch (e) {}
+                localStorage.setItem('tv_status_timeline', JSON.stringify(all));
+            } catch(e) {}
+            // Save to cloud
+            try {
+                await fetch(SUPABASE_URL + '/rest/v1/order_metadata', {
+                    method: 'POST',
+                    headers: Object.assign({}, sbHeaders(), { 'Prefer': 'resolution=merge-duplicates' }),
+                    body: JSON.stringify({
+                        order_id: orderId,
+                        status_timeline: timeline,
+                        admin_note: orderMetadataCache[orderId].admin_note || '',
+                        updated_at: new Date().toISOString()
+                    })
+                });
+            } catch(e) { console.error('saveStatusTimeline cloud error:', e); }
         }
+
         function addTimelineEntry(orderId, from, to) {
             var timeline = getStatusTimeline(orderId);
             timeline.push({ from: from, to: to, time: new Date().toISOString() });
             saveStatusTimeline(orderId, timeline);
         }
 
-        // --- Admin Notes Storage ---
+        // --- Admin Notes Storage (cloud-backed) ---
         function getAdminNotes(orderId) {
+            if (orderMetadataCache[orderId]) return orderMetadataCache[orderId].admin_note || '';
+            // Fallback to localStorage
             try {
-                var all = JSON.parse(localStorage.getItem("tv_admin_notes") || "{}");
-                return all[orderId] || "";
-            } catch (e) { return ""; }
+                var all = JSON.parse(localStorage.getItem('tv_admin_notes') || '{}');
+                return all[orderId] || '';
+            } catch (e) { return ''; }
         }
-        function saveAdminNote(orderId, note) {
+
+        async function saveAdminNote(orderId, note) {
+            if (!orderMetadataCache[orderId]) orderMetadataCache[orderId] = { status_timeline: [], admin_note: '' };
+            orderMetadataCache[orderId].admin_note = note;
+            // Update localStorage
             try {
-                var all = JSON.parse(localStorage.getItem("tv_admin_notes") || "{}");
+                var all = JSON.parse(localStorage.getItem('tv_admin_notes') || '{}');
                 all[orderId] = note;
-                localStorage.setItem("tv_admin_notes", JSON.stringify(all));
-            } catch (e) {}
+                localStorage.setItem('tv_admin_notes', JSON.stringify(all));
+            } catch(e) {}
+            // Save to cloud
+            try {
+                await fetch(SUPABASE_URL + '/rest/v1/order_metadata', {
+                    method: 'POST',
+                    headers: Object.assign({}, sbHeaders(), { 'Prefer': 'resolution=merge-duplicates' }),
+                    body: JSON.stringify({
+                        order_id: orderId,
+                        status_timeline: orderMetadataCache[orderId].status_timeline || [],
+                        admin_note: note,
+                        updated_at: new Date().toISOString()
+                    })
+                });
+            } catch(e) { console.error('saveAdminNote cloud error:', e); }
         }
 
         function viewOrder(orderId) {
@@ -5548,6 +5676,7 @@
             } catch(e) { console.error('fetchMaterialsData:', e); }
         }
 
+        // Load expenses from localStorage (sync, fallback)
         function loadExpenses() {
             try {
                 allExpenses = JSON.parse(localStorage.getItem('tv_expenses') || '[]');
@@ -5556,8 +5685,106 @@
             }
         }
 
-        function saveExpenses() {
+        // Load expenses from Supabase (async, primary source)
+        async function loadExpensesCloud() {
+            try {
+                var resp = await fetch(SUPABASE_URL + '/rest/v1/expenses?select=*&order=date.desc', { headers: sbHeaders() });
+                if (!resp.ok) throw new Error(resp.status);
+                var rows = await resp.json();
+                if (rows.length > 0) {
+                    allExpenses = rows.map(function(r) {
+                        return {
+                            id: r.id, category: r.category, amount: r.amount,
+                            description: r.description, date: r.date,
+                            paymentMethod: r.payment_method, supplier: r.supplier,
+                            recurring: r.recurring, created_at: r.created_at
+                        };
+                    });
+                } else {
+                    // Cloud empty but localStorage has data — migrate it
+                    loadExpenses();
+                    if (allExpenses.length > 0) {
+                        await migrateExpensesToCloud();
+                    }
+                }
+                // Keep localStorage in sync as backup
+                localStorage.setItem('tv_expenses', JSON.stringify(allExpenses));
+            } catch(e) {
+                console.error('loadExpensesCloud error:', e);
+                loadExpenses(); // fallback
+            }
+        }
+
+        // Migrate existing localStorage expenses to Supabase
+        async function migrateExpensesToCloud() {
+            var toInsert = allExpenses.map(function(e) {
+                return {
+                    id: e.id, category: e.category, amount: e.amount,
+                    description: e.description || '', date: e.date,
+                    payment_method: e.paymentMethod || 'cash',
+                    supplier: e.supplier || '', recurring: e.recurring || 'once',
+                    created_at: e.created_at || new Date().toISOString()
+                };
+            });
+            try {
+                await fetch(SUPABASE_URL + '/rest/v1/expenses', {
+                    method: 'POST',
+                    headers: Object.assign({}, sbHeaders(), { 'Prefer': 'resolution=merge-duplicates' }),
+                    body: JSON.stringify(toInsert)
+                });
+            } catch(e) { console.error('migrateExpensesToCloud error:', e); }
+        }
+
+        // Save expenses to Supabase (async)
+        async function saveExpenses() {
             localStorage.setItem('tv_expenses', JSON.stringify(allExpenses));
+            // Full sync: upsert all expenses to cloud
+            try {
+                await migrateExpensesToCloud();
+            } catch(e) { console.error('saveExpenses error:', e); }
+        }
+
+        // ═══════════════════════════════════════════════════════
+        // SETTINGS (budget, sales targets) — loaded from Supabase
+        // ═══════════════════════════════════════════════════════
+        async function loadSettingsCloud() {
+            try {
+                var budgetVal = await sbGetSetting('monthly_budget');
+                if (budgetVal !== null && budgetVal !== undefined) {
+                    monthlyBudget = typeof budgetVal === 'number' ? budgetVal : parseFloat(budgetVal) || 0;
+                    localStorage.setItem('tv_monthly_budget', String(monthlyBudget));
+                } else {
+                    // Migrate from localStorage
+                    var local = parseFloat(localStorage.getItem('tv_monthly_budget') || '0');
+                    if (local > 0) {
+                        monthlyBudget = local;
+                        await sbSetSetting('monthly_budget', monthlyBudget);
+                    }
+                }
+
+                var targetsVal = await sbGetSetting('sales_targets');
+                if (targetsVal !== null && targetsVal !== undefined) {
+                    salesTargets = typeof targetsVal === 'object' ? targetsVal : JSON.parse(targetsVal);
+                    localStorage.setItem('tv_sales_targets', JSON.stringify(salesTargets));
+                } else {
+                    // Migrate from localStorage
+                    var localT = localStorage.getItem('tv_sales_targets');
+                    if (localT) {
+                        try { salesTargets = JSON.parse(localT); } catch(e) {}
+                        if (salesTargets.revenue > 0 || salesTargets.orders > 0) {
+                            await sbSetSetting('sales_targets', salesTargets);
+                        }
+                    }
+                }
+
+                var budgetVal2 = await sbGetSetting('budget');
+                if (budgetVal2 !== null && budgetVal2 !== undefined) {
+                    localStorage.setItem('tv_budget', String(typeof budgetVal2 === 'number' ? budgetVal2 : parseInt(budgetVal2) || 0));
+                } else {
+                    var localB = parseInt(localStorage.getItem('tv_budget') || '0');
+                    if (localB > 0) await sbSetSetting('budget', localB);
+                }
+            } catch(e) { console.error('loadSettingsCloud error:', e); }
         }
 
         // ═══════════════════════════════════════════════════════
@@ -5881,9 +6108,10 @@
             await Promise.all([
                 fetchOrdersData(),
                 fetchProductsData(),
-                fetchMaterialsData()
+                fetchMaterialsData(),
+                loadExpensesCloud(),
+                loadSettingsCloud()
             ]);
-            loadExpenses();
             renderFinanceSummary();
             renderExpenses();
             renderMaterials();
@@ -6980,11 +7208,13 @@
         }
 
         // === Budget Tracker ===
-        function setBudget() {
+        async function setBudget() {
             var val = parseFloat(document.getElementById('budgetInput').value);
             if (!val || val <= 0) { showToast('⚠️ Enter a valid budget amount'); return; }
             monthlyBudget = val;
             localStorage.setItem('tv_monthly_budget', String(val));
+            await sbSetSetting('monthly_budget', val);
+            await sbSetSetting('budget', val);
             renderBudgetTracker();
             showToast('🎯 Monthly budget set to ' + Number(val).toLocaleString('fr-DZ') + ' DA');
         }
@@ -7023,12 +7253,13 @@
         // === Sales Targets ===
         var salesTargets = JSON.parse(localStorage.getItem('tv_sales_targets') || '{"revenue":0,"orders":0}');
 
-        function setTargets() {
+        async function setTargets() {
             var rev = parseFloat(document.getElementById('revenueTargetInput').value) || 0;
             var ord = parseInt(document.getElementById('ordersTargetInput').value) || 0;
             salesTargets.revenue = rev;
             salesTargets.orders = ord;
             localStorage.setItem('tv_sales_targets', JSON.stringify(salesTargets));
+            await sbSetSetting('sales_targets', salesTargets);
             renderSalesTargets();
             showToast('🎯 Targets updated!');
         }
@@ -7298,11 +7529,64 @@
             try { allInfluencers = JSON.parse(localStorage.getItem('tv_influencers') || '[]'); } catch(e) { allInfluencers = []; }
             try { allCoupons = JSON.parse(localStorage.getItem('tv_coupons') || '[]'); } catch(e) { allCoupons = []; }
         }
+
+        async function loadMarketingDataCloud() {
+            try {
+                var resp = await fetch(SUPABASE_URL + '/rest/v1/marketing_data?select=*', { headers: sbHeaders() });
+                if (!resp.ok) throw new Error(resp.status);
+                var rows = await resp.json();
+                var cloudData = {};
+                rows.forEach(function(r) { cloudData[r.key] = r.data || []; });
+
+                var hasCloud = rows.length > 0 && (cloudData.campaigns || cloudData.ads || cloudData.influencers || cloudData.coupons);
+
+                if (hasCloud) {
+                    allCampaigns = cloudData.campaigns || [];
+                    allAds = cloudData.ads || [];
+                    allInfluencers = cloudData.influencers || [];
+                    allCoupons = cloudData.coupons || [];
+                } else {
+                    // Migrate from localStorage
+                    loadMarketingData();
+                    if (allCampaigns.length > 0 || allAds.length > 0 || allInfluencers.length > 0 || allCoupons.length > 0) {
+                        await saveMarketingDataToCloud();
+                    }
+                }
+                localStorage.setItem('tv_campaigns', JSON.stringify(allCampaigns));
+                localStorage.setItem('tv_ads', JSON.stringify(allAds));
+                localStorage.setItem('tv_influencers', JSON.stringify(allInfluencers));
+                localStorage.setItem('tv_coupons', JSON.stringify(allCoupons));
+            } catch(e) {
+                console.error('loadMarketingDataCloud error:', e);
+                loadMarketingData();
+            }
+        }
+
+        async function saveMarketingDataToCloud() {
+            try {
+                var entries = [
+                    { key: 'campaigns', data: allCampaigns },
+                    { key: 'ads', data: allAds },
+                    { key: 'influencers', data: allInfluencers },
+                    { key: 'coupons', data: allCoupons }
+                ];
+                await fetch(SUPABASE_URL + '/rest/v1/marketing_data', {
+                    method: 'POST',
+                    headers: Object.assign({}, sbHeaders(), { 'Prefer': 'resolution=merge-duplicates' }),
+                    body: JSON.stringify(entries.map(function(e) {
+                        return { key: e.key, data: e.data, updated_at: new Date().toISOString() };
+                    }))
+                });
+            } catch(e) { console.error('saveMarketingDataToCloud error:', e); }
+        }
+
         function saveMarketingData() {
             localStorage.setItem('tv_campaigns', JSON.stringify(allCampaigns));
             localStorage.setItem('tv_ads', JSON.stringify(allAds));
             localStorage.setItem('tv_influencers', JSON.stringify(allInfluencers));
             localStorage.setItem('tv_coupons', JSON.stringify(allCoupons));
+            // Fire-and-forget cloud save
+            saveMarketingDataToCloud();
         }
 
         // ═══════════════════════════════════════════════════════
@@ -7957,12 +8241,55 @@
             renderActivityFeed();
         }
 
+        async function loadActivityFeedCloud() {
+            try {
+                var resp = await fetch(SUPABASE_URL + '/rest/v1/activity_feed?select=*&order=created_at.desc&limit=' + MAX_ACTIVITY_ITEMS, { headers: sbHeaders() });
+                if (!resp.ok) throw new Error(resp.status);
+                var rows = await resp.json();
+                if (rows.length > 0) {
+                    activityFeed = rows.map(function(r) {
+                        var icons = { order: '📦', status: '🔄', product: '🏷️', export: '📥', system: '⚙️', expense: '💸' };
+                        return { type: r.type, icon: icons[r.type] || '📌', text: r.message, time: r.created_at };
+                    });
+                } else {
+                    // Migrate from localStorage
+                    loadActivityFeed();
+                    if (activityFeed.length > 0) {
+                        await syncActivityToCloud();
+                    }
+                }
+                localStorage.setItem('tv_activity_feed', JSON.stringify(activityFeed));
+            } catch(e) {
+                console.error('loadActivityFeedCloud error:', e);
+                loadActivityFeed();
+            }
+        }
+
+        async function syncActivityToCloud() {
+            try {
+                var entries = activityFeed.slice(0, MAX_ACTIVITY_ITEMS).map(function(item) {
+                    return {
+                        id: 'act_' + item.time + '_' + Math.random().toString(36).substr(2, 6),
+                        type: item.type,
+                        message: item.text,
+                        created_at: item.time
+                    };
+                });
+                await fetch(SUPABASE_URL + '/rest/v1/activity_feed', {
+                    method: 'POST',
+                    headers: Object.assign({}, sbHeaders(), { 'Prefer': 'resolution=merge-duplicates' }),
+                    body: JSON.stringify(entries)
+                });
+            } catch(e) { console.error('syncActivityToCloud error:', e); }
+        }
+
         function saveActivityFeed() {
             try { localStorage.setItem("tv_activity_feed", JSON.stringify(activityFeed)); } catch (e) {}
+            syncActivityToCloud();
         }
 
         function addActivityItem(type, text) {
-            var icons = { order: "📦", status: "🔄", product: "🏷️", export: "📥", system: "⚙️" };
+            var icons = { order: "📦", status: "🔄", product: "🏷️", export: "📥", system: "⚙️", expense: "💸" };
             activityFeed.unshift({
                 type: type,
                 icon: icons[type] || "📌",
