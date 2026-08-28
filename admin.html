@@ -2874,10 +2874,14 @@
         const SUPABASE_URL = "https://netjmoxaleyxgshqvggx.supabase.co";
         const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5ldGptb3hhbGV5eGdzaHF2Z2d4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODcyNTkzMTUsImV4cCI6MjEwMjgzNTMxNX0.iZU_LOUqkg4dCqmXcLW9DgXFtl87KiM8l8Io2buUaVY";
 
+        // Store the authenticated session token (updated via onAuthStateChange)
+        var _authToken = null;
+
         function sbHeaders(json) {
+            var token = _authToken || SUPABASE_ANON_KEY;
             var h = {
                 "apikey": SUPABASE_ANON_KEY,
-                "Authorization": "Bearer " + SUPABASE_ANON_KEY
+                "Authorization": "Bearer " + token
             };
             if (json !== false) h["Content-Type"] = "application/json";
             return h;
@@ -2910,6 +2914,16 @@
         // ═══════════════════════════════════════════════════════
         const sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
         var currentMfaFactor = null;
+
+        // Listen for auth state changes and store the session token
+        sb.auth.onAuthStateChange(function(event, session) {
+            _authToken = session ? session.access_token : null;
+        });
+        // Also grab the current session token on load (for page refresh)
+        (async function() {
+            var { data: { session } } = await sb.auth.getSession();
+            if (session) _authToken = session.access_token;
+        })();
 
         async function showDashboard() {
             document.getElementById("loginScreen").style.display = "none";
@@ -6547,7 +6561,9 @@
                 return;
             }
 
-            loadExpenses();
+            // Use the in-memory allExpenses (which may come from cloud).
+            // Only reload from localStorage if the in-memory array is empty.
+            if (allExpenses.length === 0) loadExpenses();
 
             if (editingExpenseId) {
                 var idx = allExpenses.findIndex(function(e) { return e.id === editingExpenseId; });
@@ -6588,9 +6604,16 @@
             openExpenseModal(id);
         }
 
-        function deleteExpense(id) {
+        async function deleteExpense(id) {
             if (!confirm('Delete this expense?')) return;
-            loadExpenses();
+            try {
+                // Delete from Supabase cloud
+                await fetch(SUPABASE_URL + '/rest/v1/expenses?id=eq.' + encodeURIComponent(id), {
+                    method: 'DELETE',
+                    headers: sbHeaders()
+                });
+            } catch(e) { console.error('Cloud delete expense error:', e); }
+            if (allExpenses.length === 0) loadExpenses();
             allExpenses = allExpenses.filter(function(e) { return e.id !== id; });
             saveExpenses();
             renderFinance();
