@@ -1664,22 +1664,6 @@
 <div id="tv-site">
 
     <!-- =========================================================
-     ADMIN ACTIVE BAR
-========================================================= -->
-    <div class="admin-bar" id="adminBar">
-        <div class="admin-bar-left">
-            <span class="admin-badge-pill">Store Admin</span>
-            <span>Marketplace Management Mode Active</span>
-        </div>
-        <div class="admin-bar-actions">
-            <button class="admin-mini-btn" onclick="openAddPlaqueModal()">+ Add Plaque</button>
-            <button class="admin-mini-btn" onclick="resetDefaultProductsPrompt()">Reset Catalog</button>
-            <button class="admin-mini-btn danger" onclick="toggleAdminMode(false)">Exit Admin</button>
-        </div>
-    </div>
-
-
-    <!-- =========================================================
      HEADER
 ========================================================= -->
     <header>
@@ -1801,10 +1785,6 @@
             </div>
 
             <div class="section-heading-actions">
-                <button class="add-plaque-admin-btn" onclick="openAddPlaqueModal()">
-                    + Add New Plaque
-                </button>
-
                 <input id="search" class="search" type="text" placeholder="Search plaques..."
                     oninput="searchProducts()">
             </div>
@@ -1893,7 +1873,7 @@
                 <div>
                     <label style="font-size: 12px; color: #858c94; display:block; margin-bottom: 6px;">Plaque Dimensions</label>
                     <select id="customSize" class="custom-select" onchange="updateCustomOptions()">
-                        <option value="A4 (30 cm × 21 cm)" data-price="2800" selected>A4 (30 cm × 21 cm) — 2,800 DA</option>
+                        <option value="A4 (30 cm × 21 cm)" data-price="2500" selected>A4 (30 cm × 21 cm) — 2,500 DA</option>
                         <option value="A3 (42 cm × 30 cm)" data-price="3500">A3 (42 cm × 30 cm) — 3,500 DA</option>
                     </select>
                 </div>
@@ -1902,7 +1882,7 @@
             <div class="custom-bottom-action">
                 <div>
                     <span style="font-size:12px; color:#777; display:block;">Plaque Price</span>
-                    <span class="custom-price-display" id="customCalculatedPrice">2,800 DA</span>
+                    <span class="custom-price-display" id="customCalculatedPrice">2,500 DA</span>
                 </div>
 
                 <button type="button" class="btn btn-primary" onclick="addCustomPlaqueToCart()">
@@ -2140,114 +2120,6 @@
 
 
     <!-- =========================================================
-     ADMIN PLAQUE EDIT / ADD MODAL
-========================================================= -->
-    <div class="admin-modal-overlay" id="adminModalOverlay" onclick="adminModalOutside(event)">
-        <div class="admin-modal-box">
-            <button class="checkout-close" onclick="closeAdminModal()">✕</button>
-            <h2 id="adminModalTitle">Add New Plaque</h2>
-            <p class="admin-modal-subtitle">Fill in the details to publish or update this plaque on the marketplace.</p>
-
-            <form id="adminPlaqueForm" onsubmit="savePlaqueFromModal(event)">
-                <input type="hidden" id="adminEditId" value="">
-
-                <div class="form-group" style="margin-bottom:14px;">
-                    <label>Plaque Title *</label>
-                    <input id="adminTitle" type="text" placeholder="e.g. Cyber Samurai, Office Logo..." required>
-                </div>
-
-                <div class="form-grid" style="margin-bottom:14px;">
-                    <div class="form-group">
-                        <label>Category *</label>
-                        <select id="adminCategory" required>
-                            <option value="gaming">Gaming</option>
-                            <option value="anime">Anime</option>
-                            <option value="business">Business</option>
-                            <option value="home">Home</option>
-                            <option value="gift">Gifts</option>
-                        </select>
-                    </div>
-
-                    <div class="form-group">
-                        <label>Review Rating (Count)</label>
-                        <input id="adminReviews" type="number" value="35" min="1" max="999">
-                    </div>
-                </div>
-
-                <div class="form-grid" style="margin-bottom:16px;">
-                    <div class="form-group">
-                        <label>A4 Format Price (DA) *</label>
-                        <input id="adminPriceA4" type="number" value="2800" min="500" step="50" required>
-                    </div>
-                    <div class="form-group">
-                        <label>A3 Format Price (DA) *</label>
-                        <input id="adminPriceA3" type="number" value="3500" min="500" step="50" required>
-                    </div>
-                </div>
-
-                <div class="form-section">
-                    <h3>Plaque Visual / Image</h3>
-                    <div class="admin-img-preview-box" id="adminPreviewBox">
-                        <span id="adminPreviewText" style="color:#777; font-size:12px;">No image selected yet</span>
-                        <img id="adminPreviewImg" style="display:none;" alt="Plaque Preview">
-                    </div>
-
-                    <div class="form-grid">
-                        <div class="form-group">
-                            <label>Upload Image File</label>
-                            <input id="adminFileInput" type="file" accept="image/*"
-                                onchange="handleAdminFileUpload(this)">
-                        </div>
-
-                        <div class="form-group">
-                            <label>Or Direct Image URL</label>
-                            <input id="adminUrlInput" type="url" placeholder="https://..."
-                                oninput="handleAdminUrlInput(this.value)">
-                        </div>
-                    </div>
-
-                    <div class="form-group" style="margin-top:10px;">
-                        <label>Or Default Metal Badge Text (if no image)</label>
-                        <input id="adminBadgeText" type="text" placeholder="e.g. CYBER ZONE"
-                            oninput="handleAdminBadgeTextInput(this.value)">
-                    </div>
-                </div>
-
-                <div style="display:flex; justify-content:flex-end; gap:10px; margin-top:20px;">
-                    <button type="button" class="btn btn-secondary" onclick="closeAdminModal()">Cancel</button>
-                    <button type="submit" class="btn btn-primary" style="background:#38bdf8; color:#0f172a;">Save Plaque</button>
-                </div>
-            </form>
-        </div>
-    </div>
-
-
-    <!-- =========================================================
-     ADMIN LOGIN / PASSCODE PROMPT MODAL
-========================================================= -->
-    <div class="admin-modal-overlay" id="adminLoginOverlay" onclick="adminLoginOutside(event)">
-        <div class="admin-login-box">
-            <button class="checkout-close" onclick="closeAdminLoginModal()">✕</button>
-            <div style="font-size:36px; margin-bottom:10px;">⚙️</div>
-            <h2>Admin Management</h2>
-            <p style="color:#858d96; font-size:13px; margin:10px 0 20px;">
-                Enter store admin passcode to enable marketplace plaque editor mode.
-            </p>
-
-            <form onsubmit="handleAdminLoginSubmit(event)">
-                <input id="adminPassInput" type="password" class="custom-input"
-                    placeholder="Enter passcode (default: 1234)"
-                    style="text-align:center; font-size:16px; letter-spacing:3px; margin-bottom:15px;" required>
-
-                <button type="submit" class="btn btn-primary" style="width:100%; background:#38bdf8; color:#0f172a;">
-                    Unlock Admin Mode 
-                </button>
-            </form>
-        </div>
-    </div>
-
-
-    <!-- =========================================================
      TOAST
 ========================================================= -->
     <div class="toast" id="toast">Added to cart</div>
@@ -2260,8 +2132,8 @@
         /* =========================================================
            SUPABASE CONFIGURATION (no CDN — uses fetch)
         ========================================================= */
-        const SUPABASE_URL = "https://netjmoxaleyxgshqvggx.supabase.co";
-        const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5ldGptb3hhbGV5eGdzaHF2Z2d4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODcyNTkzMTUsImV4cCI6MjEwMjgzNTMxNX0.iZU_LOUqkg4dCqmXcLW9DgXFtl87KiM8l8Io2buUaVY";
+        const SUPABASE_URL = "https://jcosfmoulzsfqibksnro.supabase.co";
+        const SUPABASE_ANON_KEY = "sb_publishable_g7paPP8KKvqGFxtu31NcKQ_k7GXcPji";
 
         function supabaseHeaders() {
             return {
@@ -2359,7 +2231,6 @@
         let products = [...DEFAULT_PRODUCTS];
         localStorage.setItem("alumi_products", JSON.stringify(products));
 
-        let isAdminActive = localStorage.getItem("alumi_admin_active") === "true";
 
         /* =========================================================
            LOAD PRODUCTS FROM SUPABASE
@@ -2487,9 +2358,6 @@
             localStorage.setItem("alumi_cart", JSON.stringify(cart));
         }
 
-        function saveProducts() {
-            localStorage.setItem("alumi_products", JSON.stringify(products));
-        }
 
         function formatPrice(number) {
             return Number(number).toLocaleString("fr-DZ") + " DA";
@@ -2518,7 +2386,6 @@
                 container.innerHTML = `
             <div style="grid-column: 1 / -1; text-align:center; padding: 60px 20px; color:#777;">
                 <h3>No plaques available in this category</h3>
-                <p style="margin-top:8px;">Add a new plaque with the Admin button above.</p>
             </div>
         `;
                 return;
@@ -2533,11 +2400,6 @@
 
                 container.innerHTML += `
             <article class="product" data-id="${prod.id}" data-category="${prod.category}" data-name="${prod.name.toLowerCase()}">
-                <div class="product-admin-actions">
-                    <button class="prod-admin-btn" onclick="openEditPlaqueModal('${prod.id}')">✏️ Edit</button>
-                    <button class="prod-admin-btn del" onclick="deletePlaque('${prod.id}')">🗑️ Delete</button>
-                </div>
-
                 <div class="product-image">
                     ${visualContent}
                 </div>
@@ -2602,237 +2464,6 @@
             showToast(`Added "${name}" (${size}) to cart ✓`);
         }
 
-        /* =========================================================
-           ADMIN PORTAL / MANAGEMENT LOGIC
-        ========================================================= */
-        let currentAdminImgData = null;
-
-        function toggleAdminPrompt() {
-            if (isAdminActive) {
-                openAddPlaqueModal();
-            } else {
-                document.getElementById("adminLoginOverlay").classList.add("open");
-                document.getElementById("adminPassInput").value = "";
-                document.getElementById("adminPassInput").focus();
-            }
-        }
-
-        function closeAdminLoginModal() {
-            document.getElementById("adminLoginOverlay").classList.remove("open");
-        }
-
-        function adminLoginOutside(e) {
-            if (e.target.id === "adminLoginOverlay") closeAdminLoginModal();
-        }
-
-        function handleAdminLoginSubmit(e) {
-            e.preventDefault();
-            const pass = document.getElementById("adminPassInput").value.trim();
-            if (pass === "1234" || pass === "admin" || pass === "triovision") {
-                toggleAdminMode(true);
-                closeAdminLoginModal();
-                showToast("Admin Mode Enabled! You can now Add, Edit, or Delete plaques.");
-            } else {
-                showToast("Incorrect passcode! (Default is 1234)");
-            }
-        }
-
-        function toggleAdminMode(enable) {
-            isAdminActive = enable;
-            localStorage.setItem("alumi_admin_active", enable ? "true" : "false");
-
-            if (enable) {
-                document.getElementById("tv-site").classList.add("admin-mode-active");
-                document.getElementById("adminBar").classList.add("active");
-            } else {
-                document.getElementById("tv-site").classList.remove("admin-mode-active");
-                document.getElementById("adminBar").classList.remove("active");
-                showToast("Exited Admin Mode");
-            }
-            renderMarketplace();
-        }
-
-        function openAddPlaqueModal() {
-            document.getElementById("adminModalTitle").textContent = "Add New Plaque";
-            document.getElementById("adminEditId").value = "";
-            document.getElementById("adminTitle").value = "";
-            document.getElementById("adminCategory").value = "gaming";
-            document.getElementById("adminReviews").value = "35";
-            document.getElementById("adminPriceA4").value = "2800";
-            document.getElementById("adminPriceA3").value = "3500";
-            document.getElementById("adminFileInput").value = "";
-            document.getElementById("adminUrlInput").value = "";
-            document.getElementById("adminBadgeText").value = "";
-
-            currentAdminImgData = null;
-            updateAdminPreview(null, "No image selected yet");
-
-            document.getElementById("adminModalOverlay").classList.add("open");
-            document.body.style.overflow = "hidden";
-        }
-
-        function openEditPlaqueModal(prodId) {
-            const prod = products.find(p => p.id === prodId);
-            if (!prod) return;
-
-            document.getElementById("adminModalTitle").textContent = "Edit Plaque";
-            document.getElementById("adminEditId").value = prod.id;
-            document.getElementById("adminTitle").value = prod.name;
-            document.getElementById("adminCategory").value = prod.category;
-            document.getElementById("adminReviews").value = prod.rating || 30;
-            document.getElementById("adminPriceA4").value = prod.priceA4 || 2800;
-            document.getElementById("adminPriceA3").value = prod.priceA3 || 3500;
-            document.getElementById("adminFileInput").value = "";
-
-            const isImg = prod.isCustomImg || (prod.image && (prod.image.startsWith("data:image/") || prod.image.startsWith("http://") || prod.image.startsWith("https://")));
-            if (isImg) {
-                document.getElementById("adminUrlInput").value = prod.image.startsWith("http") ? prod.image : "";
-                document.getElementById("adminBadgeText").value = "";
-                currentAdminImgData = prod.image;
-                updateAdminPreview(prod.image);
-            } else {
-                document.getElementById("adminUrlInput").value = "";
-                document.getElementById("adminBadgeText").value = prod.image;
-                currentAdminImgData = prod.image;
-                updateAdminPreview(null, `Metal Badge Text: "${prod.image}"`);
-            }
-
-            document.getElementById("adminModalOverlay").classList.add("open");
-            document.body.style.overflow = "hidden";
-        }
-
-        function closeAdminModal() {
-            document.getElementById("adminModalOverlay").classList.remove("open");
-            document.body.style.overflow = "";
-        }
-
-        function adminModalOutside(e) {
-            if (e.target.id === "adminModalOverlay") closeAdminModal();
-        }
-
-        function handleAdminFileUpload(input) {
-            if (!input.files || !input.files.length) return;
-            const file = input.files[0];
-            const reader = new FileReader();
-            reader.onload = function (e) {
-                currentAdminImgData = e.target.result;
-                document.getElementById("adminUrlInput").value = "";
-                document.getElementById("adminBadgeText").value = "";
-                updateAdminPreview(currentAdminImgData);
-            };
-            reader.readAsDataURL(file);
-        }
-
-        function handleAdminUrlInput(url) {
-            url = url.trim();
-            if (url) {
-                currentAdminImgData = url;
-                document.getElementById("adminFileInput").value = "";
-                document.getElementById("adminBadgeText").value = "";
-                updateAdminPreview(url);
-            }
-        }
-
-        function handleAdminBadgeTextInput(text) {
-            text = text.trim();
-            if (text) {
-                currentAdminImgData = text;
-                document.getElementById("adminFileInput").value = "";
-                document.getElementById("adminUrlInput").value = "";
-                updateAdminPreview(null, `Metal Badge Text: "${text}"`);
-            }
-        }
-
-        function updateAdminPreview(imgUrl, textFallback) {
-            const previewImg = document.getElementById("adminPreviewImg");
-            const previewText = document.getElementById("adminPreviewText");
-
-            if (imgUrl && (imgUrl.startsWith("data:image/") || imgUrl.startsWith("http://") || imgUrl.startsWith("https://"))) {
-                previewImg.src = imgUrl;
-                previewImg.style.display = "block";
-                previewText.style.display = "none";
-            } else {
-                previewImg.src = "";
-                previewImg.style.display = "none";
-                previewText.style.display = "block";
-                previewText.textContent = textFallback || "No visual selected";
-            }
-        }
-
-        function savePlaqueFromModal(e) {
-            e.preventDefault();
-            const editId = document.getElementById("adminEditId").value;
-            const title = document.getElementById("adminTitle").value.trim();
-            const category = document.getElementById("adminCategory").value;
-            const rating = parseInt(document.getElementById("adminReviews").value) || 30;
-            const priceA4 = parseInt(document.getElementById("adminPriceA4").value) || 2800;
-            const priceA3 = parseInt(document.getElementById("adminPriceA3").value) || 3500;
-
-            let finalImage = currentAdminImgData;
-            if (!finalImage) {
-                const badgeText = document.getElementById("adminBadgeText").value.trim();
-                finalImage = badgeText || title.toUpperCase();
-            }
-
-            const isImg = finalImage.startsWith("data:image/") || finalImage.startsWith("http://") || finalImage.startsWith("https://");
-
-            if (editId) {
-                // Update existing
-                const index = products.findIndex(p => p.id === editId);
-                if (index !== -1) {
-                    products[index] = {
-                        ...products[index],
-                        name: title,
-                        category: category,
-                        rating: rating,
-                        priceA4: priceA4,
-                        priceA3: priceA3,
-                        image: finalImage,
-                        isCustomImg: isImg
-                    };
-                    showToast(`✓ Plaque "${title}" updated successfully!`);
-                }
-            } else {
-                // Add new
-                const newId = "p_" + Date.now();
-                products.unshift({
-                    id: newId,
-                    name: title,
-                    category: category,
-                    rating: rating,
-                    priceA4: priceA4,
-                    priceA3: priceA3,
-                    image: finalImage,
-                    isCustomImg: isImg
-                });
-                showToast(`✓ New Plaque "${title}" added to marketplace!`);
-            }
-
-            saveProducts();
-            renderMarketplace();
-            closeAdminModal();
-        }
-
-        function deletePlaque(prodId) {
-            const prod = products.find(p => p.id === prodId);
-            if (!prod) return;
-
-            if (confirm(`Are you sure you want to delete "${prod.name}" from the marketplace?`)) {
-                products = products.filter(p => p.id !== prodId);
-                saveProducts();
-                renderMarketplace();
-                showToast(`Plaque "${prod.name}" removed`);
-            }
-        }
-
-        function resetDefaultProductsPrompt() {
-            if (confirm("Reset marketplace to the default initial 8 catalog plaques?")) {
-                products = [...DEFAULT_PRODUCTS];
-                saveProducts();
-                renderMarketplace();
-                showToast("Marketplace catalog reset to defaults ✓");
-            }
-        }
 
         /* =========================================================
            UPDATE COUNT & TOTAL
@@ -3215,11 +2846,6 @@
             renderMarketplace();
             renderCart();
             updateCartCount();
-
-            if (isAdminActive) {
-                document.getElementById("tv-site").classList.add("admin-mode-active");
-                document.getElementById("adminBar").classList.add("active");
-            }
         });
     </script>
 </div>
